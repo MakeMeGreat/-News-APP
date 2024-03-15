@@ -19,6 +19,7 @@
         app:title="News APP"
         app:titleCentered="true"
         app:titleTextColor="@color/white" />
+
 <!--    Todo: change colors and set unvisible filter icon-->
 
     <androidx.fragment.app.FragmentContainerView
