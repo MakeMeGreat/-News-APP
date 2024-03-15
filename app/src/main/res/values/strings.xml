@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Aston_intensiv_final_project</string>
+    <string name="headlines">Headlines</string>
+    <string name="saved">Saved</string>
+    <string name="sources">Sources</string>
+    <string name="search">Search</string>
 </resources>
