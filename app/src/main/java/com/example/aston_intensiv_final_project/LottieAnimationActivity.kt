@@ -24,7 +24,7 @@ class LottieAnimationActivity : AppCompatActivity() {
             }
         }
 
-        Timer().schedule(3900) {
+        Timer().schedule(100) {//Todo: change delay to nromal value. Was 3900
             val intent = Intent(this@LottieAnimationActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

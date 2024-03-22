@@ -49,6 +49,15 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.airbnb.android:lottie:4.1.0")
 
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+    // Retrofit with Moshi Converter
+    implementation("com.squareup.retrofit2:converter-moshi:2.10.0")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+    implementation("io.coil-kt:coil:2.6.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
