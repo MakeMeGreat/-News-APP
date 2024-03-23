@@ -2,14 +2,14 @@ package com.example.aston_intensiv_final_project.headlines.data.api
 
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.util.Constants.Companion.API_KEY
-import retrofit2.Response
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsAPIService {
 
     @GET("v2/top-headlines")
-    suspend fun getGeneralNews(
+    fun getGeneralNews(
         @Query("country")
         countryCode: String = "us",
         @Query("category")
@@ -18,5 +18,5 @@ interface NewsAPIService {
         pageNumber: Int = 1,
         @Query("apiKey")
         apiKey: String = API_KEY
-    ): Response<NewsResponse>
+    ): Observable<NewsResponse>
 }

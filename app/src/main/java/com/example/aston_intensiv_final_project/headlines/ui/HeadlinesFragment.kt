@@ -51,7 +51,6 @@ class HeadlinesFragment : Fragment() {
                     showProgressBar()
                 }
             }
-
         }
     }
 

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -52,6 +53,18 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     // Retrofit with Moshi Converter
     implementation("com.squareup.retrofit2:converter-moshi:2.10.0")
+
+    //rxjava3
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.8")
+    implementation ("com.squareup.retrofit2:adapter-rxjava3:2.10.0")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+//    implementation ("com.squareup.retrofit2:retrofit:2.10.0")
+//    implementation ("com.squareup.retrofit2:converter-gson:2.10.0")
+
+    //Moxy
+    implementation ("com.github.moxy-community:moxy:2.2.2")
+    kapt ("com.github.moxy-community:moxy-compiler:2.2.2")
+    implementation ("com.github.moxy-community:moxy-androidx:2.2.2")
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.fragment:fragment-ktx:1.6.2")

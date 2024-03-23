@@ -2,11 +2,11 @@ package com.example.aston_intensiv_final_project.headlines.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.headlines.data.repository.NewsRepository
-import kotlinx.coroutines.launch
-import retrofit2.Response
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.observers.DisposableObserver
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class HeadlinesViewModel(
     val newsRepository: NewsRepository
@@ -19,18 +19,37 @@ class HeadlinesViewModel(
         getGeneralNews()
     }
 
-    fun getGeneralNews() = viewModelScope.launch {
+    fun getGeneralNews() {
         generalNews.value = Resource.Loading()
-        val response = newsRepository.getGeneralNews(generalNewsPage)
-        generalNews.value = handleGeneralNewsResponse(response)
-    }
+        newsRepository.getGeneralNews(generalNewsPage)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DisposableObserver<NewsResponse>() {
+                override fun onNext(response: NewsResponse) {
+                    generalNews.value = Resource.Success(response)
+                }
 
-    private fun handleGeneralNewsResponse(response: Response<NewsResponse>) : Resource<NewsResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
-            }
+                override fun onError(e: Throwable) {
+                    generalNews.value = Resource.Error("smtng in vm rxjava happened wrong")
+                }
+
+                override fun onComplete() {
+
+                }
+            })
         }
-        return Resource.Error(response.message())
-    }
+//        viewModelScope.launch {
+//        generalNews.value = Resource.Loading()
+//        val response = newsRepository.getGeneralNews(generalNewsPage)
+//        generalNews.value = handleGeneralNewsResponse(response)
+//    }
+
+//    private fun handleGeneralNewsResponse(response: NewsResponse) : Resource<NewsResponse> {
+//        if (response.isSuccessful) {
+//            response.body()?.let { resultResponse ->
+//                return Resource.Success(resultResponse)
+//            }
+//        }
+//        return Resource.Error(response.message())
+//    }
 }
