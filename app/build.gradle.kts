@@ -64,7 +64,9 @@ dependencies {
     //Moxy
     implementation ("com.github.moxy-community:moxy:2.2.2")
     kapt ("com.github.moxy-community:moxy-compiler:2.2.2")
+    implementation ("com.github.moxy-community:moxy-android:2.2.2")
     implementation ("com.github.moxy-community:moxy-androidx:2.2.2")
+    implementation ("com.github.moxy-community:moxy-ktx:2.2.2")
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
