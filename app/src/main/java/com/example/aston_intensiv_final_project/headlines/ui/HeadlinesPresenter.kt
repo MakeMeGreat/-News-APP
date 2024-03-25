@@ -2,7 +2,6 @@ package com.example.aston_intensiv_final_project.headlines.ui
 
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.headlines.data.repository.NewsRepository
-import com.example.aston_intensiv_final_project.headlines.ui.adapter.HeadlinesView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -14,7 +13,8 @@ class HeadlinesPresenter(
     private val newsRepository: NewsRepository
 ) : MvpPresenter<HeadlinesView>() {
 
-    private lateinit var generalNews: NewsResponse
+    private var generalNews: NewsResponse? = null
+//    private var generalNewsResponse: NewsResponse? =  null
     var generalNewsPage = 1
 
     init {
@@ -23,14 +23,26 @@ class HeadlinesPresenter(
 
     fun getGeneralNews() {
         viewState.startLoading()
-        newsRepository.getGeneralNews(generalNewsPage)
+        newsRepository.getGeneralNews(generalNewsPage++)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<NewsResponse>() {
                 override fun onNext(response: NewsResponse) {
-                    generalNews = response
+
+                    if (generalNews == null) {
+                        generalNews = response
+                    } else {
+                        generalNews?.articles?.addAll(response.articles)
+                    }
+                    /*if (generalNewsResponse == null) {
+                        generalNewsResponse = response
+                        generalNews = response
+                    } else {
+                        generalNewsResponse = response
+                        generalNewsResponse?.articles?.let { generalNews.articles.addAll(it) }
+                    }*/
                     viewState.endLoading()
-                    viewState.showSuccess(generalNews)
+                    viewState.showSuccess(generalNews!!)
                 }
 
                 override fun onError(e: Throwable) {

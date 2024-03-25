@@ -5,18 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.example.aston_intensiv_final_project.R
+import android.widget.AbsListView
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.headlines.data.repository.NewsRepository
 import com.example.aston_intensiv_final_project.headlines.ui.adapter.ArticleAdapter
-import com.example.aston_intensiv_final_project.headlines.ui.adapter.HeadlinesView
+import com.example.aston_intensiv_final_project.util.Constants.Companion.QUERY_PAGE_SIZE
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import moxy.presenter.InjectPresenter
 
 class HeadlinesFragment : MvpAppCompatFragment(), HeadlinesView {
 
@@ -41,6 +41,7 @@ class HeadlinesFragment : MvpAppCompatFragment(), HeadlinesView {
         super.onViewCreated(view, savedInstanceState)
         articleAdapter = ArticleAdapter()
         binding.recyclerView.adapter = articleAdapter
+        binding.recyclerView.addOnScrollListener(headlinesScrollListener)
 /*        presenter.generalNews.observe(viewLifecycleOwner) {response ->
             when(response) {
                 is Resource.Success -> {
@@ -64,24 +65,54 @@ class HeadlinesFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun startLoading() {
         binding.paginationProgressBar.visibility = View.VISIBLE
+        isLoading = true
     }
 
     override fun endLoading() {
         binding.paginationProgressBar.visibility = View.INVISIBLE
+        isLoading = false
     }
 
     override fun showSuccess(response: NewsResponse) {
-        articleAdapter.submitList(response.articles)
+        Toast.makeText(context, "total results is ${response.totalResults}", LENGTH_SHORT).show()
+        isLastPage = presenter.generalNewsPage == response.totalResults / QUERY_PAGE_SIZE + 2
+        articleAdapter.submitList(response.articles.toList())
     }
 
     override fun showError(message: String) {
         Log.e("Headlines", "error in getting response: $message")
     }
-/*    fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
-    }
 
-    fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
-    }*/
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
+
+    val headlinesScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
+            val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning &&
+                    isTotalMoreThanVisible && isScrolling
+            if (shouldPaginate) {
+                presenter.getGeneralNews()
+                isScrolling = false
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+    }
 }

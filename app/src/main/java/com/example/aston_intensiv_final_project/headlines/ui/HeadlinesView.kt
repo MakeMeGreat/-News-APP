@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.headlines.ui.adapter
+package com.example.aston_intensiv_final_project.headlines.ui
 
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import moxy.MvpView
