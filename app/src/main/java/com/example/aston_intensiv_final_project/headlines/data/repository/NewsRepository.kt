@@ -7,4 +7,10 @@ class NewsRepository(
 ) {
     fun getGeneralNews(pageNumber: Int) =
         Retrofit.retrofitService.getGeneralNews(pageNumber = pageNumber)
+
+    fun getBusinessNews(pageNumber: Int) =
+        Retrofit.retrofitService.getBusinessNews(pageNumber = pageNumber)
+
+    fun getScienceNews(pageNumber: Int) =
+        Retrofit.retrofitService.getScienceNews(pageNumber = pageNumber)
 }

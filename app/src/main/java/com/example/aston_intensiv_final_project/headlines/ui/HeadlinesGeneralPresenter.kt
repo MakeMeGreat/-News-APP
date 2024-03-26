@@ -9,40 +9,32 @@ import moxy.InjectViewState
 import moxy.MvpPresenter
 
 @InjectViewState
-class HeadlinesPresenter(
+class HeadlinesGeneralPresenter(
     private val newsRepository: NewsRepository
 ) : MvpPresenter<HeadlinesView>() {
 
-    private var generalNews: NewsResponse? = null
+    private var newsResponse: NewsResponse? = null
 //    private var generalNewsResponse: NewsResponse? =  null
-    var generalNewsPage = 1
+    var newsPage = 1
 
     init {
-        getGeneralNews()
+        getNews()
     }
 
-    fun getGeneralNews() {
+    fun getNews() {
         viewState.startLoading()
-        newsRepository.getGeneralNews(generalNewsPage++)
+        newsRepository.getGeneralNews(newsPage++)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<NewsResponse>() {
                 override fun onNext(response: NewsResponse) {
-
-                    if (generalNews == null) {
-                        generalNews = response
+                    if (newsResponse == null) {
+                        newsResponse = response
                     } else {
-                        generalNews?.articles?.addAll(response.articles)
+                        newsResponse?.articles?.addAll(response.articles)
                     }
-                    /*if (generalNewsResponse == null) {
-                        generalNewsResponse = response
-                        generalNews = response
-                    } else {
-                        generalNewsResponse = response
-                        generalNewsResponse?.articles?.let { generalNews.articles.addAll(it) }
-                    }*/
                     viewState.endLoading()
-                    viewState.showSuccess(generalNews!!)
+                    viewState.showSuccess(newsResponse!!)
                 }
 
                 override fun onError(e: Throwable) {
@@ -50,9 +42,7 @@ class HeadlinesPresenter(
                     viewState.showError("something went wrong in articles getting throw presenter and repository")
                 }
 
-                override fun onComplete() {
-
-                }
+                override fun onComplete() {}
             })
     }
     /*        viewModelScope.launch {

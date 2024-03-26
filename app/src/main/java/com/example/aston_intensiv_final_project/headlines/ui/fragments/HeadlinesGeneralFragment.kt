@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.headlines.ui
+package com.example.aston_intensiv_final_project.headlines.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,68 +7,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBinding
+import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGeneralBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.headlines.data.repository.NewsRepository
+import com.example.aston_intensiv_final_project.headlines.ui.HeadlinesGeneralPresenter
+import com.example.aston_intensiv_final_project.headlines.ui.HeadlinesView
 import com.example.aston_intensiv_final_project.headlines.ui.adapter.ArticleAdapter
-import com.example.aston_intensiv_final_project.headlines.ui.adapter.HeadlinesViewPagerAdapter
-import com.example.aston_intensiv_final_project.util.Constants.Companion.QUERY_PAGE_SIZE
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.Tab
+import com.example.aston_intensiv_final_project.util.Constants
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class HeadlinesFragment : Fragment() {
+class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
-/*    private val newsRepository = NewsRepository()
+    private val newsRepository = NewsRepository()
+    private val presenter by moxyPresenter { HeadlinesGeneralPresenter(newsRepository) }
 
-    private val presenter by moxyPresenter { HeadlinesPresenter(newsRepository) }
-
-    private lateinit var articleAdapter: ArticleAdapter*/
-
-    private var _binding: FragmentHeadlinesBinding? = null
+    private var _binding: FragmentHeadlinesGeneralBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var articleAdapter: ArticleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHeadlinesBinding.inflate(inflater, container, false)
+        _binding = FragmentHeadlinesGeneralBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val tabLayout = binding.tabLayout
-        val viewPager = binding.viewPager
-        val viewPagerAdapter = HeadlinesViewPagerAdapter(this)
-        viewPager.adapter = viewPagerAdapter
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: Tab?) {
-                viewPager.currentItem = tab!!.position
-            }
-            override fun onTabUnselected(tab: Tab?) {}
-            override fun onTabReselected(tab: Tab?) {}
-        })
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                tabLayout.getTabAt(position)?.select()
-            }
-        })
-    }
-
-/*    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        articleAdapter = ArticleAdapter()
+        articleAdapter = ArticleAdapter(context!!)
         binding.recyclerView.adapter = articleAdapter
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
     }
@@ -84,8 +55,10 @@ class HeadlinesFragment : Fragment() {
     }
 
     override fun showSuccess(response: NewsResponse) {
-        Toast.makeText(context, "total results is ${response.totalResults}", LENGTH_SHORT).show()
-        isLastPage = presenter.generalNewsPage == response.totalResults / QUERY_PAGE_SIZE + 2
+        Toast.makeText(context, "total results is ${response.totalResults}", Toast.LENGTH_SHORT)
+            .show()
+        isLastPage =
+            presenter.newsPage == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
         articleAdapter.submitList(response.articles.toList())
     }
 
@@ -109,11 +82,11 @@ class HeadlinesFragment : Fragment() {
             val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
             val isLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
+            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                presenter.getGeneralNews()
+                presenter.getNews()
                 isScrolling = false
             }
         }
@@ -124,5 +97,5 @@ class HeadlinesFragment : Fragment() {
                 isScrolling = true
             }
         }
-    }*/
+    }
 }
