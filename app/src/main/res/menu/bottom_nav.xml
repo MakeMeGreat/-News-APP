@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_headlines"
+    <item android:id="@+id/bottom_nav_headlines"
         android:title="@string/headlines"
         android:enabled="true"
         android:icon="@drawable/headlines_icon" />
-    <item android:id="@+id/menu_saved"
+    <item android:id="@+id/bottom_nav_saved"
         android:title="@string/saved"
         android:enabled="true"
         android:titleCondensed=""
         android:icon="@drawable/saved_icon" />
-    <item android:id="@+id/menu_sources"
+    <item android:id="@+id/bottom_nav_sources"
         android:title="@string/sources"
         android:enabled="true"
         android:icon="@drawable/sources_icon" />

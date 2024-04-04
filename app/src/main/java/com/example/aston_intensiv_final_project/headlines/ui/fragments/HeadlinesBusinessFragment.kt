@@ -28,6 +28,7 @@ class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView {
     private val binding get() = _binding!!
 
     private lateinit var articleAdapter: ArticleAdapter
+    
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +40,7 @@ class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        articleAdapter = ArticleAdapter(context!!)
+        articleAdapter = ArticleAdapter()
         binding.recyclerView.adapter = articleAdapter
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
     }
@@ -55,8 +56,7 @@ class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView {
     }
 
     override fun showSuccess(response: NewsResponse) {
-        Toast.makeText(context, "total results is ${response.totalResults}", Toast.LENGTH_SHORT)
-            .show()
+
         isLastPage = presenter.newsPage == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
         articleAdapter.submitList(response.articles.toList())
     }

@@ -15,8 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/toolbar_actions"
-        app:title="News APP"
         app:titleCentered="true"
         app:titleTextColor="@color/white" />
 

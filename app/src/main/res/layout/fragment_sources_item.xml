@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="102dp"
-    android:paddingVertical="14dp"
-    android:paddingStart="18dp"
-    android:paddingEnd="27dp">
+    android:layout_height="100dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_for_source_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         app:cardCornerRadius="23dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +33,7 @@
         android:maxLines="1"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/cardview_for_source_image"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cardview_for_source_image"
         tools:text="CNN" />
 
     <TextView
@@ -46,5 +45,10 @@
         app:layout_constraintTop_toBottomOf="@id/source_name"
         app:layout_constraintStart_toEndOf="@id/cardview_for_source_image"
         tools:text="General | USA" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

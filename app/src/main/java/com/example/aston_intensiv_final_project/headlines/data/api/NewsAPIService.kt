@@ -1,6 +1,7 @@
 package com.example.aston_intensiv_final_project.headlines.data.api
 
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
+import com.example.aston_intensiv_final_project.sources.data.models.SourcesResponse
 import com.example.aston_intensiv_final_project.util.Constants.Companion.API_KEY
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
@@ -43,4 +44,12 @@ interface NewsAPIService {
         @Query("apiKey")
         apiKey: String = API_KEY
     ): Observable<NewsResponse>
+
+    @GET("v2/top-headlines/sources")
+    fun getSources(
+//        @Query("country")
+//        country: String = "us",
+        @Query("apiKey")
+        apiKey: String = API_KEY,
+    ): Observable<SourcesResponse>
 }
