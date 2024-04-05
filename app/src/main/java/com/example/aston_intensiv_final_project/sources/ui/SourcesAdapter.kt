@@ -12,7 +12,7 @@ import java.util.Locale
 
 //Todo: add clickListener in constructor
 class SourcesAdapter(
-    //Todo: add clickListener to navigate
+    private val onSourceClicked: (Source) -> Unit,
 ) : ListAdapter<Source, SourcesAdapter.SourcesViewHolder>(DiffCallback) {
 
     inner class SourcesViewHolder(val binding: FragmentSourcesItemBinding) :
@@ -36,6 +36,9 @@ class SourcesAdapter(
 
     override fun onBindViewHolder(holder: SourcesViewHolder, position: Int) {
         val source = getItem(position)
+        holder.itemView.setOnClickListener {
+            onSourceClicked(source)
+        }
         holder.bind(source)
     }
 

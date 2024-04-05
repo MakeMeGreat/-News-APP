@@ -10,11 +10,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.setFragmentResult
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
 import com.example.aston_intensiv_final_project.sources.data.SourcesRepository
 import com.example.aston_intensiv_final_project.sources.data.models.SourcesResponse
+import com.example.aston_intensiv_final_project.sources.ui.onesource.OneSourceFragment
 import moxy.MvpAppCompatFragment
 import moxy.MvpFragment
 import moxy.ktx.moxyPresenter
@@ -37,7 +40,14 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sourcesAdapter = SourcesAdapter()
+        sourcesAdapter = SourcesAdapter {
+            val source = it.id ?: ""
+            //Todo: put strings into constant variables
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.activity_fragment_container, OneSourceFragment.newInstance(source))
+                .addToBackStack(null)
+                .commit()
+        }
         binding.recyclerView.adapter = sourcesAdapter
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar

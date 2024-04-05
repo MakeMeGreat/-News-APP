@@ -1,19 +1,23 @@
-package com.example.aston_intensiv_final_project.headlines.ui.adapter
+package com.example.aston_intensiv_final_project.sources.ui.onesource
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentArticlesItemBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.Article
+import com.example.aston_intensiv_final_project.headlines.ui.adapter.ArticleAdapter
 
-class ArticleAdapter() : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
+//Todo: to know
+class OneSourceAdapter(
+    //is clickListener need here?
+) : ListAdapter<Article, OneSourceAdapter.ArticleViewHolder>(DiffCallback) {
 
-    inner class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
-        ViewHolder(binding.root) {
+    class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(article: Article) {
             binding.apply {
                 articleImage.load(article.urlToImage) {

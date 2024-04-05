@@ -52,4 +52,12 @@ interface NewsAPIService {
         @Query("apiKey")
         apiKey: String = API_KEY,
     ): Observable<SourcesResponse>
+
+    @GET("v2/top-headlines")
+    fun getOneSourceNews(
+        @Query("sources")
+        sourceId: String,
+        @Query("apiKey")
+        apiKey: String = API_KEY,
+    ): Observable<NewsResponse>
 }

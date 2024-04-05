@@ -6,4 +6,7 @@ class SourcesRepository {
 
     fun getSources() =
         Retrofit.retrofitService.getSources()
+
+    fun getOneSourceNews(sourceId: String) =
+        Retrofit.retrofitService.getOneSourceNews(sourceId = sourceId)
 }
