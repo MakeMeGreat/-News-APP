@@ -7,14 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesTravelingBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.headlines.data.repository.NewsRepository
 import com.example.aston_intensiv_final_project.headlines.ui.HeadlinesTravelingPresenter
 import com.example.aston_intensiv_final_project.headlines.ui.HeadlinesView
 import com.example.aston_intensiv_final_project.headlines.ui.adapter.ArticleAdapter
+import com.example.aston_intensiv_final_project.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.util.Constants
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -35,14 +39,19 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentHeadlinesTravelingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        articleAdapter = ArticleAdapter()
+        articleAdapter = ArticleAdapter{
+            val article = it
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
+                .addToBackStack(null)
+                .commit()
+        }
         binding.recyclerView.adapter = articleAdapter
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
     }
@@ -99,5 +108,10 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
                 isScrolling = true
             }
         }
+    }
+
+    companion object {
+        private const val ARTICLE_REQUEST = "ARTICLE_REQUEST"
+        private const val ARTICLE_KEY = "ARTICLE_KEY"
     }
 }

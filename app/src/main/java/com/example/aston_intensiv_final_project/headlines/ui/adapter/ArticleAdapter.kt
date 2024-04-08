@@ -10,7 +10,9 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentArticlesItemBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.Article
 
-class ArticleAdapter() : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
+class ArticleAdapter(
+    private val onArticleClicked: (Article) -> Unit,
+) : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
 
     inner class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
         ViewHolder(binding.root) {
@@ -37,6 +39,9 @@ class ArticleAdapter() : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = getItem(position)
+        holder.itemView.setOnClickListener {
+            onArticleClicked(article)
+        }
         holder.bind(article)
     }
 

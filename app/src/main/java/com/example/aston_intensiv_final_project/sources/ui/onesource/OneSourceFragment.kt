@@ -17,6 +17,7 @@ import androidx.fragment.app.setFragmentResultListener
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentOneSourceBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
+import com.example.aston_intensiv_final_project.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.sources.data.SourcesRepository
 import com.example.aston_intensiv_final_project.sources.data.models.SourcesResponse
 import com.example.aston_intensiv_final_project.sources.ui.SourcesPresenter
@@ -45,7 +46,12 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sourceId = requireArguments().getString(SOURCE_KEY)!!
-        adapter = OneSourceAdapter()
+        adapter = OneSourceAdapter{article ->
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
+                .addToBackStack(null)
+                .commit()
+        }
         binding.recyclerView.adapter = adapter
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar

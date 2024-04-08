@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.aston_intensiv_final_project.databinding.ActivityMainBinding
 import com.example.aston_intensiv_final_project.headlines.ui.HeadlinesFragment
+import com.example.aston_intensiv_final_project.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.sources.ui.SourcesFragment
 
 class MainActivity : AppCompatActivity() {
@@ -29,8 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_nav_saved -> {
-                    TODO()}
+                R.id.bottom_nav_saved -> replaceFragment(NewsProfileFragment())
+//                 {                    TODO()}
                 R.id.bottom_nav_sources -> replaceFragment(SourcesFragment())
                 else -> replaceFragment(HeadlinesFragment())
             }
@@ -38,24 +39,24 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-  /*  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar_actions, menu)
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.search_button).actionView as SearchView
-        val component = ComponentName(this, MainActivity::class.java)
-        val searchableInfo = searchManager.getSearchableInfo(component)
-        searchView.setSearchableInfo(searchableInfo)
-        menu.findItem(R.id.filter_button).setOnMenuItemClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.activity_fragment_container, FiltersFragment())
-                .addToBackStack(null)
-                .commit()
-            true
-        }
-        return true
-    }*/
+    /*  override fun onCreateOptionsMenu(menu: Menu): Boolean {
+          menuInflater.inflate(R.menu.toolbar_actions, menu)
+          val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+          val searchView = menu.findItem(R.id.search_button).actionView as SearchView
+          val component = ComponentName(this, MainActivity::class.java)
+          val searchableInfo = searchManager.getSearchableInfo(component)
+          searchView.setSearchableInfo(searchableInfo)
+          menu.findItem(R.id.filter_button).setOnMenuItemClickListener {
+              supportFragmentManager.beginTransaction()
+                  .replace(R.id.activity_fragment_container, FiltersFragment())
+                  .addToBackStack(null)
+                  .commit()
+              true
+          }
+          return true
+      }*/
     private fun replaceFragment(fragment: Fragment): Boolean {
-       supportFragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
             .replace(R.id.activity_fragment_container, fragment)
             .commit()
         return true

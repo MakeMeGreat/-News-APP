@@ -6,5 +6,6 @@
     <color name="primary50">#00829C</color>
     <color name="primary40">#00677C</color>
     <color name="secondary">#CEE7F0</color>
+    <color name="dark_grey">#40484B</color>
     <color name="surface_variant">#191C1D</color>
 </resources>

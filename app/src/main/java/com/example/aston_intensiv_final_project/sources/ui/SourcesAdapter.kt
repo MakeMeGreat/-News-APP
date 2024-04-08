@@ -10,7 +10,6 @@ import com.example.aston_intensiv_final_project.databinding.FragmentSourcesItemB
 import com.example.aston_intensiv_final_project.sources.data.models.Source
 import java.util.Locale
 
-//Todo: add clickListener in constructor
 class SourcesAdapter(
     private val onSourceClicked: (Source) -> Unit,
 ) : ListAdapter<Source, SourcesAdapter.SourcesViewHolder>(DiffCallback) {

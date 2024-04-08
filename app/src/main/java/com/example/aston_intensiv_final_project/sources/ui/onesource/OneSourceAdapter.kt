@@ -9,11 +9,10 @@ import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentArticlesItemBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.Article
-import com.example.aston_intensiv_final_project.headlines.ui.adapter.ArticleAdapter
 
-//Todo: to know
+
 class OneSourceAdapter(
-    //is clickListener need here?
+    private val onArticleClicked: (Article) -> Unit
 ) : ListAdapter<Article, OneSourceAdapter.ArticleViewHolder>(DiffCallback) {
 
     class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
@@ -41,6 +40,9 @@ class OneSourceAdapter(
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = getItem(position)
+        holder.itemView.setOnClickListener {
+            onArticleClicked(article)
+        }
         holder.bind(article)
     }
 

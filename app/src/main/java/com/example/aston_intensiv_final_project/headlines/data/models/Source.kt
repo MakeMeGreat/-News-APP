@@ -1,9 +1,8 @@
 package com.example.aston_intensiv_final_project.headlines.data.models
 
-import androidx.resourceinspection.annotation.Attribute.IntMap
-
+import java.io.Serializable
 
 data class Source(
     val id: String?,
     val name: String
-)
+) : Serializable

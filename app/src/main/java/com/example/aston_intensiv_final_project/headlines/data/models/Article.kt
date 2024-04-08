@@ -1,5 +1,7 @@
 package com.example.aston_intensiv_final_project.headlines.data.models
 
+import java.io.Serializable
+
 
 data class Article(
     val source: Source?,
@@ -10,4 +12,4 @@ data class Article(
     val urlToImage: String?,
     val publishedAt: String?,
     val content: String?,
-)
+) : Serializable

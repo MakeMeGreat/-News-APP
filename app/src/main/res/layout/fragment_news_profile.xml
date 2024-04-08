@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context=".NewsProfileFragment">
+    tools:context=".newsprofile.NewsProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/paginationProgressBar"
@@ -19,11 +19,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:fitsSystemWindows="false"
+            app:collapsedTitleTextColor="@color/white"
             app:contentScrim="@color/primary60"
+            app:expandedTitleTextColor="@android:color/transparent"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="title_wrapper">
+            tools:title="title_placeholder">
 
             <ImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -51,30 +54,36 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="15dp"
+                tools:text="Title text should be here  ph"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="16sp"
-                android:text="Title text should be here  wr"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jan 01, 1970 | 00:00 AM  wr"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintStart_toStartOf="@id/title"/>
+                android:layout_marginHorizontal="15dp"
+                tools:text="Jan 01, 1970 | 00:00 AM  ph"
+                android:textColor="@color/dark_grey"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
             <TextView
                 android:id="@+id/source"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BBC wr"
-                app:layout_constraintTop_toBottomOf="@id/date"
-                app:layout_constraintStart_toStartOf="@id/date" />
+                android:layout_marginHorizontal="15dp"
+                tools:text="BBC ph"
+                android:textColor="@color/dark_grey"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
@@ -82,18 +91,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/source"/>
+                app:layout_constraintTop_toBottomOf="@id/source" />
 
             <TextView
                 android:id="@+id/content"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Washington, DCCNN —
-US consumer confidence worsened in April as Americans become more pessimistic about the job market.
-The Conference Board’s Consumer Confidence Index, which measures attitudes toward the economy and the job market, fell to 101.3 in April, down from 104 in March and marking the lowest level since July 2022. The business group’s measure of economic wrapper"
-                app:layout_constraintTop_toBottomOf="@id/divider"
+                android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="15dp"
-                app:layout_constraintStart_toStartOf="@id/title"/>
+                tools:text="US consumer confidence worsened in April as Americans become more pessimistic"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            <ImageView
+                android:id="@+id/content_placeholder_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/content_holder_icon"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/content_placeholder_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginTop="15dp"
+                android:text="@string/null_content_description"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="@id/content_placeholder_image"
+                app:layout_constraintStart_toStartOf="@id/content_placeholder_image"
+                app:layout_constraintTop_toBottomOf="@id/content_placeholder_image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

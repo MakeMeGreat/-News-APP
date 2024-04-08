@@ -42,7 +42,6 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
         super.onViewCreated(view, savedInstanceState)
         sourcesAdapter = SourcesAdapter {
             val source = it.id ?: ""
-            //Todo: put strings into constant variables
             parentFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, OneSourceFragment.newInstance(source))
                 .addToBackStack(null)
