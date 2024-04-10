@@ -1,13 +1,14 @@
-package com.example.aston_intensiv_final_project.headlines.data.api
+package com.example.aston_intensiv_final_project.data.network
 
-import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
-import com.example.aston_intensiv_final_project.sources.data.models.SourcesResponse
-import com.example.aston_intensiv_final_project.util.Constants.Companion.API_KEY
+
+import com.example.aston_intensiv_final_project.data.model.news.NewsResponse
+import com.example.aston_intensiv_final_project.data.model.source.SourceResponse
+import com.example.aston_intensiv_final_project.util.Constants
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface NewsAPIService {
+interface NewsAPI {
 
     @GET("v2/top-headlines")
     fun getGeneralNews(
@@ -18,7 +19,7 @@ interface NewsAPIService {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
-        apiKey: String = API_KEY
+        apiKey: String = Constants.API_KEY
     ): Observable<NewsResponse>
 
     @GET("v2/top-headlines")
@@ -30,7 +31,7 @@ interface NewsAPIService {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
-        apiKey: String = API_KEY
+        apiKey: String = Constants.API_KEY
     ): Observable<NewsResponse>
 
     @GET("v2/top-headlines")
@@ -42,20 +43,20 @@ interface NewsAPIService {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
-        apiKey: String = API_KEY
+        apiKey: String = Constants.API_KEY
     ): Observable<NewsResponse>
 
     @GET("v2/top-headlines/sources")
     fun getSources(
         @Query("apiKey")
-        apiKey: String = API_KEY,
-    ): Observable<SourcesResponse>
+        apiKey: String = Constants.API_KEY,
+    ): Observable<SourceResponse>
 
     @GET("v2/top-headlines")
     fun getOneSourceNews(
         @Query("sources")
         sourceId: String,
         @Query("apiKey")
-        apiKey: String = API_KEY,
+        apiKey: String = Constants.API_KEY,
     ): Observable<NewsResponse>
 }

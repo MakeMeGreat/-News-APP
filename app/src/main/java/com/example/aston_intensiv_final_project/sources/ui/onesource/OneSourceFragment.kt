@@ -1,6 +1,5 @@
 package com.example.aston_intensiv_final_project.sources.ui.onesource
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,19 +8,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.setFragmentResultListener
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentOneSourceBinding
 import com.example.aston_intensiv_final_project.headlines.data.models.NewsResponse
 import com.example.aston_intensiv_final_project.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.sources.data.SourcesRepository
-import com.example.aston_intensiv_final_project.sources.data.models.SourcesResponse
-import com.example.aston_intensiv_final_project.sources.ui.SourcesPresenter
-import com.example.aston_intensiv_final_project.sources.ui.SourcesView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -46,7 +39,7 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sourceId = requireArguments().getString(SOURCE_KEY)!!
-        adapter = OneSourceAdapter{article ->
+        adapter = OneSourceAdapter { article ->
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
                 .addToBackStack(null)
@@ -66,13 +59,15 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        when(menuItem.itemId) {
+        when (menuItem.itemId) {
             R.id.filter_button -> {
                 //Todo
             }
+
             R.id.search_button -> {
                 //Todo
             }
+
             else -> {
                 parentFragmentManager.popBackStack()
             }
@@ -108,6 +103,7 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
                 arguments = Bundle().also { it.putString(SOURCE_KEY, sourceId) }
             }
         }
+
         private const val SOURCE_KEY = "SOURCE_KEY"
     }
 }

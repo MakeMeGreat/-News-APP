@@ -1,8 +1,7 @@
-package com.example.aston_intensiv_final_project.headlines.data.api
+package com.example.aston_intensiv_final_project.data.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -20,8 +19,8 @@ private val retrofit = Retrofit.Builder()
     .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io()))
     .build()
 
-object Retrofit {
-    val retrofitService: NewsAPIService by lazy {
-        retrofit.create(NewsAPIService::class.java)
+object RetrofitObject {
+    val retrofitService: NewsAPI by lazy {
+        retrofit.create(NewsAPI::class.java)
     }
 }
