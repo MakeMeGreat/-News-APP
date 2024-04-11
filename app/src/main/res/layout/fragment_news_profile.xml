@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context=".newsprofile.NewsProfileFragment">
+    tools:context=".presentation.newsprofile.NewsProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/paginationProgressBar"

@@ -49,7 +49,7 @@ class DomainToPresentationMapper {
         )
     }
 
-    fun mapSourcesToDomainModel(sourceResponse: SourceResponseDomainModel): SourceResponseModel {
+    fun mapSourcesToPresentationModel(sourceResponse: SourceResponseDomainModel): SourceResponseModel {
         return SourceResponseModel(
             status = sourceResponse.status,
             sources = mapSourceInfos(sourceResponse.sources)

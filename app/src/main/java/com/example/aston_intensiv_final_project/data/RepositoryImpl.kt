@@ -8,8 +8,8 @@ import com.example.aston_intensiv_final_project.domain.model.source.SourceRespon
 import io.reactivex.rxjava3.core.Observable
 
 class RepositoryImpl(
-    private val mapper: DataToDomainMapper,
-    private val networkDataSource: NetworkDataSource
+    private val networkDataSource: NetworkDataSource,
+    private val mapper: DataToDomainMapper
 ) : Repository {
     override fun getGeneralNews(pageNumber: Int): Observable<NewsResponseDomainModel> {
         return networkDataSource.getGeneralNews(pageNumber)

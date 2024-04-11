@@ -55,7 +55,7 @@ class DataToDomainMapper {
         )
     }
 
-    private fun mapSourceInfos(sourceInfos : List<SourceInfoDTO>): MutableList<SourceInfoDTODomainModel> {
+    private fun mapSourceInfos(sourceInfos: List<SourceInfoDTO>): MutableList<SourceInfoDTODomainModel> {
         val mutableList = mutableListOf<SourceInfoDTODomainModel>()
         sourceInfos.forEach {
             mutableList.add(mapSourceInfo(it))
@@ -63,7 +63,7 @@ class DataToDomainMapper {
         return mutableList
     }
 
-    private fun mapSourceInfo(sourceInfoDTO: SourceInfoDTO): SourceInfoDTODomainModel{
+    private fun mapSourceInfo(sourceInfoDTO: SourceInfoDTO): SourceInfoDTODomainModel {
         return SourceInfoDTODomainModel(
             id = sourceInfoDTO.id,
             name = sourceInfoDTO.name,

@@ -1,9 +1,10 @@
-package com.example.aston_intensiv_final_project.presentation.model.news
+package com.example.aston_intensiv_final_project.presentation.headlines.data.models
 
 import java.io.Serializable
 
-data class ArticleDTOModel(
-    val source: SourceDTOModel?,
+
+data class ArticleDTO(
+    val source: SourceDTO?,
     val author: String?,
     val title: String?,
     val description: String?,
