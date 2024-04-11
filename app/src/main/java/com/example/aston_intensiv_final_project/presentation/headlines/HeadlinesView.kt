@@ -1,11 +1,11 @@
-package com.example.aston_intensiv_final_project.presentation.sources.ui
+package com.example.aston_intensiv_final_project.presentation.headlines
 
-import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
+import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-interface SourcesView : MvpView {
+interface HeadlinesView : MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun startLoading()
@@ -14,8 +14,9 @@ interface SourcesView : MvpView {
     fun endLoading()
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun showSuccess(response: SourceResponseModel)
+    fun showSuccess(response: NewsResponseModel)
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showError(message: String)
+
 }

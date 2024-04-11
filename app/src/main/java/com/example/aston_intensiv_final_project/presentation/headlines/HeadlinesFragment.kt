@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.presentation.headlines.ui
+package com.example.aston_intensiv_final_project.presentation.headlines
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.aston_intensiv_final_project.presentation.FiltersFragment
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBinding
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.adapter.HeadlinesViewPagerAdapter
+import com.example.aston_intensiv_final_project.presentation.headlines.adapter.HeadlinesViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.Tab
 

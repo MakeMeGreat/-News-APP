@@ -1,21 +1,22 @@
-package com.example.aston_intensiv_final_project.presentation.headlines.ui.adapter
+package com.example.aston_intensiv_final_project.presentation.sources.onesource
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentArticlesItemBinding
 import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDTOModel
 
-class ArticleAdapter(
-    private val onArticleClicked: (ArticleDTOModel) -> Unit,
-) : ListAdapter<ArticleDTOModel, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
 
-    inner class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
-        ViewHolder(binding.root) {
+class OneSourceAdapter(
+    private val onArticleClicked: (ArticleDTOModel) -> Unit
+) : ListAdapter<ArticleDTOModel, OneSourceAdapter.ArticleViewHolder>(DiffCallback) {
+
+    class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(article: ArticleDTOModel) {
             binding.apply {
                 articleImage.load(article.urlToImage) {

@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.presentation.sources.ui
+package com.example.aston_intensiv_final_project.presentation.sources.onesource
 
 import android.os.Bundle
 import android.util.Log
@@ -14,58 +14,52 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.data.RepositoryImpl
 import com.example.aston_intensiv_final_project.data.mapper.DataToDomainMapper
 import com.example.aston_intensiv_final_project.data.network.NetworkDataSource
-import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
+import com.example.aston_intensiv_final_project.databinding.FragmentOneSourceBinding
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
-import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
-import com.example.aston_intensiv_final_project.presentation.sources.ui.onesource.OneSourceFragment
+import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
+import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
+
+class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
 
     //Todo: change it with DI
     private val networkDataSource = NetworkDataSource()
     private val dataToDomainMapper = DataToDomainMapper()
     private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
     private val domainToPresentationMapper = DomainToPresentationMapper()
-    private val presenter by moxyPresenter {
-        SourcesPresenter(
-            repository,
-            domainToPresentationMapper
-        )
-    }
+    private val presenter by moxyPresenter { OneSourcePresenter(repository, domainToPresentationMapper) }
 
-    private lateinit var sourcesAdapter: SourcesAdapter
-    private var _binding: FragmentSourcesBinding? = null
+    private lateinit var adapter: OneSourceAdapter
+    private var _binding: FragmentOneSourceBinding? = null
     private val binding get() = _binding!!
+    private lateinit var sourceId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSourcesBinding.inflate(inflater, container, false)
+        _binding = FragmentOneSourceBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sourcesAdapter = SourcesAdapter {
-            val sourceId = it.id ?: ""
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.activity_fragment_container, OneSourceFragment.newInstance(sourceId))
+        sourceId = requireArguments().getString(SOURCE_KEY)!!
+        adapter = OneSourceAdapter { article ->
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
                 .addToBackStack(null)
                 .commit()
         }
-        binding.recyclerView.adapter = sourcesAdapter
+        binding.recyclerView.adapter = adapter
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
-        toolbar?.title = "Sources"
+        toolbar?.setDisplayHomeAsUpEnabled(true)
+        toolbar?.title = sourceId.uppercase()
+        presenter.getOneSourceNews(sourceId)
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -73,7 +67,20 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        TODO("Not yet implemented")
+        when (menuItem.itemId) {
+            R.id.filter_button -> {
+                //Todo
+            }
+
+            R.id.search_button -> {
+                //Todo
+            }
+
+            else -> {
+                parentFragmentManager.popBackStack()
+            }
+        }
+        return true
     }
 
     override fun startLoading() {
@@ -84,11 +91,27 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
         binding.progressBar.visibility = View.INVISIBLE
     }
 
-    override fun showSuccess(response: SourceResponseModel) {
-        sourcesAdapter.submitList(response.sources)
+    override fun showSuccess(response: NewsResponseModel) {
+        adapter.submitList(response.articles)
     }
 
     override fun showError(message: String) {
         Log.e("Sources", "error in getting response: $message")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        _binding = null
+    }
+
+    companion object {
+        fun newInstance(sourceId: String): OneSourceFragment {
+            return OneSourceFragment().apply {
+                arguments = Bundle().also { it.putString(SOURCE_KEY, sourceId) }
+            }
+        }
+
+        private const val SOURCE_KEY = "SOURCE_KEY"
     }
 }

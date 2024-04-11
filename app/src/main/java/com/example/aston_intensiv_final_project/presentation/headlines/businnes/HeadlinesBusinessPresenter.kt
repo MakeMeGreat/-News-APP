@@ -1,7 +1,8 @@
-package com.example.aston_intensiv_final_project.presentation.headlines.ui
+package com.example.aston_intensiv_final_project.presentation.headlines.businnes
 
 import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
+import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

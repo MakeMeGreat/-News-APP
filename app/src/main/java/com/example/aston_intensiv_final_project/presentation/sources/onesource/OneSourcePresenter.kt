@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.presentation.headlines.ui
+package com.example.aston_intensiv_final_project.presentation.sources.onesource
 
 import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
@@ -11,40 +11,29 @@ import moxy.InjectViewState
 import moxy.MvpPresenter
 
 @InjectViewState
-class HeadlinesGeneralPresenter(
+class OneSourcePresenter(
     private val repository: Repository,
     private val mapper: DomainToPresentationMapper
-) : MvpPresenter<HeadlinesView>() {
+) : MvpPresenter<OneSourceView>() {
 
-    lateinit var newsResponse: NewsResponseModel
+    private var oneSourceNews: NewsResponseModel? = null
 
-    var newsPage = 1
 
-    init {
-        getNews()
-    }
-
-    fun getNews() {
+    fun getOneSourceNews(sourceId: String) {
         viewState.startLoading()
-        repository.getGeneralNews(newsPage)
+        repository.getOneSourceNews(sourceId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<NewsResponseDomainModel>() {
                 override fun onNext(response: NewsResponseDomainModel) {
-                    val mappedResponse = mapper.mapNewsToPresentationModel(response)
-                    if (newsPage == 1) {
-                        newsResponse = mappedResponse
-                    } else {
-                        newsResponse.articles.addAll(mappedResponse.articles)
-                    }
+                    oneSourceNews = mapper.mapNewsToPresentationModel(response)
                     viewState.endLoading()
-                    viewState.showSuccess(newsResponse)
-                    newsPage++
+                    viewState.showSuccess(oneSourceNews!!)
                 }
 
                 override fun onError(e: Throwable) {
                     viewState.endLoading()
-                    viewState.showError("something went wrong in articles getting throw presenter and repository")
+                    viewState.showError("problem in getSources: $e")
                 }
 
                 override fun onComplete() {}

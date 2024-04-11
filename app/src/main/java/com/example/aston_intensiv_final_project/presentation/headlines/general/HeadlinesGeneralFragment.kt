@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.presentation.headlines.ui.fragments
+package com.example.aston_intensiv_final_project.presentation.headlines.general
 
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +12,9 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.data.RepositoryImpl
 import com.example.aston_intensiv_final_project.data.mapper.DataToDomainMapper
 import com.example.aston_intensiv_final_project.data.network.NetworkDataSource
-import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesTravelingBinding
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.HeadlinesTravelingPresenter
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.HeadlinesView
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.adapter.ArticleAdapter
+import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGeneralBinding
+import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
+import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
@@ -23,7 +22,7 @@ import com.example.aston_intensiv_final_project.util.Constants
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
+class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
     //Todo: change it with DI
     private val networkDataSource = NetworkDataSource()
@@ -31,30 +30,30 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
     private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
     private val domainToPresentationMapper = DomainToPresentationMapper()
     private val presenter by moxyPresenter {
-        HeadlinesTravelingPresenter(
+        HeadlinesGeneralPresenter(
             repository,
             domainToPresentationMapper
         )
     }
 
-    private var _binding: FragmentHeadlinesTravelingBinding? = null
+    private var _binding: FragmentHeadlinesGeneralBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var articleAdapter: ArticleAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHeadlinesTravelingBinding.inflate(inflater, container, false)
+        _binding = FragmentHeadlinesGeneralBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        articleAdapter = ArticleAdapter {
-            val article = it
+        articleAdapter = ArticleAdapter { article ->
+//            setFragmentResult(ARTICLE_REQUEST, bundleOf(ARTICLE_KEY to article))
+
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
                 .addToBackStack(null)

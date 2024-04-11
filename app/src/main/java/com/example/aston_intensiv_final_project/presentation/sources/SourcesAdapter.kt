@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.presentation.sources.ui
+package com.example.aston_intensiv_final_project.presentation.sources
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

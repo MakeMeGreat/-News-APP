@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.headlines.ui.HeadlinesFragment">
+    tools:context=".presentation.headlines.HeadlinesFragment">
 
 <!--    <com.google.android.material.appbar.MaterialToolbar-->
 <!--        android:id="@+id/headlines_toolbar"-->

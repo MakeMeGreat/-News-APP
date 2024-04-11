@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.ActivityMainBinding
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.HeadlinesFragment
+import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesFragment
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
-import com.example.aston_intensiv_final_project.presentation.sources.ui.SourcesFragment
+import com.example.aston_intensiv_final_project.presentation.sources.SourcesFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

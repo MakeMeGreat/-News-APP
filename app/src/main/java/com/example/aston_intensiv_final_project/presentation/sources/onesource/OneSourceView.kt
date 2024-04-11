@@ -1,4 +1,4 @@
-package com.example.aston_intensiv_final_project.presentation.sources.ui.onesource
+package com.example.aston_intensiv_final_project.presentation.sources.onesource
 
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import moxy.MvpView

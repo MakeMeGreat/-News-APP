@@ -1,10 +1,10 @@
-package com.example.aston_intensiv_final_project.presentation.headlines.ui.adapter
+package com.example.aston_intensiv_final_project.presentation.headlines.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.fragments.HeadlinesBusinessFragment
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.fragments.HeadlinesGeneralFragment
-import com.example.aston_intensiv_final_project.presentation.headlines.ui.fragments.HeadlinesTravelingFragment
+import com.example.aston_intensiv_final_project.presentation.headlines.businnes.HeadlinesBusinessFragment
+import com.example.aston_intensiv_final_project.presentation.headlines.general.HeadlinesGeneralFragment
+import com.example.aston_intensiv_final_project.presentation.headlines.traveling.HeadlinesTravelingFragment
 
 class HeadlinesViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
