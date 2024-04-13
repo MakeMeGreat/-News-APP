@@ -72,9 +72,9 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     //coil
     implementation("io.coil-kt:coil:2.6.0")
-    //glide
-    implementation("com.github.bumptech.glide:glide:4.11.0")
-    kapt ("com.github.bumptech.glide:compiler:4.11.0")
+    //dagger
+    implementation("com.google.dagger:dagger:2.51.1")
+    kapt("com.google.dagger:dagger-compiler:2.51.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

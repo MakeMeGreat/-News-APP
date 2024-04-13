@@ -1,6 +1,8 @@
-package com.example.aston_intensiv_final_project.data.model.source
+package com.example.aston_intensiv_final_project.presentation.model.source
 
-data class SourceInfoDTO(
+import java.io.Serializable
+
+data class SourceInfoDtoModel(
     val id: String?,
     val name: String?,
     val description: String?,
@@ -8,4 +10,4 @@ data class SourceInfoDTO(
     val category: String?,
     val language: String?,
     val country: String?,
-)
+) : Serializable

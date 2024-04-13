@@ -1,6 +1,6 @@
 package com.example.aston_intensiv_final_project.domain.model.source
 
-data class SourceInfoDTODomainModel(
+data class SourceInfoDtoDomainModel(
     val id: String?,
     val name: String?,
     val description: String?,

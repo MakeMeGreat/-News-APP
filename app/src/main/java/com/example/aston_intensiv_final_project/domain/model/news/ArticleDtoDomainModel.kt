@@ -1,8 +1,8 @@
-package com.example.aston_intensiv_final_project.data.model.news
+package com.example.aston_intensiv_final_project.domain.model.news
 
 
-data class ArticleDTO(
-    val source: SourceDTO?,
+data class ArticleDtoDomainModel(
+    val source: SourceDtoDomainModel?,
     val author: String?,
     val title: String?,
     val description: String?,

@@ -9,10 +9,9 @@ import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aston_intensiv_final_project.R
-import com.example.aston_intensiv_final_project.data.RepositoryImpl
-import com.example.aston_intensiv_final_project.data.mapper.DataToDomainMapper
-import com.example.aston_intensiv_final_project.data.network.NetworkDataSource
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGeneralBinding
+import com.example.aston_intensiv_final_project.domain.Repository
+import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -20,19 +19,26 @@ import com.example.aston_intensiv_final_project.presentation.model.news.NewsResp
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.util.Constants
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
 
 class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
-    //Todo: change it with DI
-    private val networkDataSource = NetworkDataSource()
-    private val dataToDomainMapper = DataToDomainMapper()
-    private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
-    private val domainToPresentationMapper = DomainToPresentationMapper()
-    private val presenter by moxyPresenter {
-        HeadlinesGeneralPresenter(
-            repository,
-            domainToPresentationMapper
+    @Inject
+    lateinit var repository: Repository
+
+    @Inject
+    lateinit var mapper: DomainToPresentationMapper
+
+    @InjectPresenter
+    lateinit var generalPresenter: HeadlinesGeneralPresenter
+
+    @ProvidePresenter
+    fun provideGeneralPresenter(): HeadlinesGeneralPresenter {
+        return HeadlinesGeneralPresenter(
+            repository = repository,
+            mapper = mapper
         )
     }
 
@@ -40,6 +46,11 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
     private val binding get() = _binding!!
 
     private lateinit var articleAdapter: ArticleAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +86,7 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            presenter.newsPage == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
+            generalPresenter.newsPage == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
         articleAdapter.submitList(response.articles.toList())
     }
 
@@ -103,7 +114,7 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                presenter.getNews()
+                generalPresenter.getNews()
                 isScrolling = false
             }
         }

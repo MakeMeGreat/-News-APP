@@ -19,7 +19,7 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentNewsProfileBinding
-import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDTOModel
+import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -31,7 +31,7 @@ class NewsProfileFragment : Fragment() {
     private var _binding: FragmentNewsProfileBinding? = null
     private val binding get() = _binding!!
 
-    private var article: ArticleDTOModel? = null
+    private var article: ArticleDtoModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +45,14 @@ class NewsProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         article = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(ARTICLE_KEY, ArticleDTOModel::class.java)
-        } else requireArguments().getSerializable(ARTICLE_KEY) as ArticleDTOModel
+            requireArguments().getSerializable(ARTICLE_KEY, ArticleDtoModel::class.java)
+        } else requireArguments().getSerializable(ARTICLE_KEY) as ArticleDtoModel
         viewModel.setArticle(article!!)
         bindArticle(viewModel.getArticle()!!)
         bindToolbar()
     }
 
-    private fun bindArticle(article: ArticleDTOModel) {
+    private fun bindArticle(article: ArticleDtoModel) {
         binding.apply {
             image.load(article.urlToImage) {
                 crossfade(true)
@@ -70,7 +70,7 @@ class NewsProfileFragment : Fragment() {
         }
     }
 
-    private fun makeContentTextSpannable(article: ArticleDTOModel) {
+    private fun makeContentTextSpannable(article: ArticleDtoModel) {
         val spannableString = SpannableString(article.content)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
@@ -138,7 +138,7 @@ class NewsProfileFragment : Fragment() {
         private const val ARTICLE_REQUEST = "ARTICLE_REQUEST"
         private const val ARTICLE_KEY = "ARTICLE_KEY"
 
-        fun newInstance(article: ArticleDTOModel): NewsProfileFragment {
+        fun newInstance(article: ArticleDtoModel): NewsProfileFragment {
             return NewsProfileFragment().apply {
                 arguments = Bundle().also { it.putSerializable(ARTICLE_KEY, article) }
             }

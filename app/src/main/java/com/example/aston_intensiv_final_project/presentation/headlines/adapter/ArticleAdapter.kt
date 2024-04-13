@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentArticlesItemBinding
-import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDTOModel
+import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
 
 class ArticleAdapter(
-    private val onArticleClicked: (ArticleDTOModel) -> Unit,
-) : ListAdapter<ArticleDTOModel, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
+    private val onArticleClicked: (ArticleDtoModel) -> Unit,
+) : ListAdapter<ArticleDtoModel, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
 
     inner class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
         ViewHolder(binding.root) {
-        fun bind(article: ArticleDTOModel) {
+        fun bind(article: ArticleDtoModel) {
             binding.apply {
                 articleImage.load(article.urlToImage) {
                     placeholder(R.drawable.image_place_holder)
@@ -45,14 +45,14 @@ class ArticleAdapter(
         holder.bind(article)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ArticleDTOModel>() {
-        override fun areItemsTheSame(oldItem: ArticleDTOModel, newItem: ArticleDTOModel): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<ArticleDtoModel>() {
+        override fun areItemsTheSame(oldItem: ArticleDtoModel, newItem: ArticleDtoModel): Boolean {
             return oldItem.url == newItem.url
         }
 
         override fun areContentsTheSame(
-            oldItem: ArticleDTOModel,
-            newItem: ArticleDTOModel
+            oldItem: ArticleDtoModel,
+            newItem: ArticleDtoModel
         ): Boolean {
             return oldItem == newItem
         }

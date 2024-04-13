@@ -1,6 +1,8 @@
 package com.example.aston_intensiv_final_project.data.network
 
-class NetworkDataSource {
+import javax.inject.Inject
+
+class NetworkDataSource @Inject constructor()  {
     fun getGeneralNews(pageNumber: Int) =
         RetrofitObject.retrofitService.getGeneralNews(pageNumber = pageNumber)
 

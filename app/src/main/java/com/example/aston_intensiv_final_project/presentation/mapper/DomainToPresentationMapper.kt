@@ -1,17 +1,18 @@
 package com.example.aston_intensiv_final_project.presentation.mapper
 
-import com.example.aston_intensiv_final_project.domain.model.news.ArticleDTODomainModel
+import com.example.aston_intensiv_final_project.domain.model.news.ArticleDtoDomainModel
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
-import com.example.aston_intensiv_final_project.domain.model.news.SourceDTODomainModel
-import com.example.aston_intensiv_final_project.domain.model.source.SourceInfoDTODomainModel
+import com.example.aston_intensiv_final_project.domain.model.news.SourceDtoDomainModel
+import com.example.aston_intensiv_final_project.domain.model.source.SourceInfoDtoDomainModel
 import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
-import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDTOModel
+import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
-import com.example.aston_intensiv_final_project.presentation.model.news.SourceDTOModel
-import com.example.aston_intensiv_final_project.presentation.model.source.SourceInfoDTOModel
+import com.example.aston_intensiv_final_project.presentation.model.news.SourceDtoModel
+import com.example.aston_intensiv_final_project.presentation.model.source.SourceInfoDtoModel
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
+import javax.inject.Inject
 
-class DomainToPresentationMapper {
+class DomainToPresentationMapper @Inject constructor() {
 
     fun mapNewsToPresentationModel(newsResponse: NewsResponseDomainModel): NewsResponseModel {
         return NewsResponseModel(
@@ -21,16 +22,16 @@ class DomainToPresentationMapper {
         )
     }
 
-    private fun mapArticles(articles: MutableList<ArticleDTODomainModel>): MutableList<ArticleDTOModel> {
-        val mutableList = mutableListOf<ArticleDTOModel>()
+    private fun mapArticles(articles: MutableList<ArticleDtoDomainModel>): MutableList<ArticleDtoModel> {
+        val mutableList = mutableListOf<ArticleDtoModel>()
         articles.forEach {
             mutableList.add(mapArticle(it))
         }
         return mutableList
     }
 
-    private fun mapArticle(article: ArticleDTODomainModel): ArticleDTOModel {
-        return ArticleDTOModel(
+    private fun mapArticle(article: ArticleDtoDomainModel): ArticleDtoModel {
+        return ArticleDtoModel(
             source = mapSource(article.source),
             author = article.author,
             title = article.title,
@@ -42,8 +43,8 @@ class DomainToPresentationMapper {
         )
     }
 
-    private fun mapSource(source: SourceDTODomainModel?): SourceDTOModel {
-        return SourceDTOModel(
+    private fun mapSource(source: SourceDtoDomainModel?): SourceDtoModel {
+        return SourceDtoModel(
             id = source?.id,
             name = source?.name
         )
@@ -56,16 +57,16 @@ class DomainToPresentationMapper {
         )
     }
 
-    private fun mapSourceInfos(sourceInfos: List<SourceInfoDTODomainModel>): MutableList<SourceInfoDTOModel> {
-        val mutableList = mutableListOf<SourceInfoDTOModel>()
+    private fun mapSourceInfos(sourceInfos: List<SourceInfoDtoDomainModel>): MutableList<SourceInfoDtoModel> {
+        val mutableList = mutableListOf<SourceInfoDtoModel>()
         sourceInfos.forEach {
             mutableList.add(mapSourceInfo(it))
         }
         return mutableList
     }
 
-    private fun mapSourceInfo(sourceInfoDTO: SourceInfoDTODomainModel): SourceInfoDTOModel {
-        return SourceInfoDTOModel(
+    private fun mapSourceInfo(sourceInfoDTO: SourceInfoDtoDomainModel): SourceInfoDtoModel {
+        return SourceInfoDtoModel(
             id = sourceInfoDTO.id,
             name = sourceInfoDTO.name,
             description = sourceInfoDTO.description,

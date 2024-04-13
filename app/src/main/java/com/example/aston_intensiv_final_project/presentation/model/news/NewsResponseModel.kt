@@ -5,5 +5,5 @@ import java.io.Serializable
 data class NewsResponseModel(
     val status: String,
     val totalResults: Int,
-    val articles: MutableList<ArticleDTOModel>,
+    val articles: MutableList<ArticleDtoModel>,
 ) : Serializable

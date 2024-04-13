@@ -11,30 +11,47 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import com.example.aston_intensiv_final_project.R
-import com.example.aston_intensiv_final_project.data.RepositoryImpl
-import com.example.aston_intensiv_final_project.data.mapper.DataToDomainMapper
-import com.example.aston_intensiv_final_project.data.network.NetworkDataSource
 import com.example.aston_intensiv_final_project.databinding.FragmentOneSourceBinding
+import com.example.aston_intensiv_final_project.domain.Repository
+import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
 
 
 class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
 
-    //Todo: change it with DI
-    private val networkDataSource = NetworkDataSource()
-    private val dataToDomainMapper = DataToDomainMapper()
-    private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
-    private val domainToPresentationMapper = DomainToPresentationMapper()
-    private val presenter by moxyPresenter { OneSourcePresenter(repository, domainToPresentationMapper) }
+    @Inject
+    lateinit var repository: Repository
+
+    @Inject
+    lateinit var mapper: DomainToPresentationMapper
+
+    @InjectPresenter
+    lateinit var oneSourcePresenter: OneSourcePresenter
+
+    @ProvidePresenter
+    fun provideOneSourcePresenter(): OneSourcePresenter {
+        return OneSourcePresenter(
+            repository = repository,
+            mapper = mapper
+        )
+    }
+
 
     private lateinit var adapter: OneSourceAdapter
     private var _binding: FragmentOneSourceBinding? = null
     private val binding get() = _binding!!
     private lateinit var sourceId: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +75,7 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.setDisplayHomeAsUpEnabled(true)
         toolbar?.title = sourceId.uppercase()
-        presenter.getOneSourceNews(sourceId)
+        oneSourcePresenter.getOneSourceNews(sourceId)
 
     }
 

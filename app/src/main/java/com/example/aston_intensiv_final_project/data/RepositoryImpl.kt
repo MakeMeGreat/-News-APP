@@ -6,8 +6,9 @@ import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
 import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
 import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-class RepositoryImpl(
+class RepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
     private val mapper: DataToDomainMapper
 ) : Repository {

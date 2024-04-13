@@ -11,27 +11,44 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import com.example.aston_intensiv_final_project.R
-import com.example.aston_intensiv_final_project.data.RepositoryImpl
-import com.example.aston_intensiv_final_project.data.mapper.DataToDomainMapper
-import com.example.aston_intensiv_final_project.data.network.NetworkDataSource
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
+import com.example.aston_intensiv_final_project.domain.Repository
+import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
 import com.example.aston_intensiv_final_project.presentation.sources.onesource.OneSourceFragment
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
 
 class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
 
     //Todo: change it with DI
-    private val networkDataSource = NetworkDataSource()
-    private val dataToDomainMapper = DataToDomainMapper()
-    private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
-    private val domainToPresentationMapper = DomainToPresentationMapper()
-    private val presenter by moxyPresenter {
-        SourcesPresenter(
-            repository,
-            domainToPresentationMapper
+//    private val networkDataSource = NetworkDataSource()
+//    private val dataToDomainMapper = DataToDomainMapper()
+//    private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
+//    private val domainToPresentationMapper = DomainToPresentationMapper()
+//    private val presenter by moxyPresenter {
+//        SourcesPresenter(
+//            repository,
+//            domainToPresentationMapper
+//        )
+//    }
+    @Inject
+    lateinit var repository: Repository
+
+    @Inject
+    lateinit var mapper: DomainToPresentationMapper
+
+    @InjectPresenter
+    lateinit var sourcesPresenter: SourcesPresenter
+
+    @ProvidePresenter
+    fun provideSourcesPresenter(): SourcesPresenter {
+        return SourcesPresenter(
+            repository = repository,
+            mapper = mapper
         )
     }
 
@@ -39,10 +56,16 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     private var _binding: FragmentSourcesBinding? = null
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentSourcesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,7 +83,6 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.title = "Sources"
-
     }
 
     override fun onDestroyView() {

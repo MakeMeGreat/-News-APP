@@ -46,7 +46,7 @@ class HeadlinesBusinessPresenter(
 
                 override fun onError(e: Throwable) {
                     viewState.endLoading()
-                    viewState.showError("something went wrong in articles getting throw presenter and repository")
+                    viewState.showError("something went wrong in articles getting throw presenter and repository $e")
                 }
 
                 override fun onComplete() {}

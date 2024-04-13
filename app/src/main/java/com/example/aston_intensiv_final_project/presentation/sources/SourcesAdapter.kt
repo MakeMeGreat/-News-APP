@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesItemBinding
-import com.example.aston_intensiv_final_project.presentation.model.source.SourceInfoDTOModel
+import com.example.aston_intensiv_final_project.presentation.model.source.SourceInfoDtoModel
 import java.util.Locale
 
 class SourcesAdapter(
-    private val onSourceClicked: (SourceInfoDTOModel) -> Unit,
-) : ListAdapter<SourceInfoDTOModel, SourcesAdapter.SourcesViewHolder>(DiffCallback) {
+    private val onSourceClicked: (SourceInfoDtoModel) -> Unit,
+) : ListAdapter<SourceInfoDtoModel, SourcesAdapter.SourcesViewHolder>(DiffCallback) {
 
     inner class SourcesViewHolder(val binding: FragmentSourcesItemBinding) :
         ViewHolder(binding.root) {
-        fun bind(source: SourceInfoDTOModel) {
+        fun bind(source: SourceInfoDtoModel) {
             binding.apply {
                 sourceName.text = source.name
                 sourceImage.setImageResource(determineSourceImage(source))
@@ -49,23 +49,23 @@ class SourcesAdapter(
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<SourceInfoDTOModel>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<SourceInfoDtoModel>() {
         override fun areItemsTheSame(
-            oldItem: SourceInfoDTOModel,
-            newItem: SourceInfoDTOModel
+            oldItem: SourceInfoDtoModel,
+            newItem: SourceInfoDtoModel
         ): Boolean {
             return oldItem.url == newItem.url
         }
 
         override fun areContentsTheSame(
-            oldItem: SourceInfoDTOModel,
-            newItem: SourceInfoDTOModel
+            oldItem: SourceInfoDtoModel,
+            newItem: SourceInfoDtoModel
         ): Boolean {
             return oldItem == newItem
         }
     }
 
-    fun determineSourceImage(source: SourceInfoDTOModel): Int {
+    fun determineSourceImage(source: SourceInfoDtoModel): Int {
         return if (source.name == null) {
             R.drawable.cnn_source_image
         } else if (source.name.contains("nbc", true)) {

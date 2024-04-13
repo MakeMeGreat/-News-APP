@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class SourceResponseModel(
     val status: String,
-    val sources: List<SourceInfoDTOModel>
+    val sources: List<SourceInfoDtoModel>
 ) : Serializable
