@@ -15,4 +15,10 @@ interface Repository {
     fun getSources(): Observable<SourceResponseDomainModel>
 
     fun getOneSourceNews(sourceId: String): Observable<NewsResponseDomainModel>
+
+    fun getFilteredNews(
+        from: String? ,
+        language: String?,
+        sortBy: String?,
+    ): Observable<NewsResponseDomainModel>
 }

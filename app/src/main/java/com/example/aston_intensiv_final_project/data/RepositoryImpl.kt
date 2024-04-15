@@ -46,4 +46,18 @@ class RepositoryImpl @Inject constructor(
                 mapper.mapNewsToDomainModel(it)
             }
     }
+
+    override fun getFilteredNews(
+        from: String? ,
+        language: String?,
+        sortBy: String?,
+    ): Observable<NewsResponseDomainModel> {
+        return networkDataSource.getFilteredNews(
+            from = from,
+            language = language,
+            sortBy = sortBy
+        ).map {
+            mapper.mapNewsToDomainModel(it)
+        }
+    }
 }

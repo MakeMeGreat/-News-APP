@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.example.aston_intensiv_final_project.presentation.FiltersFragment
+import com.example.aston_intensiv_final_project.presentation.headlines.filter.FiltersFragment
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBinding
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.HeadlinesViewPagerAdapter

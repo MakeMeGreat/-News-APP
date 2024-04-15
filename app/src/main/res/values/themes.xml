@@ -26,4 +26,9 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="CustomChipStile" parent="Widget.Material3.Chip.Suggestion">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+
+    </style>
+
 </resources>

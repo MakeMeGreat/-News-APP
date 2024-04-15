@@ -17,4 +17,15 @@ class NetworkDataSource @Inject constructor()  {
 
     fun getOneSourceNews(sourceId: String) =
         RetrofitObject.retrofitService.getOneSourceNews(sourceId = sourceId)
+
+    fun getFilteredNews(
+        from: String? ,
+        language: String? ,
+        sortBy: String?
+    ) =
+        RetrofitObject.retrofitService.getFilteredNews(
+            from = from,
+            language = language,
+            sortBy = sortBy
+        )
 }
