@@ -7,15 +7,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentFiltersBinding
+import com.example.aston_intensiv_final_project.presentation.headlines.filter.filtered.FilteredNewsFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -38,12 +36,10 @@ class FiltersFragment : Fragment(), MenuProvider {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
+
         val toolbar = (activity as AppCompatActivity).supportActionBar
+        toolbar?.setDisplayHomeAsUpEnabled(true)
         toolbar?.title = "Filters"
-        if (parentFragmentManager.backStackEntryCount > 0) {
-            toolbar?.setDisplayHomeAsUpEnabled(true)
-            toolbar?.setDisplayShowHomeEnabled(true)
-        }
         binding.calendarButton.setOnClickListener {
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
@@ -51,26 +47,28 @@ class FiltersFragment : Fragment(), MenuProvider {
                     .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                     .build()
             datePicker.addOnPositiveButtonClickListener {
-                viewModel.dateLiveData.value = it
+                viewModel.sendEvent(FilterEvent.UpdateDateEvent(it))
             }
             datePicker.addOnNegativeButtonClickListener {
-                viewModel.dateLiveData.value = 0L
+                viewModel.sendEvent(FilterEvent.UpdateDateEvent(0L))
             }
             datePicker.show(parentFragmentManager, "datePicker")
         }
-        binding.buttonsGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        binding.filterButtonsGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            var filter = ""
             if (isChecked) {
-                viewModel.sortByLiveData.value =
-                    when (checkedId) {
-                        R.id.popular_button -> "popularity"
-                        R.id.relevant_button -> "relevancy"
-                        else -> "publishedAt"
-                    }
+                filter = when (checkedId) {
+                    R.id.popular_button -> "popularity"
+                    R.id.relevant_button -> "relevancy"
+                    else -> "publishedAt"
+                }
+
             }
+            viewModel.sendEvent(FilterEvent.UpdateFilterEvent(filter))
         }
 
         binding.chipGroup.setOnCheckedStateChangeListener { group, _ ->
-            viewModel.languageLiveData.value =
+            val language =
                 when (group.checkedChipId) {
                     R.id.chip_russian -> "ru"
                     R.id.chip_german -> "de"
@@ -81,19 +79,28 @@ class FiltersFragment : Fragment(), MenuProvider {
                     R.id.chip_сhinese -> "zh"
                     else -> "en"
                 }
+            viewModel.sendEvent(FilterEvent.UpdateLanguageEvent(language))
+//            viewModel.updateLanguage(language)
         }
-        viewModel.languageLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, "$it language selected", LENGTH_SHORT).show()
-
+        viewModel.state.observe(viewLifecycleOwner) {
+            binding.calendarPickedDateTextview.text = formatMillisToDateText(it.date)
         }
-        viewModel.sortByLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, "$it sort filter selected", LENGTH_SHORT).show()
-        }
-
-        viewModel.dateLiveData.observe(viewLifecycleOwner) {
-            binding.calendarPickedDateTextview.text = formatMillisToDateText(it)
-        }
+//        viewModel.observe(state = ::render, sideEffect = ::handleSideEffect, lifecycleOwner = viewLifecycleOwner)
+//        lifecycleScope.launch{
+//            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                launch {
+//                    viewModel.container.stateFlow.collect{render(it)}
+//                }
+//                launch { viewModel.container.sideEffectFlow.collect {handleSideEffect(it)} }
+//            }
+//        }
     }
+
+//    private fun render(state: FilterState) {
+//        binding.calendarPickedDateTextview.text = formatMillisToDateText(state.date)
+//    }
+//
+//    private fun handleSideEffect(filterSideEffect: FilterSideEffect) {}
 
     private fun formatMillisToDateText(timeInMillis: Long): String {
         return if (timeInMillis != 0L) {
@@ -114,9 +121,10 @@ class FiltersFragment : Fragment(), MenuProvider {
                 parentFragmentManager.beginTransaction()
                     .replace(
                         R.id.activity_fragment_container, FilteredNewsFragment.newInstance(
-                            viewModel.getFormattedDateToQuery(),
-                            viewModel.languageLiveData.value,
-                            viewModel.sortByLiveData.value
+                            viewModel.state.value!!.date,
+                            viewModel.state.value!!.language,
+                            viewModel.state.value!!.filter
+                            //viewModel.container.stateFlow.value
                         )
                     )
                     .addToBackStack(null)
@@ -128,6 +136,12 @@ class FiltersFragment : Fragment(), MenuProvider {
             }
         }
         return true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
     }
 
     override fun onDestroyView() {

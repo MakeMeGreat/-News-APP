@@ -1,6 +1,7 @@
 package com.example.aston_intensiv_final_project.presentation.di
 
 import com.example.aston_intensiv_final_project.presentation.headlines.businnes.HeadlinesBusinessFragment
+import com.example.aston_intensiv_final_project.presentation.headlines.filter.filtered.FilteredNewsFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.general.HeadlinesGeneralFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.traveling.HeadlinesTravelingFragment
 import com.example.aston_intensiv_final_project.presentation.sources.SourcesFragment
@@ -18,4 +19,5 @@ interface AppComponent {
     fun inject(fragment: HeadlinesBusinessFragment)
     fun inject(fragment: HeadlinesGeneralFragment)
     fun inject(fragment: HeadlinesTravelingFragment)
+    fun inject(fragment: FilteredNewsFragment)
 }

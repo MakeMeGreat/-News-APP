@@ -5,21 +5,8 @@
     android:background="@color/white"
     android:layout_height="match_parent">
 
-    <!--    <com.google.android.material.appbar.MaterialToolbar-->
-    <!--        android:id="@+id/filters_toolbar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@color/primary60"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:title="Filters"-->
-    <!--        app:menu="@menu/filters_toolbar_actions"-->
-    <!--        app:titleCentered="true"-->
-    <!--        app:titleTextColor="@color/white" />-->
-
     <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/buttons_group"
+        android:id="@+id/filter_buttons_group"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_marginTop="10dp"
@@ -29,7 +16,6 @@
         app:singleSelection="true">
 
         <Button
-
             android:id="@+id/popular_button"
             style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="125dp"
@@ -65,8 +51,8 @@
         android:fontFamily="sans-serif-medium"
         android:text="Date"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/buttons_group"
-        app:layout_constraintTop_toBottomOf="@id/buttons_group" />
+        app:layout_constraintStart_toStartOf="@id/filter_buttons_group"
+        app:layout_constraintTop_toBottomOf="@id/filter_buttons_group" />
 
     <Button
         android:id="@+id/calendar_button"
@@ -75,15 +61,8 @@
         android:layout_height="wrap_content"
         app:icon="@drawable/calendar_button_icon"
         app:layout_constraintBottom_toBottomOf="@id/textholder_date"
-        app:layout_constraintEnd_toEndOf="@id/buttons_group"
+        app:layout_constraintEnd_toEndOf="@id/filter_buttons_group"
         app:layout_constraintTop_toTopOf="@id/textholder_date" />
-
-    <!--    <DatePicker-->
-    <!--        android:id="@+id/date_picker"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        style="@style/ThemeOverlay.Material3.MaterialCalendar.Fullscreen" />-->
-
 
     <TextView
         android:id="@+id/calendar_picked_date_textview"
@@ -117,13 +96,6 @@
         app:selectionRequired="true"
         app:singleSelection="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_russian"
-            style="@style/Widget.Material3.Chip.Suggestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Русский"
-            app:chipBackgroundColor="@color/chip_background_color" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_english"
@@ -132,6 +104,15 @@
             android:layout_height="wrap_content"
             android:text="English"
             app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_russian"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Русский"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_german"
@@ -182,6 +163,5 @@
             app:chipBackgroundColor="@color/chip_background_color" />
 
     </com.google.android.material.chip.ChipGroup>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

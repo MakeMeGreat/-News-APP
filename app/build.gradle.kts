@@ -75,6 +75,8 @@ dependencies {
     //dagger
     implementation("com.google.dagger:dagger:2.51.1")
     kapt("com.google.dagger:dagger-compiler:2.51.1")
+    //orbit
+    implementation("org.orbit-mvi:orbit-viewmodel:7.0.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

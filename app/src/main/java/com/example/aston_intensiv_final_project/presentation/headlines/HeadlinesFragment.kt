@@ -66,7 +66,6 @@ class HeadlinesFragment : Fragment(), MenuProvider {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.toolbar_actions, menu)
-
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
