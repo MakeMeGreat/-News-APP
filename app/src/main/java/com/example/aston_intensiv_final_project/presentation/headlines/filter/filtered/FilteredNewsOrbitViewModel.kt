@@ -3,8 +3,8 @@ package com.example.aston_intensiv_final_project.presentation.headlines.filter.f
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.aston_intensiv_final_project.domain.usecase.GetFilteredNewsUseCase
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
+import com.example.aston_intensiv_final_project.domain.usecase.GetFilteredNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -22,7 +22,6 @@ class FilteredNewsOrbitViewModel @AssistedInject constructor(
     @Assisted("date") private val date: String?,
     @Assisted("language") private val language: String,
     @Assisted("sortFilter") private val sortFilter: String?,
-    //private val repository: Repository,
     private val getFilteredNewsUseCase: GetFilteredNewsUseCase,
     private val mapper: DomainToPresentationMapper
 ) : ContainerHost<FilteredNewsState, FilteredNewsSideEffect>,
@@ -52,7 +51,11 @@ class FilteredNewsOrbitViewModel @AssistedInject constructor(
                     val mappedResponse = mapper.mapNewsToPresentationModel(response)
                     viewModelScope.launch {
                         reduce {
-                            state.copy(isLoading = false, filteredNewsResponse = mappedResponse, error = null)
+                            state.copy(
+                                isLoading = false,
+                                filteredNewsResponse = mappedResponse,
+                                error = null
+                            )
                         }
                     }
                 }

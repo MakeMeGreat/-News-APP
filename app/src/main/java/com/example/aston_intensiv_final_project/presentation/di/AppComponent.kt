@@ -4,6 +4,7 @@ import com.example.aston_intensiv_final_project.presentation.headlines.businnes.
 import com.example.aston_intensiv_final_project.presentation.headlines.filter.filtered.FilteredNewsFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.general.HeadlinesGeneralFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.traveling.HeadlinesTravelingFragment
+import com.example.aston_intensiv_final_project.presentation.search.SearchFragment
 import com.example.aston_intensiv_final_project.presentation.sources.SourcesFragment
 import com.example.aston_intensiv_final_project.presentation.sources.onesource.OneSourceFragment
 import dagger.Component
@@ -20,4 +21,6 @@ interface AppComponent {
     fun inject(fragment: HeadlinesGeneralFragment)
     fun inject(fragment: HeadlinesTravelingFragment)
     fun inject(fragment: FilteredNewsFragment)
+    fun inject(fragment: SearchFragment)
+
 }

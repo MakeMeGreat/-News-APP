@@ -28,4 +28,9 @@ class NetworkDataSource @Inject constructor()  {
             language = language,
             sortBy = sortBy
         )
+
+    fun getSearchNews(
+        searchQuery: String
+    ) =
+        RetrofitObject.retrofitService.getSearchNews(q = searchQuery)
 }

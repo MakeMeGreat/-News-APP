@@ -3,7 +3,6 @@ package com.example.aston_intensiv_final_project.data.network
 
 import com.example.aston_intensiv_final_project.data.model.news.NewsResponse
 import com.example.aston_intensiv_final_project.data.model.source.SourceResponse
-import com.example.aston_intensiv_final_project.util.Constants
 import com.example.aston_intensiv_final_project.util.Constants.Companion.API_KEY
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
@@ -73,5 +72,13 @@ interface NewsAPI {
         sortBy: String? = "popularity",
         @Query("apiKey")
         apiKey: String = API_KEY,
-        ): Observable<NewsResponse>
+    ): Observable<NewsResponse>
+
+    @GET("v2/top-headlines")
+    fun getSearchNews(
+        @Query("q")
+        q: String? = "null",
+        @Query("apiKey")
+        apiKey: String = API_KEY,
+    ): Observable<NewsResponse>
 }

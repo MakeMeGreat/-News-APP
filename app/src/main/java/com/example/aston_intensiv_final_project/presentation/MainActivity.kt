@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.ActivityMainBinding
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesFragment
-import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.presentation.sources.SourcesFragment
+import com.example.aston_intensiv_final_project.presentation.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_nav_saved -> replaceFragment(NewsProfileFragment())
+                R.id.bottom_nav_saved -> replaceFragment(SearchFragment())
 //                 {                    TODO()}
                 R.id.bottom_nav_sources -> replaceFragment(SourcesFragment())
                 else -> replaceFragment(HeadlinesFragment())
@@ -39,23 +39,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    /*  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-          menuInflater.inflate(R.menu.toolbar_actions, menu)
-          val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-          val searchView = menu.findItem(R.id.search_button).actionView as SearchView
-          val component = ComponentName(this, MainActivity::class.java)
-          val searchableInfo = searchManager.getSearchableInfo(component)
-          searchView.setSearchableInfo(searchableInfo)
-          menu.findItem(R.id.filter_button).setOnMenuItemClickListener {
-              supportFragmentManager.beginTransaction()
-                  .replace(R.id.activity_fragment_container, FiltersFragment())
-                  .addToBackStack(null)
-                  .commit()
-              true
-          }
-          return true
-      }*/
     private fun replaceFragment(fragment: Fragment): Boolean {
         supportFragmentManager.beginTransaction()
             .replace(R.id.activity_fragment_container, fragment)

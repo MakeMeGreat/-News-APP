@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import com.example.aston_intensiv_final_project.R
@@ -95,7 +96,9 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        TODO("Not yet implemented")
+        //Todo
+        Toast.makeText(context, "text wrapper", Toast.LENGTH_SHORT).show()
+        return true
     }
 
     override fun startLoading() {

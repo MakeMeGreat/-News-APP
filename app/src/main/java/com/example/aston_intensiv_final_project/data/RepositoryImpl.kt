@@ -60,4 +60,10 @@ class RepositoryImpl @Inject constructor(
             mapper.mapNewsToDomainModel(it)
         }
     }
+
+    override fun getSearchNews(searchQuery: String): Observable<NewsResponseDomainModel> {
+        return networkDataSource.getSearchNews(searchQuery).map {
+            mapper.mapNewsToDomainModel(it)
+        }
+    }
 }

@@ -21,5 +21,7 @@ interface Repository {
         language: String?,
         sortBy: String?,
     ): Observable<NewsResponseDomainModel>
+
+    fun getSearchNews(searchQuery: String): Observable<NewsResponseDomainModel>
 }
 

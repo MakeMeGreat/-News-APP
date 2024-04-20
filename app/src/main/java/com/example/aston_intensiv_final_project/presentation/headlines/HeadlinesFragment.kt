@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.example.aston_intensiv_final_project.presentation.headlines.filter.FiltersFragment
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBinding
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.HeadlinesViewPagerAdapter
+import com.example.aston_intensiv_final_project.presentation.headlines.filter.FiltersFragment
+import com.example.aston_intensiv_final_project.presentation.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.Tab
 
@@ -45,7 +46,9 @@ class HeadlinesFragment : Fragment(), MenuProvider {
         val tabLayout = binding.tabLayout
         val viewPager = binding.viewPager
         val viewPagerAdapter = HeadlinesViewPagerAdapter(this)
+        viewPager.isUserInputEnabled = false
         viewPager.adapter = viewPagerAdapter
+
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: Tab?) {
@@ -75,6 +78,13 @@ class HeadlinesFragment : Fragment(), MenuProvider {
                     .replace(R.id.activity_fragment_container, FiltersFragment.newInstance())
                     .addToBackStack(null)
                     .commit()
+
+            R.id.search_button -> {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.activity_fragment_container, SearchFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
         return true
     }
