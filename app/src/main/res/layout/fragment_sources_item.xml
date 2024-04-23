@@ -22,7 +22,7 @@
             android:layout_height="46dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/primary60" />
+            tools:background="@color/blue60" />
     </androidx.cardview.widget.CardView>
 
     <TextView

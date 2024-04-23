@@ -15,27 +15,13 @@ import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
-    private val toDomainMapper: DataToDomainMapper,
-    //private val savedArticleDao: SavedArticleDao,
     private val cacheDataSource: CacheDataSource,
+    private val toDomainMapper: DataToDomainMapper,
     private val toDataMapper: DomainToDataMapper,
 ) : Repository {
-    override fun getGeneralNews(pageNumber: Int): Observable<NewsResponseDomainModel> {
-        return networkDataSource.getGeneralNews(pageNumber)
-            .map {
-                toDomainMapper.mapNewsToDomainModel(it)
-            }
-    }
 
-    override fun getBusinessNews(pageNumber: Int): Observable<NewsResponseDomainModel> {
-        return networkDataSource.getBusinessNews(pageNumber)
-            .map {
-                toDomainMapper.mapNewsToDomainModel(it)
-            }
-    }
-
-    override fun getScienceNews(pageNumber: Int): Observable<NewsResponseDomainModel> {
-        return networkDataSource.getScienceNews(pageNumber)
+    override fun getCategorizedNews(category: String, pageNumber: Int): Observable<NewsResponseDomainModel> {
+        return networkDataSource.getCategorizedNews(category = category, pageNumber = pageNumber)
             .map {
                 toDomainMapper.mapNewsToDomainModel(it)
             }
@@ -80,8 +66,8 @@ class RepositoryImpl @Inject constructor(
         cacheDataSource.safeOrDeleteArticle(mappedArticle)
     }
 
-    override fun getAllSavedArticles(): Flow<List<ArticleDtoDomainModel>> {
-        return cacheDataSource.getAllSavedArticles()
+    override fun getSavedArticles(): Flow<List<ArticleDtoDomainModel>> {
+        return cacheDataSource.getSavedArticles()
             .map { toDomainMapper.mapArticles(it.toMutableList()).toList() }
     }
 }

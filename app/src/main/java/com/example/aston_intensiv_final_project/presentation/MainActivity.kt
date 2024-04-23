@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.ActivityMainBinding
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesFragment
@@ -39,8 +40,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment): Boolean {
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.activity_fragment_container, fragment)
+            .addToBackStack("bottomNav")
             .commit()
         return true
     }

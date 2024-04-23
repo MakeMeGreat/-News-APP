@@ -1,7 +1,7 @@
 package com.example.aston_intensiv_final_project.presentation.headlines.businnes
 
-import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
+import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
@@ -13,35 +13,38 @@ import moxy.MvpPresenter
 
 @InjectViewState
 class HeadlinesBusinessPresenter(
-    private val repository: Repository,
+    private val getCategorizedNewsUseCase: GetCategorizedNewsUseCase,
     private val mapper: DomainToPresentationMapper
 ) : MvpPresenter<HeadlinesView>() {
 
     private lateinit var newsResponse: NewsResponseModel
 
-    var newsPage = 1
+    var pageNumber = 1
 
     init {
         getNews()
     }
 
-    fun getNews() {
+    fun getNewsWithPaginate() {
         viewState.startLoading()
-        // was newsPage++ on next line and newsResponse variable was nullable
-        repository.getBusinessNews(newsPage)
+        getNews()
+    }
+
+    private fun getNews() {
+        getCategorizedNewsUseCase(category = "business", pageNumber = pageNumber)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<NewsResponseDomainModel>() {
                 override fun onNext(response: NewsResponseDomainModel) {
                     val mappedResponse = mapper.mapNewsToPresentationModel(response)
-                    if (newsPage == 1) {
+                    if (pageNumber == 1) {
                         newsResponse = mappedResponse
                     } else {
                         newsResponse.articles.addAll(mappedResponse.articles)
                     }
                     viewState.endLoading()
                     viewState.showSuccess(newsResponse)
-                    newsPage++
+                    pageNumber++
                 }
 
                 override fun onError(e: Throwable) {

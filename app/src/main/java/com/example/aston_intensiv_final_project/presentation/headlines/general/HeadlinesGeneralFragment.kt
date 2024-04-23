@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGeneralBinding
-import com.example.aston_intensiv_final_project.domain.Repository
+import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
@@ -25,8 +25,9 @@ import javax.inject.Inject
 
 class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
+
     @Inject
-    lateinit var repository: Repository
+    lateinit var getCategorizedNewsUseCase: GetCategorizedNewsUseCase
 
     @Inject
     lateinit var mapper: DomainToPresentationMapper
@@ -37,7 +38,7 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
     @ProvidePresenter
     fun provideGeneralPresenter(): HeadlinesGeneralPresenter {
         return HeadlinesGeneralPresenter(
-            repository = repository,
+            getCategorizedNewsUseCase = getCategorizedNewsUseCase,
             mapper = mapper
         )
     }
@@ -63,7 +64,6 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         articleAdapter = ArticleAdapter { article ->
-//            setFragmentResult(ARTICLE_REQUEST, bundleOf(ARTICLE_KEY to article))
 
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
@@ -81,12 +81,13 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun endLoading() {
         binding.paginationProgressBar.visibility = View.INVISIBLE
+        binding.firstLoadProgressBar.visibility = View.INVISIBLE
         isLoading = false
     }
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            generalPresenter.newsPage == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
+            generalPresenter.pageNumber == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
         articleAdapter.submitList(response.articles.toList())
     }
 
@@ -94,11 +95,11 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
         Log.e("Headlines", "error in getting response: $message")
     }
 
-    var isLoading = false
+    var isLoading = true
     var isLastPage = false
     var isScrolling = false
 
-    val headlinesScrollListener = object : RecyclerView.OnScrollListener() {
+    private val headlinesScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
@@ -114,7 +115,7 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                generalPresenter.getNews()
+                generalPresenter.getNewsWithPagination()
                 isScrolling = false
             }
         }
@@ -125,10 +126,5 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
                 isScrolling = true
             }
         }
-    }
-
-    companion object {
-        private const val ARTICLE_REQUEST = "ARTICLE_REQUEST"
-        private const val ARTICLE_KEY = "ARTICLE_KEY"
     }
 }

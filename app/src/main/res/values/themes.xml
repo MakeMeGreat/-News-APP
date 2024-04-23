@@ -3,19 +3,19 @@
     <style name="Base.Theme.Aston_intensiv_final_project" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/primary60</item>
-        <item name="colorPrimaryDark">@color/primary50</item>
+        <item name="colorPrimary">@color/blue60</item>
+        <item name="colorPrimaryDark">@color/blue50</item>
         <item name="colorSecondary">@color/secondary</item>
     </style>
 
     <style name="Theme.Aston_intensiv_final_project" parent="Base.Theme.Aston_intensiv_final_project" />
 
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/primary50</item>
+        <item name="android:color">@color/blue50</item>
     </style>
 
     <style name="Theme.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/primary60</item>
+        <item name="windowSplashScreenBackground">@color/blue60</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splashscreen_stub</item>
         <item name="windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/Theme.App</item>

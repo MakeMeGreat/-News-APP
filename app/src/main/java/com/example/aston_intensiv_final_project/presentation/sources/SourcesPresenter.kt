@@ -2,6 +2,7 @@ package com.example.aston_intensiv_final_project.presentation.sources
 
 import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
+import com.example.aston_intensiv_final_project.domain.usecase.GetSourcesUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -12,7 +13,7 @@ import moxy.MvpPresenter
 
 @InjectViewState
 class SourcesPresenter(
-    private val repository: Repository,
+    private val getSourcesUseCase: GetSourcesUseCase,
     private val mapper: DomainToPresentationMapper,
 ) : MvpPresenter<SourcesView>() {
 
@@ -24,7 +25,7 @@ class SourcesPresenter(
 
     private fun getSources() {
         viewState.startLoading()
-        repository.getSources()
+        getSourcesUseCase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<SourceResponseDomainModel>() {

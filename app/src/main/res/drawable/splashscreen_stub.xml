@@ -9,6 +9,6 @@
         android:strokeAlpha="0.999"
         android:strokeLineJoin="bevel"
         android:strokeWidth="1.3229257"
-        android:fillColor="@color/primary60"
+        android:fillColor="@color/blue60"
         android:fillAlpha="0.999" />
 </vector>

@@ -59,7 +59,7 @@ class SavedViewModel @Inject constructor(
 
     fun getSavedArticlesConvertAndSet() {
         viewModelScope.launch {
-            getSavedArticlesUseCase.invoke().map { dboArticlesList ->
+            getSavedArticlesUseCase().map { dboArticlesList ->
                 mapper.mapArticles(dboArticlesList.toMutableList())
             }.onEach { articleList ->
                 _savedArticlesStateFlow.value = articleList

@@ -36,7 +36,7 @@ class CacheDataSource @Inject constructor(
         }
     }
 
-    fun getAllSavedArticles(): Flow<List<ArticleDto>> {
+    fun getSavedArticles(): Flow<List<ArticleDto>> {
         deleteOldArticles()
         val dataBaseObjects = savedArticleDao.getSavedArticles()
         val result: Flow<List<ArticleDto>> = dataBaseObjects.map { listOfDboArticles ->

@@ -3,14 +3,9 @@ package com.example.aston_intensiv_final_project.data.network
 import javax.inject.Inject
 
 class NetworkDataSource @Inject constructor() {
-    fun getGeneralNews(pageNumber: Int) =
-        RetrofitObject.retrofitService.getGeneralNews(pageNumber = pageNumber)
 
-    fun getBusinessNews(pageNumber: Int) =
-        RetrofitObject.retrofitService.getBusinessNews(pageNumber = pageNumber)
-
-    fun getScienceNews(pageNumber: Int) =
-        RetrofitObject.retrofitService.getScienceNews(pageNumber = pageNumber)
+    fun getCategorizedNews(category: String, pageNumber: Int) =
+        RetrofitObject.retrofitService.getCategorizedNews(category = category, pageNumber = pageNumber)
 
     fun getSources() =
         RetrofitObject.retrofitService.getSources()

@@ -29,7 +29,7 @@ class NewsProfileViewModel @AssistedInject constructor(
 
     fun insertOrDelete() {
         viewModelScope.launch(Dispatchers.IO) {
-            saveOrDeleteArticleUseCase.invoke(presentationToDomainMapper.mapArticle(article))
+            saveOrDeleteArticleUseCase(presentationToDomainMapper.mapArticle(article))
         }
     }
 

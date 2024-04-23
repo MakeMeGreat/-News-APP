@@ -14,6 +14,7 @@ import androidx.core.view.MenuProvider
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
 import com.example.aston_intensiv_final_project.domain.Repository
+import com.example.aston_intensiv_final_project.domain.usecase.GetSourcesUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
@@ -26,7 +27,7 @@ import javax.inject.Inject
 class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
 
     @Inject
-    lateinit var repository: Repository
+    lateinit var getSourcesUseCase: GetSourcesUseCase
 
     @Inject
     lateinit var mapper: DomainToPresentationMapper
@@ -37,7 +38,7 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     @ProvidePresenter
     fun provideSourcesPresenter(): SourcesPresenter {
         return SourcesPresenter(
-            repository = repository,
+            getSourcesUseCase = getSourcesUseCase,
             mapper = mapper
         )
     }

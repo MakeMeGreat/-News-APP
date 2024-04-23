@@ -1,7 +1,7 @@
 package com.example.aston_intensiv_final_project.presentation.sources.onesource
 
-import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
+import com.example.aston_intensiv_final_project.domain.usecase.GetOneSourceNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -12,16 +12,17 @@ import moxy.MvpPresenter
 
 @InjectViewState
 class OneSourcePresenter(
-    private val repository: Repository,
+    private val getOneSourceNewsUseCase: GetOneSourceNewsUseCase,
     private val mapper: DomainToPresentationMapper
 ) : MvpPresenter<OneSourceView>() {
 
-    private var oneSourceNews: NewsResponseModel? = null
+//    private var oneSourceNews: NewsResponseModel? = null
 
+    lateinit var oneSourceNews: NewsResponseModel
 
     fun getOneSourceNews(sourceId: String) {
         viewState.startLoading()
-        repository.getOneSourceNews(sourceId)
+        getOneSourceNewsUseCase(sourceId = sourceId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<NewsResponseDomainModel>() {

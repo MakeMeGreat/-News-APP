@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetSavedArticlesUseCase @Inject constructor(
     private val repository: Repository
 ) {
-    suspend operator fun invoke() = withContext(Dispatchers.IO) { repository.getAllSavedArticles() }
+    suspend operator fun invoke() = withContext(Dispatchers.IO) { repository.getSavedArticles() }
 }

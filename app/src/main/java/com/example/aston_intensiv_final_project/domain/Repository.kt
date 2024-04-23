@@ -8,11 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
-    fun getGeneralNews(pageNumber: Int): Observable<NewsResponseDomainModel>
-
-    fun getBusinessNews(pageNumber: Int): Observable<NewsResponseDomainModel>
-
-    fun getScienceNews(pageNumber: Int): Observable<NewsResponseDomainModel>
+    fun getCategorizedNews(category: String, pageNumber: Int): Observable<NewsResponseDomainModel>
 
     fun getSources(): Observable<SourceResponseDomainModel>
 
@@ -28,6 +24,6 @@ interface Repository {
 
     suspend fun saveOrDeleteArticle(articleDtoDomainModel: ArticleDtoDomainModel)
 
-    fun getAllSavedArticles(): Flow<List<ArticleDtoDomainModel>>
+    fun getSavedArticles(): Flow<List<ArticleDtoDomainModel>>
 }
 

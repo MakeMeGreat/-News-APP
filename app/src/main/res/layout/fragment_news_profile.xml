@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:fitsSystemWindows="false"
             app:collapsedTitleTextColor="@color/white"
-            app:contentScrim="@color/primary60"
+            app:contentScrim="@color/blue60"
             app:expandedTitleTextColor="@android:color/transparent"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             tools:title="title_placeholder">

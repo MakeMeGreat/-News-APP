@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentOneSourceBinding
-import com.example.aston_intensiv_final_project.domain.Repository
+import com.example.aston_intensiv_final_project.domain.usecase.GetOneSourceNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
 
     @Inject
-    lateinit var repository: Repository
+    lateinit var getOneSourceNewsUseCase: GetOneSourceNewsUseCase
 
     @Inject
     lateinit var mapper: DomainToPresentationMapper
@@ -38,7 +38,7 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     @ProvidePresenter
     fun provideOneSourcePresenter(): OneSourcePresenter {
         return OneSourcePresenter(
-            repository = repository,
+            getOneSourceNewsUseCase = getOneSourceNewsUseCase,
             mapper = mapper
         )
     }

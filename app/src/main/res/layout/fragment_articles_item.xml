@@ -15,7 +15,7 @@
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/primary50"
+        tools:background="@color/blue50"
         tools:src="@drawable/sources_icon" />
 
     <androidx.cardview.widget.CardView
@@ -32,7 +32,7 @@
             android:id="@+id/source_image"
             android:layout_width="23dp"
             android:layout_height="23dp"
-            tools:background="@color/primary60"
+            tools:background="@color/blue60"
             tools:src="@drawable/filter_icon" />
 
     </androidx.cardview.widget.CardView>
