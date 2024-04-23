@@ -14,6 +14,7 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentOneSourceBinding
 import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.presentation.di.App
+import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
@@ -43,7 +44,8 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     }
 
 
-    private lateinit var adapter: OneSourceAdapter
+    //private lateinit var adapter: OneSourceAdapter
+    private lateinit var adapter: ArticleAdapter
     private var _binding: FragmentOneSourceBinding? = null
     private val binding get() = _binding!!
     private lateinit var sourceId: String
@@ -64,7 +66,7 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sourceId = requireArguments().getString(SOURCE_KEY)!!
-        adapter = OneSourceAdapter { article ->
+        adapter = ArticleAdapter { article ->
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
                 .addToBackStack(null)

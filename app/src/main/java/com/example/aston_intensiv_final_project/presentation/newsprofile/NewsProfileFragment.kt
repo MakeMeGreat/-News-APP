@@ -12,8 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -117,14 +115,14 @@ class NewsProfileFragment : Fragment() {
             if (it.itemId == R.id.bookmark_button) {
                 //Todo: add it to saved articles database
                 //Toast.makeText(context, "it will saved", LENGTH_SHORT).show()
-                viewModel.insert()
+                viewModel.insertOrDelete()
                 //val article = viewModel.getArticle()
                 //Toast.makeText(context, "article : $size", LENGTH_SHORT).show()
                 true
             } else false
         }
 
-       // toolbar.menu.findItem(R.id.bookmark_button).icon = ContextCompat.getDrawable(requireContext(), R.drawable.bookmark_filled_icon)
+        // toolbar.menu.findItem(R.id.bookmark_button).icon = ContextCompat.getDrawable(requireContext(), R.drawable.bookmark_filled_icon)
     }
 
     private fun determineFirstCharOfLastSentence(str: String): Int {

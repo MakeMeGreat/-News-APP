@@ -1,10 +1,9 @@
 package com.example.aston_intensiv_final_project.data.cached
 
-import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
 import com.example.aston_intensiv_final_project.data.cached.saved.SavedArticleDao
 import com.example.aston_intensiv_final_project.data.cached.saved.model.ArticleDbo
+import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
 import com.example.aston_intensiv_final_project.data.model.news.SourceDto
-import com.example.aston_intensiv_final_project.domain.model.news.ArticleDtoDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -38,9 +37,10 @@ class CacheDataSource @Inject constructor(
     }
 
     fun getAllSavedArticles(): Flow<List<ArticleDto>> {
+        deleteOldArticles()
         val dataBaseObjects = savedArticleDao.getSavedArticles()
-        val result: Flow<List<ArticleDto>> = dataBaseObjects.map {listOfDboArticles ->
-            listOfDboArticles.map {articleDbo ->
+        val result: Flow<List<ArticleDto>> = dataBaseObjects.map { listOfDboArticles ->
+            listOfDboArticles.map { articleDbo ->
                 ArticleDto(
                     source = SourceDto(id = articleDbo.sourceId, name = articleDbo.sourceName),
                     author = articleDbo.author,
@@ -54,5 +54,9 @@ class CacheDataSource @Inject constructor(
             }
         }
         return result
+    }
+
+    private fun deleteOldArticles() {
+        savedArticleDao.deleteOldArticles(System.currentTimeMillis() -  14 * 24 * 60 * 60 * 1000)
     }
 }

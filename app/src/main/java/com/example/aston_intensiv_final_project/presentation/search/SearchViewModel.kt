@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchViewModel (
+class SearchViewModel(
     private val getSearchNewsUseCase: GetSearchNewsUseCase,
     private val mapper: DomainToPresentationMapper
 ) : ViewModel() {

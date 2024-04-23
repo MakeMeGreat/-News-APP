@@ -10,6 +10,6 @@ data class FilteredNewsState(
 
 
 //Todo: is this necessary here at all?
-sealed class FilteredNewsSideEffect{
-    data class WrapperSideEffect(val text: String): FilteredNewsSideEffect()
+sealed class FilteredNewsSideEffect {
+    data class WrapperSideEffect(val text: String) : FilteredNewsSideEffect()
 }

@@ -2,7 +2,7 @@ package com.example.aston_intensiv_final_project.data.network
 
 import javax.inject.Inject
 
-class NetworkDataSource @Inject constructor()  {
+class NetworkDataSource @Inject constructor() {
     fun getGeneralNews(pageNumber: Int) =
         RetrofitObject.retrofitService.getGeneralNews(pageNumber = pageNumber)
 
@@ -19,8 +19,8 @@ class NetworkDataSource @Inject constructor()  {
         RetrofitObject.retrofitService.getOneSourceNews(sourceId = sourceId)
 
     fun getFilteredNews(
-        from: String? ,
-        language: String? ,
+        from: String?,
+        language: String?,
         sortBy: String?
     ) =
         RetrofitObject.retrofitService.getFilteredNews(

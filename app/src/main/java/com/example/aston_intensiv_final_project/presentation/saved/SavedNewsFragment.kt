@@ -16,11 +16,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSavedNewsBinding
 import com.example.aston_intensiv_final_project.presentation.di.App
+import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
-import com.example.aston_intensiv_final_project.presentation.sources.onesource.OneSourceAdapter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SavedNewsFragment : Fragment(), MenuProvider {
@@ -43,7 +41,7 @@ class SavedNewsFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = OneSourceAdapter { article ->
+        val adapter = ArticleAdapter { article ->
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
                 .addToBackStack(null)

@@ -17,17 +17,17 @@ import kotlinx.coroutines.launch
 
 class NewsProfileViewModel @AssistedInject constructor(
     @Assisted("article") private val article: ArticleDtoModel,
- //   private val articleDao: SavedArticleDao
+    //   private val articleDao: SavedArticleDao
     private val saveOrDeleteArticleUseCase: SaveOrDeleteArticleUseCase,
     private val presentationToDomainMapper: PresentationToDomainMapper
 ) : ViewModel() {
     private val _articleFlow = MutableStateFlow<ArticleDtoModel>(article)
     val articleFlow: StateFlow<ArticleDtoModel> = _articleFlow
 
-    private val _isItSaved = MutableStateFlow<Boolean>(false)
-    val isItSaved: StateFlow<Boolean> = _isItSaved
+    //private val _isItSaved = MutableStateFlow<Boolean>(false)
+    //val isItSaved: StateFlow<Boolean> = _isItSaved
 
-    fun insert() {
+    fun insertOrDelete() {
         viewModelScope.launch(Dispatchers.IO) {
             saveOrDeleteArticleUseCase.invoke(presentationToDomainMapper.mapArticle(article))
         }

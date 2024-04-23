@@ -1,8 +1,6 @@
 package com.example.aston_intensiv_final_project.data.cached.saved
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -26,6 +24,9 @@ interface SavedArticleDao {
 
     @Query("DELETE FROM saved_articles WHERE sourceName = :sourceName AND title = :title")
     fun deleteArticle(sourceName: String?, title: String?)
+
+    @Query("DELETE FROM saved_articles WHERE saved_time <= :date")
+    fun deleteOldArticles(date: Long)
 
 
 //    @Query("SELECT * FROM saved_articles WHERE id = :id")

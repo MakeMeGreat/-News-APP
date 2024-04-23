@@ -4,15 +4,12 @@ import com.example.aston_intensiv_final_project.data.cached.CacheDataSource
 import com.example.aston_intensiv_final_project.data.mapper.DataToDomainMapper
 import com.example.aston_intensiv_final_project.data.mapper.DomainToDataMapper
 import com.example.aston_intensiv_final_project.data.network.NetworkDataSource
-import com.example.aston_intensiv_final_project.data.cached.saved.SavedArticleDao
-import com.example.aston_intensiv_final_project.data.cached.saved.model.ArticleDbo
 import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.model.news.ArticleDtoDomainModel
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
 import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -84,6 +81,7 @@ class RepositoryImpl @Inject constructor(
     }
 
     override fun getAllSavedArticles(): Flow<List<ArticleDtoDomainModel>> {
-        return cacheDataSource.getAllSavedArticles().map { toDomainMapper.mapArticles(it.toMutableList()).toList() }
+        return cacheDataSource.getAllSavedArticles()
+            .map { toDomainMapper.mapArticles(it.toMutableList()).toList() }
     }
 }

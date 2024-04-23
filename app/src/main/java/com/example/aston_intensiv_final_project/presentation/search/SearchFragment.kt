@@ -25,7 +25,8 @@ class SearchFragment : Fragment(), MenuProvider {
     @Inject
     lateinit var viewModelFactory: SearchViewModel.SearchViewModeLFactory
     lateinit var viewModel: SearchViewModel
-//    private val viewModel: SearchViewModel by activityViewModels()
+
+    //    private val viewModel: SearchViewModel by activityViewModels()
     private lateinit var adapter: ArticleAdapter
 
     override fun onCreateView(

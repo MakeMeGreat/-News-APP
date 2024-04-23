@@ -11,7 +11,6 @@ import com.example.aston_intensiv_final_project.databinding.ActivityMainBinding
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesFragment
 import com.example.aston_intensiv_final_project.presentation.saved.SavedNewsFragment
 import com.example.aston_intensiv_final_project.presentation.sources.SourcesFragment
-import com.example.aston_intensiv_final_project.presentation.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

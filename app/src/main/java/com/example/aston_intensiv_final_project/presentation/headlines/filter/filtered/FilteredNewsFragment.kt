@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentFilteredNewsBinding
 import com.example.aston_intensiv_final_project.presentation.di.App
@@ -22,7 +21,6 @@ import org.orbitmvi.orbit.viewmodel.observe
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 private const val DATE_KEY = "DATE_KEY"
 private const val LANGUAGE_KEY = "LANGUAGE_KEY"
@@ -66,7 +64,11 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
         val date = requireArguments().getLong(DATE_KEY)
         val language = requireArguments().getString(LANGUAGE_KEY)
         val sortFilter = requireArguments().getString(SORT_FILTER_KEY)
-        val viewModel = filteredNewsViewModelFactory.create(getFormattedDateToQuery(date), language ?: "en", sortFilter)
+        val viewModel = filteredNewsViewModelFactory.create(
+            getFormattedDateToQuery(date),
+            language ?: "en",
+            sortFilter
+        )
         quantity = getSelectedFilterCount(date, language, sortFilter)
 //        viewModel.getFilteredNews(getFormattedDateToQuery(date), language ?: "en", sortFilter)
         binding.progressBar.visibility = View.VISIBLE

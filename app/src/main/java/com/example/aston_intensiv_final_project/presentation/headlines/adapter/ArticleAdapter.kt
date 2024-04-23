@@ -25,7 +25,7 @@ class ArticleAdapter(
                 }
                 sourceName.text = article.source?.name ?: ""
                 articleTitle.text = article.title ?: ""
-                sourceImage.setImageResource(R.drawable.cnn_source_image)
+                sourceImage.setImageResource(determineSourceImage(article.source?.name))
             }
         }
     }
@@ -43,6 +43,20 @@ class ArticleAdapter(
             onArticleClicked(article)
         }
         holder.bind(article)
+    }
+
+    fun determineSourceImage(sourceName: String?): Int {
+        return if (sourceName == null ) {
+            R.drawable.cnn_source_image
+        } else if (sourceName.contains("nbc", true)) {
+            R.drawable.nbc_source_image
+        } else if (sourceName.contains("bbc", true)) {
+            R.drawable.bbc_source_image
+        } else if (sourceName.contains("bloomberg", true)) {
+            R.drawable.bloomberg_source_image
+        } else if (sourceName.contains("fox", true)) {
+            R.drawable.fox_news_source_image
+        } else R.drawable.cnn_source_image
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<ArticleDtoModel>() {
