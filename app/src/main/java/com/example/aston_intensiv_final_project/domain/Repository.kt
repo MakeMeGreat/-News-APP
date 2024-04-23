@@ -1,8 +1,10 @@
 package com.example.aston_intensiv_final_project.domain
 
+import com.example.aston_intensiv_final_project.domain.model.news.ArticleDtoDomainModel
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
 import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
@@ -23,5 +25,9 @@ interface Repository {
     ): Observable<NewsResponseDomainModel>
 
     fun getSearchNews(searchQuery: String): Observable<NewsResponseDomainModel>
+
+    suspend fun saveOrDeleteArticle(articleDtoDomainModel: ArticleDtoDomainModel)
+
+    fun getAllSavedArticles(): Flow<List<ArticleDtoDomainModel>>
 }
 

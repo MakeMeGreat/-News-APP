@@ -11,45 +11,63 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentNewsProfileBinding
+import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 class NewsProfileFragment : Fragment() {
 
-    private val viewModel: NewsProfileViewModel by activityViewModels()
+    @Inject
+    lateinit var newsProfileViewModelFactory: NewsProfileViewModel.NewsProfileViewModelFactory
+
+    private lateinit var viewModel: NewsProfileViewModel
 
     private var _binding: FragmentNewsProfileBinding? = null
     private val binding get() = _binding!!
 
-    private var article: ArticleDtoModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity as AppCompatActivity).supportActionBar?.hide()
+        App.appComponent.inject(this)
         _binding = FragmentNewsProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        article = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        (activity as AppCompatActivity).supportActionBar?.hide()
+
+        val article = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requireArguments().getSerializable(ARTICLE_KEY, ArticleDtoModel::class.java)
         } else requireArguments().getSerializable(ARTICLE_KEY) as ArticleDtoModel
-        viewModel.setArticle(article!!)
-        bindArticle(viewModel.getArticle()!!)
+        viewModel = newsProfileViewModelFactory.create(article!!)
+//        viewModel.setArticle(article!!)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.articleFlow.collect {
+                    bindArticle(it)
+                }
+            }
+        }
+
         bindToolbar()
+
     }
 
     private fun bindArticle(article: ArticleDtoModel) {
@@ -64,13 +82,13 @@ class NewsProfileFragment : Fragment() {
             title.text = article.title
             source.text = article.source?.name
             if (article.content != null) {
-                makeContentTextSpannable(article)
+                makeLastSentenceOfTextSpannable(article)
             } else showContentPlaceHolder()
-            binding.date.text = formatDate(article.publishedAt ?: "")
+            binding.date.text = getFormattedDate(article.publishedAt ?: "")
         }
     }
 
-    private fun makeContentTextSpannable(article: ArticleDtoModel) {
+    private fun makeLastSentenceOfTextSpannable(article: ArticleDtoModel) {
         val spannableString = SpannableString(article.content)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
@@ -98,10 +116,15 @@ class NewsProfileFragment : Fragment() {
         toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.bookmark_button) {
                 //Todo: add it to saved articles database
-                Toast.makeText(context, "it will saved", LENGTH_SHORT).show()
+                //Toast.makeText(context, "it will saved", LENGTH_SHORT).show()
+                viewModel.insert()
+                //val article = viewModel.getArticle()
+                //Toast.makeText(context, "article : $size", LENGTH_SHORT).show()
                 true
             } else false
         }
+
+       // toolbar.menu.findItem(R.id.bookmark_button).icon = ContextCompat.getDrawable(requireContext(), R.drawable.bookmark_filled_icon)
     }
 
     private fun determineFirstCharOfLastSentence(str: String): Int {
@@ -117,7 +140,7 @@ class NewsProfileFragment : Fragment() {
         binding.contentPlaceholderText.visibility = View.VISIBLE
     }
 
-    private fun formatDate(date: String): String {
+    private fun getFormattedDate(date: String): String {
         val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
         val outputFormat = SimpleDateFormat("MMM dd, yyyy | hh:mm a", Locale.US)
         return try {
@@ -135,7 +158,6 @@ class NewsProfileFragment : Fragment() {
     }
 
     companion object {
-        private const val ARTICLE_REQUEST = "ARTICLE_REQUEST"
         private const val ARTICLE_KEY = "ARTICLE_KEY"
 
         fun newInstance(article: ArticleDtoModel): NewsProfileFragment {

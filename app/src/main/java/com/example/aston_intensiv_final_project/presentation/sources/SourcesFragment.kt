@@ -25,17 +25,6 @@ import javax.inject.Inject
 
 class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
 
-    //Todo: change it with DI
-//    private val networkDataSource = NetworkDataSource()
-//    private val dataToDomainMapper = DataToDomainMapper()
-//    private val repository = RepositoryImpl(networkDataSource, dataToDomainMapper)
-//    private val domainToPresentationMapper = DomainToPresentationMapper()
-//    private val presenter by moxyPresenter {
-//        SourcesPresenter(
-//            repository,
-//            domainToPresentationMapper
-//        )
-//    }
     @Inject
     lateinit var repository: Repository
 

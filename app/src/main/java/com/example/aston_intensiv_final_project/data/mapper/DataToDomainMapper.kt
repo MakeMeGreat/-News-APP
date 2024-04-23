@@ -17,11 +17,11 @@ class DataToDomainMapper @Inject constructor() {
         return NewsResponseDomainModel(
             status = newsResponse.status,
             totalResults = newsResponse.totalResults,
-            articles = mapArticles(newsResponse.articles)
+            articles = mapArticles(newsResponse.articles),
         )
     }
 
-    private fun mapArticles(articles: MutableList<ArticleDto>): MutableList<ArticleDtoDomainModel> {
+    fun mapArticles(articles: MutableList<ArticleDto>): MutableList<ArticleDtoDomainModel> {
         val mutableList = mutableListOf<ArticleDtoDomainModel>()
         articles.forEach {
             mutableList.add(mapArticle(it))
@@ -38,21 +38,21 @@ class DataToDomainMapper @Inject constructor() {
             url = article.url,
             urlToImage = article.urlToImage,
             publishedAt = article.publishedAt,
-            content = article.content
+            content = article.content,
         )
     }
 
     private fun mapSource(source: SourceDto): SourceDtoDomainModel {
         return SourceDtoDomainModel(
             id = source.id,
-            name = source.name
+            name = source.name,
         )
     }
 
     fun mapSourcesToDomainModel(sourceResponse: SourceResponse): SourceResponseDomainModel {
         return SourceResponseDomainModel(
             status = sourceResponse.status,
-            sources = mapSourceInfos(sourceResponse.sources)
+            sources = mapSourceInfos(sourceResponse.sources),
         )
     }
 
@@ -72,7 +72,7 @@ class DataToDomainMapper @Inject constructor() {
             url = sourceInfoDTO.url,
             category = sourceInfoDTO.category,
             language = sourceInfoDTO.language,
-            country = sourceInfoDTO.country
+            country = sourceInfoDTO.country,
         )
     }
 }

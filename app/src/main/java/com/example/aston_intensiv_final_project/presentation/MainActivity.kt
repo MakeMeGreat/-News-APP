@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.ActivityMainBinding
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesFragment
+import com.example.aston_intensiv_final_project.presentation.saved.SavedNewsFragment
 import com.example.aston_intensiv_final_project.presentation.sources.SourcesFragment
 import com.example.aston_intensiv_final_project.presentation.search.SearchFragment
 
@@ -31,8 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_nav_saved -> replaceFragment(SearchFragment())
-//                 {                    TODO()}
+                R.id.bottom_nav_saved -> replaceFragment(SavedNewsFragment())
                 R.id.bottom_nav_sources -> replaceFragment(SourcesFragment())
                 else -> replaceFragment(HeadlinesFragment())
             }

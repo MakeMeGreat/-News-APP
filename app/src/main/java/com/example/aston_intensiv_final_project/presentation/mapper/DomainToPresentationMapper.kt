@@ -22,7 +22,7 @@ class DomainToPresentationMapper @Inject constructor() {
         )
     }
 
-    private fun mapArticles(articles: MutableList<ArticleDtoDomainModel>): MutableList<ArticleDtoModel> {
+    fun mapArticles(articles: MutableList<ArticleDtoDomainModel>): MutableList<ArticleDtoModel> {
         val mutableList = mutableListOf<ArticleDtoModel>()
         articles.forEach {
             mutableList.add(mapArticle(it))
