@@ -29,7 +29,7 @@ class OneSourcePresenter(
                 override fun onNext(response: NewsResponseDomainModel) {
                     oneSourceNews = mapper.mapNewsToPresentationModel(response)
                     viewState.endLoading()
-                    viewState.showSuccess(oneSourceNews!!)
+                    viewState.showSuccess(oneSourceNews)
                 }
 
                 override fun onError(e: Throwable) {

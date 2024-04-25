@@ -18,6 +18,8 @@ interface NewsAPI {
         category: String = "general",
         @Query("page")
         pageNumber: Int = 1,
+        @Query("pageSize")
+        pageSize: Int = 20,
         @Query("apiKey")
         apiKey: String = API_KEY
     ): Observable<NewsResponse>

@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.aston_intensiv_final_project.domain.usecase.GetSavedArticlesUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -24,38 +22,38 @@ class SavedViewModel @Inject constructor(
     private val _savedArticlesStateFlow = MutableStateFlow<List<ArticleDtoModel>>(emptyList())
     val savedArticlesStateFlow: StateFlow<List<ArticleDtoModel>> = _savedArticlesStateFlow
 
-/*
-    private var savedArticlesJob: Job? = null
-    private fun setSavedArticlesStateFlow(value: List<ArticleDtoModel>) {
-        _savedArticlesStateFlow.value = value
-    }*/
+    /*
+        private var savedArticlesJob: Job? = null
+        private fun setSavedArticlesStateFlow(value: List<ArticleDtoModel>) {
+            _savedArticlesStateFlow.value = value
+        }*/
     init {
         getSavedArticlesConvertAndSet()
     }
 
-/*
-    fun convertFlowToMutableStateFlow(low: Flow<List<ArticleDtoModel>>) {
-        savedArticlesJob?.cancel()
-        savedArticlesJob = artUseCase
-            .onEach { articlesList ->
-                setSavedArticlesStateFlow(articlesList)
+    /*
+        fun convertFlowToMutableStateFlow(low: Flow<List<ArticleDtoModel>>) {
+            savedArticlesJob?.cancel()
+            savedArticlesJob = artUseCase
+                .onEach { articlesList ->
+                    setSavedArticlesStateFlow(articlesList)
+                }
+                .launchIn(viewModelScope)
+        }
+        private fun getConvertAndSet() {
+            getSavedArticles().onEach { articleList ->
+                _savedArticlesStateFlow.value = articleList
             }
-            .launchIn(viewModelScope)
-    }
-    private fun getConvertAndSet() {
-        getSavedArticles().onEach { articleList ->
-            _savedArticlesStateFlow.value = articleList
+                .launchIn(viewModelScope)
         }
-            .launchIn(viewModelScope)
-    }
 
-    var articles = getSavedArticles()
+        var articles = getSavedArticles()
 
-    private fun getSavedArticles(): Flow<List<ArticleDtoModel>> {
-        return getSavedArticlesUseCase.invoke().map { dboArticlesList ->
-            mapper.mapArticles(dboArticlesList.toMutableList())
-        }
-    }*/
+        private fun getSavedArticles(): Flow<List<ArticleDtoModel>> {
+            return getSavedArticlesUseCase.invoke().map { dboArticlesList ->
+                mapper.mapArticles(dboArticlesList.toMutableList())
+            }
+        }*/
 
     fun getSavedArticlesConvertAndSet() {
         viewModelScope.launch {

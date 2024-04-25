@@ -2,20 +2,27 @@ package com.example.aston_intensiv_final_project.presentation.di
 
 import android.app.Application
 import android.content.Context
-import com.example.aston_intensiv_final_project.data.cached.saved.SavedArticleDao
-import com.example.aston_intensiv_final_project.data.cached.ArticleDataBase
+import com.example.aston_intensiv_final_project.data.cache.ArticleDataBase
+import com.example.aston_intensiv_final_project.data.cache.CacheArticleDao
+import com.example.aston_intensiv_final_project.data.cache.saved.SavedArticleDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 
 @Module
-class RoomModule(val application: Application) {
+class RoomModule(private val application: Application) {
 
     @Singleton
     @Provides
     fun getSavedArticleDao(savedArticleDataBase: ArticleDataBase): SavedArticleDao {
         return savedArticleDataBase.savedArticleDao()
+    }
+
+    @Singleton
+    @Provides
+    fun getCachedArticleDao(savedArticleDataBase: ArticleDataBase): CacheArticleDao {
+        return savedArticleDataBase.cachedArticleDao()
     }
 
     @Singleton

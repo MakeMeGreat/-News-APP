@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBusinessBinding
-import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
@@ -25,7 +24,6 @@ import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView {
-
 
 
     @Inject
@@ -88,7 +86,7 @@ class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            businessPresenter.pageNumber == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
+            businessPresenter.pageNumber >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
         articleAdapter.submitList(response.articles.toList())
     }
 
@@ -127,10 +125,5 @@ class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView {
                 isScrolling = true
             }
         }
-    }
-
-    companion object {
-        private const val ARTICLE_REQUEST = "ARTICLE_REQUEST"
-        private const val ARTICLE_KEY = "ARTICLE_KEY"
     }
 }

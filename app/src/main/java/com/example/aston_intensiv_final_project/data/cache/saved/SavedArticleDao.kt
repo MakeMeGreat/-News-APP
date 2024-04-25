@@ -1,34 +1,28 @@
-package com.example.aston_intensiv_final_project.data.cached.saved
+package com.example.aston_intensiv_final_project.data.cache.saved
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.aston_intensiv_final_project.data.cached.saved.model.ArticleDbo
+import com.example.aston_intensiv_final_project.data.cache.saved.model.SavedArticleDbo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SavedArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(article: ArticleDbo)
-
-//    @Delete
-//    suspend fun delete(article: ArticleDbo)
+    suspend fun saveArticle(article: SavedArticleDbo)
 
     @Query("SELECT * FROM saved_articles")
-    fun getSavedArticles(): Flow<List<ArticleDbo>>
+    fun getSavedArticles(): Flow<List<SavedArticleDbo>>
 
     @Query("SELECT * FROM saved_articles WHERE sourceName = :sourceName AND title = :title")
-    fun getArticle(sourceName: String?, title: String?): Flow<ArticleDbo?>
+    fun getSavedArticle(sourceName: String?, title: String?): Flow<SavedArticleDbo?>
 
     @Query("DELETE FROM saved_articles WHERE sourceName = :sourceName AND title = :title")
-    fun deleteArticle(sourceName: String?, title: String?)
+    fun deleteSavedArticle(sourceName: String?, title: String?)
 
     @Query("DELETE FROM saved_articles WHERE saved_time <= :date")
     fun deleteOldArticles(date: Long)
 
-
-//    @Query("SELECT * FROM saved_articles WHERE id = :id")
-//    fun getSavedArticle(id: Int): Flow<ArticleDbo>
 }

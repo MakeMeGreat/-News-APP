@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesTravelingBinding
-import com.example.aston_intensiv_final_project.domain.Repository
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
@@ -87,7 +86,7 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            travelingPresenter.pageNumber == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
+            travelingPresenter.pageNumber >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
         articleAdapter.submitList(response.articles.toList())
     }
 

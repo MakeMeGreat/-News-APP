@@ -14,7 +14,7 @@ import moxy.MvpPresenter
 @InjectViewState
 class HeadlinesBusinessPresenter(
     private val getCategorizedNewsUseCase: GetCategorizedNewsUseCase,
-    private val mapper: DomainToPresentationMapper
+    private val mapper: DomainToPresentationMapper,
 ) : MvpPresenter<HeadlinesView>() {
 
     private lateinit var newsResponse: NewsResponseModel
@@ -49,7 +49,7 @@ class HeadlinesBusinessPresenter(
 
                 override fun onError(e: Throwable) {
                     viewState.endLoading()
-                    viewState.showError("something went wrong in articles getting throw presenter and repository $e")
+                    viewState.showError("something wrong in articles getting: $e")
                 }
 
                 override fun onComplete() {}

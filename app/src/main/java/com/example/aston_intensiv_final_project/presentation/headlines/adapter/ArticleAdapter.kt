@@ -46,7 +46,7 @@ class ArticleAdapter(
     }
 
     fun determineSourceImage(sourceName: String?): Int {
-        return if (sourceName == null ) {
+        return if (sourceName == null) {
             R.drawable.cnn_source_image
         } else if (sourceName.contains("nbc", true)) {
             R.drawable.nbc_source_image

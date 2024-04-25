@@ -8,5 +8,5 @@ class GetOneSourceNewsUseCase @Inject constructor(
 ) {
     operator fun invoke(
         sourceId: String,
-    ) =repository.getOneSourceNews(sourceId = sourceId)
+    ) = repository.getOneSourceNews(sourceId = sourceId)
 }

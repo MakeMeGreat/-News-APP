@@ -87,7 +87,7 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            generalPresenter.pageNumber == response.totalResults / Constants.QUERY_PAGE_SIZE + 2
+            generalPresenter.pageNumber >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
         articleAdapter.submitList(response.articles.toList())
     }
 

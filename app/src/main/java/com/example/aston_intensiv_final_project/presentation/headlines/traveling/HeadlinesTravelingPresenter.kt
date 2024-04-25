@@ -31,7 +31,7 @@ class HeadlinesTravelingPresenter(
     }
 
     private fun getNews() {
-            getCategorizedNewsUseCase(category = "science", pageNumber = pageNumber)
+        getCategorizedNewsUseCase(category = "science", pageNumber = pageNumber)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<NewsResponseDomainModel>() {

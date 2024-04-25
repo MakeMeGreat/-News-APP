@@ -1,11 +1,11 @@
-package com.example.aston_intensiv_final_project.data.cached.saved.model
+package com.example.aston_intensiv_final_project.data.cache.saved.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "saved_articles")
-data class ArticleDbo(
+data class SavedArticleDbo(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val sourceId: String?,
     val sourceName: String?,

@@ -1,6 +1,7 @@
 package com.example.aston_intensiv_final_project.presentation.headlines.filter.filtered
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -8,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -87,8 +87,7 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
     private fun render(state: FilteredNewsState) {
         binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.INVISIBLE
         if (state.filteredNewsResponse != null && !state.isLoading) adapter.submitList(state.filteredNewsResponse.articles)
-        if (state.error != null) Toast.makeText(context, "${state.error}", Toast.LENGTH_SHORT)
-            .show()
+        if (state.error != null) Log.e("filtered news", "${state.error}")
         // Todo: change toast to navigation on error fragment
     }
 
