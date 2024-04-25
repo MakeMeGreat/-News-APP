@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
-
     android:focusable="true"
     android:clipToPadding="false"
     android:background="?attr/selectableItemBackground">
@@ -19,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
     
     <TextView
-        android:id="@+id/cart_badge_text_view"
+        android:id="@+id/filter_badge_text_view"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:text="5"

@@ -8,24 +8,29 @@ import com.example.aston_intensiv_final_project.data.cache.saved.SavedArticleDao
 import com.example.aston_intensiv_final_project.data.cache.saved.model.SavedArticleDbo
 
 @Database(
-    entities = [SavedArticleDbo::class, CachedArticleDbo::class],
+    entities = [
+        SavedArticleDbo::class,
+        CachedArticleDbo::class,
+        CacheSourceDbo::class
+    ],
     version = 1,
     exportSchema = false
 )
-abstract class ArticleDataBase : RoomDatabase() {
+abstract class DataBase : RoomDatabase() {
 
     abstract fun savedArticleDao(): SavedArticleDao
     abstract fun cachedArticleDao(): CacheArticleDao
+    abstract fun cachedSourceDao(): CacheSourceDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ArticleDataBase? = null
-        fun getDatabase(context: Context): ArticleDataBase {
+        private var INSTANCE: DataBase? = null
+        fun getDatabase(context: Context): DataBase {
 
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ArticleDataBase::class.java,
+                    DataBase::class.java,
                     "saved_article_database"
                 ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance

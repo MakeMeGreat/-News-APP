@@ -2,8 +2,9 @@ package com.example.aston_intensiv_final_project.presentation.di
 
 import android.app.Application
 import android.content.Context
-import com.example.aston_intensiv_final_project.data.cache.ArticleDataBase
 import com.example.aston_intensiv_final_project.data.cache.CacheArticleDao
+import com.example.aston_intensiv_final_project.data.cache.CacheSourceDao
+import com.example.aston_intensiv_final_project.data.cache.DataBase
 import com.example.aston_intensiv_final_project.data.cache.saved.SavedArticleDao
 import dagger.Module
 import dagger.Provides
@@ -15,20 +16,26 @@ class RoomModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun getSavedArticleDao(savedArticleDataBase: ArticleDataBase): SavedArticleDao {
-        return savedArticleDataBase.savedArticleDao()
+    fun getSavedArticleDao(savedDataBase: DataBase): SavedArticleDao {
+        return savedDataBase.savedArticleDao()
     }
 
     @Singleton
     @Provides
-    fun getCachedArticleDao(savedArticleDataBase: ArticleDataBase): CacheArticleDao {
-        return savedArticleDataBase.cachedArticleDao()
+    fun getCachedArticleDao(savedDataBase: DataBase): CacheArticleDao {
+        return savedDataBase.cachedArticleDao()
     }
 
     @Singleton
     @Provides
-    fun provideSavedArticleDataBase(): ArticleDataBase {
-        return ArticleDataBase.getDatabase(provideContext())
+    fun getCachedSourceDao(savedDataBase: DataBase): CacheSourceDao {
+        return savedDataBase.cachedSourceDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSavedArticleDataBase(): DataBase {
+        return DataBase.getDatabase(provideContext())
     }
 
     @Singleton

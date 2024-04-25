@@ -23,4 +23,7 @@ interface CacheArticleDao {
 
     @Query("SELECT * FROM cached_articles")
     fun getAllSavedNews(): Observable<List<CachedArticleDbo>>
+
+    @Query("SELECT * FROM cached_articles where sourceId = :sourceId")
+    fun getOneSourceNews(sourceId: String): Observable<List<CachedArticleDbo>>
 }

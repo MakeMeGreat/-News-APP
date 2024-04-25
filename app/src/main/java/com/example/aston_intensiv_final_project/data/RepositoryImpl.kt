@@ -48,20 +48,36 @@ class RepositoryImpl @Inject constructor(
         language: String,
         category: String
     ): Observable<SourceResponseDomainModel> {
-        return networkDataSource.getSources(
-            language = language,
-            category = category,
-        )
-            .map {
+        return if (isInternetAvailable(context)) {
+            networkDataSource.getSources(
+                language = language,
+                category = category,
+            )
+                .map {
+                    toDomainMapper.mapSourcesToDomainModel(it)
+                }
+        } else {
+            cacheDataSource.getSources(
+                language = language,
+                category = category,
+            ).map {
                 toDomainMapper.mapSourcesToDomainModel(it)
             }
+        }
     }
 
     override fun getOneSourceNews(sourceId: String): Observable<NewsResponseDomainModel> {
-        return networkDataSource.getOneSourceNews(sourceId)
-            .map {
-                toDomainMapper.mapNewsToDomainModel(it)
-            }
+        return if (isInternetAvailable(context)) {
+            networkDataSource.getOneSourceNews(sourceId)
+                .map {
+                    toDomainMapper.mapNewsToDomainModel(it)
+                }
+        } else {
+            cacheDataSource.getOneSourceNews(sourceId = sourceId)
+                .map {
+                    toDomainMapper.mapNewsToDomainModel(it)
+                }
+        }
     }
 
     override fun getFilteredNews(

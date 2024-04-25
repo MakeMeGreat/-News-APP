@@ -17,5 +17,4 @@ data class CachedArticleDbo(
     val publishedAt: String?,
     val content: String?,
     val category: String? = null,
-    val pageNumber: Int? = null,
 )

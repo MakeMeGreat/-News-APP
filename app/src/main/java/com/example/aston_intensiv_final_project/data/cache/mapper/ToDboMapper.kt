@@ -1,15 +1,17 @@
 package com.example.aston_intensiv_final_project.data.cache.mapper
 
+import com.example.aston_intensiv_final_project.data.cache.CacheSourceDbo
 import com.example.aston_intensiv_final_project.data.cache.CachedArticleDbo
 import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
+import com.example.aston_intensiv_final_project.data.model.source.SourceInfoDto
 import javax.inject.Inject
 
-class ToCachedArticleDboMapper @Inject constructor() {
-    fun mapToCache(
+class ToDboMapper @Inject constructor() {
+    fun mapArticle(
         article: ArticleDto,
         category: String? = null,
-        pageNumber: Int? = null
-    ): CachedArticleDbo {
+
+        ): CachedArticleDbo {
         return CachedArticleDbo(
             sourceId = article.source?.id,
             sourceName = article.source?.name,
@@ -21,7 +23,19 @@ class ToCachedArticleDboMapper @Inject constructor() {
             publishedAt = article.publishedAt,
             content = article.content,
             category = category,
-            pageNumber = pageNumber,
+
+            )
+    }
+
+    fun mapSource(source: SourceInfoDto): CacheSourceDbo {
+        return CacheSourceDbo(
+            id = source.id ?: "",
+            name = source.name,
+            description = source.description,
+            url = source.url,
+            category = source.category,
+            language = source.language,
+            country = source.country,
         )
     }
 }

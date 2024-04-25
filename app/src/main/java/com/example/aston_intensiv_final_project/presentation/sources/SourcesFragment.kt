@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
@@ -52,6 +53,8 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     private var _binding: FragmentSourcesBinding? = null
     private val binding get() = _binding!!
 
+    private var enabledFiltersCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -82,11 +85,20 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
         setFragmentResultListener(REQUEST_KEY) { _, bundle ->
             val languageFilter = bundle.getString(LANGUAGE_KEY)
             val categoryFilter = bundle.getString(CATEGORY_KEY)
+            enabledFiltersCount = getEnabledFiltersCount(languageFilter, categoryFilter)
+
             sourcesPresenter.getSources(
                 language = languageFilter ?: "",
                 category = categoryFilter ?: ""
             )
         }
+    }
+
+    private fun getEnabledFiltersCount(language: String?, category: String?): Int {
+        var count = 0
+        if (language != null && language != "") count++
+        if (category != null && category != "") count++
+        return count
     }
 
     override fun onDestroyView() {
@@ -95,9 +107,9 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.toolbar_actions, menu)
-        val menuItem = menu.findItem(R.id.search_button)
-        val searchView = menuItem.actionView as SearchView?
+        menuInflater.inflate(R.menu.sources_actions, menu)
+        val menuSearchItem = menu.findItem(R.id.search_button)
+        val searchView = menuSearchItem.actionView as SearchView?
         searchView?.queryHint = "category"
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -108,21 +120,27 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return true
             }
-
         })
+        val menuFilterItem = menu.findItem(R.id.filtered_sources_button)
+        val actionView = menuFilterItem.actionView
+        val textView = actionView?.findViewById<TextView>(R.id.filter_badge_text_view)
+        textView?.text = enabledFiltersCount.toString()
+        textView?.visibility = if (enabledFiltersCount == 0) View.GONE else View.VISIBLE
+
+        actionView?.setOnClickListener {
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.activity_fragment_container, SourcesFiltersFragment())
+                .addToBackStack(null)
+                .commit()
+
+        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.search_button -> {
 
-            }
-
-            R.id.filter_button -> {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.activity_fragment_container, SourcesFiltersFragment())
-                    .addToBackStack(null)
-                    .commit()
             }
 
             else -> parentFragmentManager.popBackStack()

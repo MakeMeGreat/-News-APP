@@ -1,12 +1,13 @@
 package com.example.aston_intensiv_final_project.data.cache
 
 import android.os.Build
-import com.example.aston_intensiv_final_project.data.cache.mapper.ToArticleDtoMapper
+import com.example.aston_intensiv_final_project.data.cache.mapper.ToDtoMapper
 import com.example.aston_intensiv_final_project.data.cache.saved.SavedArticleDao
 import com.example.aston_intensiv_final_project.data.cache.saved.model.SavedArticleDbo
 import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
 import com.example.aston_intensiv_final_project.data.model.news.NewsResponse
 import com.example.aston_intensiv_final_project.data.model.news.SourceDto
+import com.example.aston_intensiv_final_project.data.model.source.SourceResponse
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -18,11 +19,11 @@ import java.util.Locale
 import javax.inject.Inject
 
 class CacheDataSource @Inject constructor(
-    private val mapper: ToArticleDtoMapper,
+    private val mapper: ToDtoMapper,
     private val savedArticleDao: SavedArticleDao,
     private val cacheArticleDao: CacheArticleDao,
-
-    ) {
+    private val cacheSourceDao: CacheSourceDao
+) {
     suspend fun saveOrDeleteArticle(articleDto: ArticleDto) {
         val dataBaseArticle = SavedArticleDbo(
             sourceId = articleDto.source?.id,
@@ -72,27 +73,32 @@ class CacheDataSource @Inject constructor(
     }
 
     fun getCategorizedNews(category: String, pageNumber: Int): Observable<NewsResponse> {
-//        val mList = mutableListOf<ArticleDto>()
-//        val cachedNews = cacheArticleDao.getCategorizedNews(
-//            category = category,
-//            //pageNumber = pageNumber
-//        ).doOnNext {
-//            mList.addAll(0, mapper.mapToListOfArticleDto(it))
-//        }.blockingFirst()
-//        val count = 0
-//
-//        return Observable.create{ o ->
-//            o.onNext(NewsResponse(
-//                status = "fromCache",
-//                totalResults = count,
-//                articles = mList
-//            ))
-//        }
         return cacheArticleDao.getCategorizedNews(category = category)
             .map { articles ->
                 NewsResponse(
                     status = "fromCache",
                     totalResults = 0,
+                    articles = mapper.mapToListOfArticleDto(articles)
+                )
+            }
+    }
+
+    fun getSources(language: String, category: String): Observable<SourceResponse> {
+        return cacheSourceDao.getSources(language = language, category = category)
+            .map { sources ->
+                SourceResponse(
+                    status = "fromCache",
+                    sources = mapper.mapToListOfSourceInfoDto(sources)
+                )
+            }
+    }
+
+    fun getOneSourceNews(sourceId: String): Observable<NewsResponse> {
+        return cacheArticleDao.getOneSourceNews(sourceId = sourceId)
+            .map { articles ->
+                NewsResponse(
+                    status = "fromCache",
+                    totalResults = articles.size,
                     articles = mapper.mapToListOfArticleDto(articles)
                 )
             }

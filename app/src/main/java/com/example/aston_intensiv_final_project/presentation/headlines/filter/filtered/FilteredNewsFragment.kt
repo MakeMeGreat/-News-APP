@@ -37,7 +37,7 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
     private lateinit var adapter: ArticleAdapter
 //    private val viewModel: FilteredNewsOrbitViewModel by activityViewModels()
 
-    private var quantity = 0
+    private var enabledFiltersCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +69,7 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
             language ?: "en",
             sortFilter
         )
-        quantity = getSelectedFilterCount(date, language, sortFilter)
+        enabledFiltersCount = getSelectedFilterCount(date, language, sortFilter)
 //        viewModel.getFilteredNews(getFormattedDateToQuery(date), language ?: "en", sortFilter)
         binding.progressBar.visibility = View.VISIBLE
 
@@ -117,10 +117,10 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.filtered_news_toolbar, menu)
-        val menuItem = menu.findItem(R.id.filtered_news_button)
+        val menuItem = menu.findItem(R.id.filtered_button)
         val actionMenuView = menuItem.actionView
-        val textView = actionMenuView?.findViewById<TextView>(R.id.cart_badge_text_view)
-        textView?.text = quantity.toString()
+        val textView = actionMenuView?.findViewById<TextView>(R.id.filter_badge_text_view)
+        textView?.text = enabledFiltersCount.toString()
         actionMenuView?.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
