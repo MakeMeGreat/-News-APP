@@ -1,6 +1,7 @@
 package com.example.aston_intensiv_final_project.presentation.saved
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.aston_intensiv_final_project.domain.usecase.GetSavedArticlesUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -14,56 +15,46 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SavedViewModel @Inject constructor(
-    //private val articleDao: SavedArticleDao,
     private val getSavedArticlesUseCase: GetSavedArticlesUseCase,
     private val mapper: DomainToPresentationMapper
 ) : ViewModel() {
 
-    private val _savedArticlesStateFlow = MutableStateFlow<List<ArticleDtoModel>>(emptyList())
+    private var _savedArticlesStateFlow = MutableStateFlow<List<ArticleDtoModel>>(emptyList())
     val savedArticlesStateFlow: StateFlow<List<ArticleDtoModel>> = _savedArticlesStateFlow
 
-    /*
-        private var savedArticlesJob: Job? = null
-        private fun setSavedArticlesStateFlow(value: List<ArticleDtoModel>) {
-            _savedArticlesStateFlow.value = value
-        }*/
+    private var _isLoadingStateFlow = MutableStateFlow<Boolean>(true)
+    val isLoadingStateFlow: StateFlow<Boolean> = _isLoadingStateFlow
+
     init {
-        getSavedArticlesConvertAndSet()
+        getSavedArticles()
     }
 
-    /*
-        fun convertFlowToMutableStateFlow(low: Flow<List<ArticleDtoModel>>) {
-            savedArticlesJob?.cancel()
-            savedArticlesJob = artUseCase
-                .onEach { articlesList ->
-                    setSavedArticlesStateFlow(articlesList)
-                }
-                .launchIn(viewModelScope)
-        }
-        private fun getConvertAndSet() {
-            getSavedArticles().onEach { articleList ->
-                _savedArticlesStateFlow.value = articleList
-            }
-                .launchIn(viewModelScope)
-        }
-
-        var articles = getSavedArticles()
-
-        private fun getSavedArticles(): Flow<List<ArticleDtoModel>> {
-            return getSavedArticlesUseCase.invoke().map { dboArticlesList ->
-                mapper.mapArticles(dboArticlesList.toMutableList())
-            }
-        }*/
-
-    fun getSavedArticlesConvertAndSet() {
+    fun getSavedArticles() {
+        _isLoadingStateFlow.value = true
         viewModelScope.launch {
             getSavedArticlesUseCase().map { dboArticlesList ->
                 mapper.mapArticles(dboArticlesList.toMutableList())
             }.onEach { articleList ->
                 _savedArticlesStateFlow.value = articleList
+                _isLoadingStateFlow.value = false
             }.launchIn(viewModelScope)
         }
     }
 
+    fun refresh() {
+        _savedArticlesStateFlow.value = emptyList()
+    }
+
+    class SavedViewModelFactory @Inject constructor(
+        private val getSavedArticlesUseCase: GetSavedArticlesUseCase,
+        private val mapper: DomainToPresentationMapper
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return SavedViewModel(
+                getSavedArticlesUseCase = getSavedArticlesUseCase,
+                mapper = mapper,
+            ) as T
+        }
+    }
 
 }

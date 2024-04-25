@@ -11,24 +11,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSavedNewsBinding
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
+import com.example.aston_intensiv_final_project.presentation.search.SearchViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SavedNewsFragment : Fragment(), MenuProvider {
+class SavedNewsFragment : Fragment(), MenuProvider, SwipeRefreshLayout.OnRefreshListener {
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @Inject
-    lateinit var viewModel: SavedViewModel
+    lateinit var viewModeLFactory: SavedViewModel.SavedViewModelFactory
+    private lateinit var viewModel: SavedViewModel
 
     private var _binding: FragmentSavedNewsBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +46,7 @@ class SavedNewsFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this, viewModeLFactory).get(SavedViewModel::class.java)
         val adapter = ArticleAdapter { article ->
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, NewsProfileFragment.newInstance(article))
@@ -55,10 +61,24 @@ class SavedNewsFragment : Fragment(), MenuProvider {
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoadingStateFlow.collect{
+                    if (!it) swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        }
 
         activity?.addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.title = "Saved"
+        swipeRefreshLayout = binding.swipeContainer
+        swipeRefreshLayout.setOnRefreshListener(this)
+    }
+
+    override fun onRefresh() {
+        viewModel.refresh()
+        viewModel.getSavedArticles()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

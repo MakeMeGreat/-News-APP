@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGeneralBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
@@ -23,8 +24,9 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
+class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRefreshLayout.OnRefreshListener {
 
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @Inject
     lateinit var getCategorizedNewsUseCase: GetCategorizedNewsUseCase
@@ -72,6 +74,13 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
         }
         binding.recyclerView.adapter = articleAdapter
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
+        swipeRefreshLayout = binding.swipeContainer
+        swipeRefreshLayout.setOnRefreshListener(this)
+    }
+
+    override fun onRefresh() {
+        generalPresenter.refresh()
+        generalPresenter.getNews()
     }
 
     override fun startLoading() {
@@ -83,11 +92,12 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView {
         binding.paginationProgressBar.visibility = View.INVISIBLE
         binding.firstLoadProgressBar.visibility = View.INVISIBLE
         isLoading = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            generalPresenter.pageNumber >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
+            generalPresenter.getPageNumber() >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
         articleAdapter.submitList(response.articles.toList())
     }
 

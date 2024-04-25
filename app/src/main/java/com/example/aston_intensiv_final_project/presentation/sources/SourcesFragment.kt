@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResultListener
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetSourcesUseCase
@@ -30,7 +31,9 @@ private const val REQUEST_KEY = "REQUEST_KEY"
 private const val CATEGORY_KEY = "CATEGORY_KEY"
 private const val LANGUAGE_KEY = "LANGUAGE_KEY"
 
-class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
+class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, SwipeRefreshLayout.OnRefreshListener {
+
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @Inject
     lateinit var getSourcesUseCase: GetSourcesUseCase
@@ -92,6 +95,9 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
                 category = categoryFilter ?: ""
             )
         }
+        swipeRefreshLayout = binding.swipeContainer
+        swipeRefreshLayout.setOnRefreshListener(this)
+
     }
 
     private fun getEnabledFiltersCount(language: String?, category: String?): Int {
@@ -99,6 +105,12 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
         if (language != null && language != "") count++
         if (category != null && category != "") count++
         return count
+    }
+
+    override fun onRefresh() {
+        sourcesPresenter.getSources()
+        enabledFiltersCount = 0
+        requireActivity().invalidateOptionsMenu()
     }
 
     override fun onDestroyView() {
@@ -150,13 +162,14 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
     }
 
     override fun startLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-        binding.recyclerView.visibility = View.INVISIBLE
+//        binding.progressBar.visibility = View.VISIBLE
+//        binding.recyclerView.visibility = View.INVISIBLE
     }
 
     override fun endLoading() {
         binding.progressBar.visibility = View.INVISIBLE
-        binding.recyclerView.visibility = View.VISIBLE
+//        binding.recyclerView.visibility = View.VISIBLE
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showSuccess(response: SourceResponseModel) {

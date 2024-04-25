@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesTravelingBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
@@ -23,7 +24,9 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
+class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRefreshLayout.OnRefreshListener {
+
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @Inject
     lateinit var getCategorizedNewsUseCase: GetCategorizedNewsUseCase
@@ -71,6 +74,13 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
         }
         binding.recyclerView.adapter = articleAdapter
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
+        swipeRefreshLayout = binding.swipeContainer
+        swipeRefreshLayout.setOnRefreshListener(this)
+    }
+
+    override fun onRefresh() {
+        travelingPresenter.refresh()
+        travelingPresenter.getNews()
     }
 
     override fun startLoading() {
@@ -82,11 +92,12 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView {
         binding.paginationProgressBar.visibility = View.INVISIBLE
         binding.firstLoadProgressBar.visibility = View.INVISIBLE
         isLoading = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showSuccess(response: NewsResponseModel) {
         isLastPage =
-            travelingPresenter.pageNumber >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
+            travelingPresenter.getPageNumber() >= response.totalResults / Constants.QUERY_PAGE_SIZE + 1
         articleAdapter.submitList(response.articles.toList())
     }
 

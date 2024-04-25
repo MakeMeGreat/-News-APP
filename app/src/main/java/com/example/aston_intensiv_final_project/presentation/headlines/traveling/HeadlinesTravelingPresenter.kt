@@ -17,9 +17,9 @@ class HeadlinesTravelingPresenter(
     private val mapper: DomainToPresentationMapper
 ) : MvpPresenter<HeadlinesView>() {
 
-    lateinit var newsResponse: NewsResponseModel
+    private lateinit var newsResponse: NewsResponseModel
 
-    var pageNumber = 1
+    private var pageNumber = 1
 
     init {
         getNews()
@@ -30,7 +30,7 @@ class HeadlinesTravelingPresenter(
         getNews()
     }
 
-    private fun getNews() {
+    fun getNews() {
         getCategorizedNewsUseCase(category = "science", pageNumber = pageNumber)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -55,4 +55,11 @@ class HeadlinesTravelingPresenter(
                 override fun onComplete() {}
             })
     }
+
+    fun refresh() {
+        pageNumber = 1
+        newsResponse.articles.clear()
+    }
+
+    fun getPageNumber() = pageNumber
 }

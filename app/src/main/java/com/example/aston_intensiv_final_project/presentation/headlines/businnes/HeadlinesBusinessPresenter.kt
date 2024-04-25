@@ -19,7 +19,7 @@ class HeadlinesBusinessPresenter(
 
     private lateinit var newsResponse: NewsResponseModel
 
-    var pageNumber = 1
+    private var pageNumber = 1
 
     init {
         getNews()
@@ -30,7 +30,7 @@ class HeadlinesBusinessPresenter(
         getNews()
     }
 
-    private fun getNews() {
+    fun getNews() {
         getCategorizedNewsUseCase(category = "business", pageNumber = pageNumber)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -55,4 +55,12 @@ class HeadlinesBusinessPresenter(
                 override fun onComplete() {}
             })
     }
+
+
+    fun refresh() {
+        pageNumber = 1
+        newsResponse.articles.clear()
+    }
+
+    fun getPageNumber() = pageNumber
 }
