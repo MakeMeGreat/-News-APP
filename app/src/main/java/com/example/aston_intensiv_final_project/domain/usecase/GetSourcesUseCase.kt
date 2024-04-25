@@ -6,5 +6,8 @@ import javax.inject.Inject
 class GetSourcesUseCase @Inject constructor(
     private val repository: Repository
 ) {
-    operator fun invoke() = repository.getSources()
+    operator fun invoke(language: String, category: String) = repository.getSources(
+        language = language,
+        category = category,
+    )
 }

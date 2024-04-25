@@ -44,8 +44,14 @@ class RepositoryImpl @Inject constructor(
 
     }
 
-    override fun getSources(): Observable<SourceResponseDomainModel> {
-        return networkDataSource.getSources()
+    override fun getSources(
+        language: String,
+        category: String
+    ): Observable<SourceResponseDomainModel> {
+        return networkDataSource.getSources(
+            language = language,
+            category = category,
+        )
             .map {
                 toDomainMapper.mapSourcesToDomainModel(it)
             }

@@ -26,8 +26,11 @@ class NetworkDataSource @Inject constructor(
     }
 
 
-    fun getSources() =
-        RetrofitObject.retrofitService.getSources()
+    fun getSources(language: String, category: String) =
+        RetrofitObject.retrofitService.getSources(
+            language = language,
+            category = category,
+        )
 
     fun getOneSourceNews(sourceId: String) =
         RetrofitObject.retrofitService.getOneSourceNews(sourceId = sourceId)

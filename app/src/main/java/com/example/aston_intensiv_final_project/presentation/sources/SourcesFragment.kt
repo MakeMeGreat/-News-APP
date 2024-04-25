@@ -8,20 +8,26 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.setFragmentResultListener
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetSourcesUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
+import com.example.aston_intensiv_final_project.presentation.sources.filter.SourcesFiltersFragment
 import com.example.aston_intensiv_final_project.presentation.sources.onesource.OneSourceFragment
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
+
+private const val REQUEST_KEY = "REQUEST_KEY"
+private const val CATEGORY_KEY = "CATEGORY_KEY"
+private const val LANGUAGE_KEY = "LANGUAGE_KEY"
 
 class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
 
@@ -73,6 +79,14 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.title = "Sources"
+        setFragmentResultListener(REQUEST_KEY) { _, bundle ->
+            val languageFilter = bundle.getString(LANGUAGE_KEY)
+            val categoryFilter = bundle.getString(CATEGORY_KEY)
+            sourcesPresenter.getSources(
+                language = languageFilter ?: "",
+                category = categoryFilter ?: ""
+            )
+        }
     }
 
     override fun onDestroyView() {
@@ -82,20 +96,49 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.toolbar_actions, menu)
+        val menuItem = menu.findItem(R.id.search_button)
+        val searchView = menuItem.actionView as SearchView?
+        searchView?.queryHint = "category"
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                sourcesPresenter.getSources(category = query?.replace(" ", "") ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        //Todo
-        Toast.makeText(context, "text wrapper", Toast.LENGTH_SHORT).show()
+        when (menuItem.itemId) {
+            R.id.search_button -> {
+
+            }
+
+            R.id.filter_button -> {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.activity_fragment_container, SourcesFiltersFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            else -> parentFragmentManager.popBackStack()
+        }
+
         return true
     }
 
     override fun startLoading() {
         binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.INVISIBLE
     }
 
     override fun endLoading() {
         binding.progressBar.visibility = View.INVISIBLE
+        binding.recyclerView.visibility = View.VISIBLE
     }
 
     override fun showSuccess(response: SourceResponseModel) {

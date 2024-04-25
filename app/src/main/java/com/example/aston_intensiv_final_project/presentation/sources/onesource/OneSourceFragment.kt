@@ -43,8 +43,6 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
         )
     }
 
-
-    //private lateinit var adapter: OneSourceAdapter
     private lateinit var adapter: ArticleAdapter
     private var _binding: FragmentOneSourceBinding? = null
     private val binding get() = _binding!!
@@ -82,11 +80,11 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.toolbar_actions, menu)
+        // menuInflater.inflate(R.menu.toolbar_actions, menu)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        when (menuItem.itemId) {
+        /*when (menuItem.itemId) {
             R.id.filter_button -> {
                 //Todo
             }
@@ -99,6 +97,8 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
                 parentFragmentManager.popBackStack()
             }
         }
+        return true*/
+        parentFragmentManager.popBackStack()
         return true
     }
 

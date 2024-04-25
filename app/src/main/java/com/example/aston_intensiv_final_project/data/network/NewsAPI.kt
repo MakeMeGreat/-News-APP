@@ -26,6 +26,10 @@ interface NewsAPI {
 
     @GET("v2/top-headlines/sources")
     fun getSources(
+        @Query("language")
+        language: String = "",
+        @Query("category")
+        category: String = "",
         @Query("apiKey")
         apiKey: String = API_KEY,
     ): Observable<SourceResponse>
@@ -52,7 +56,7 @@ interface NewsAPI {
         apiKey: String = API_KEY,
     ): Observable<NewsResponse>
 
-    @GET("v2/top-headlines")
+    @GET("v2/everything")
     fun getSearchNews(
         @Query("q")
         q: String? = "null",

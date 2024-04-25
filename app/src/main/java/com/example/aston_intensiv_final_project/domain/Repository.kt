@@ -10,7 +10,7 @@ interface Repository {
 
     fun getCategorizedNews(category: String, pageNumber: Int): Observable<NewsResponseDomainModel>
 
-    fun getSources(): Observable<SourceResponseDomainModel>
+    fun getSources(language: String, category: String): Observable<SourceResponseDomainModel>
 
     fun getOneSourceNews(sourceId: String): Observable<NewsResponseDomainModel>
 

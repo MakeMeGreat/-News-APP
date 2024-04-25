@@ -8,4 +8,22 @@
     <string name="null_content_description">We can\'t display the content right now.\n Try later</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="language_english">English</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_arabic">عربي</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Français</string>
+    <string name="language_italian">Italiano</string>
+    <string name="language_chinese">中国人</string>
+    <string name="filter_popular">Popular</string>
+    <string name="filter_new">New</string>
+    <string name="filter_relevant">Relevant</string>
+    <string name="category_business">Business</string>
+    <string name="category_science">Science</string>
+    <string name="category_general">General</string>
+    <string name="category_health">Health</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_technology">Technology</string>
 </resources>

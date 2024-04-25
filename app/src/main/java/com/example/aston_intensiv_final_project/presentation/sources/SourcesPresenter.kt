@@ -22,9 +22,9 @@ class SourcesPresenter(
         getSources()
     }
 
-    private fun getSources() {
+    fun getSources(language: String = "", category: String = "") {
         viewState.startLoading()
-        getSourcesUseCase()
+        getSourcesUseCase(language, category)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableObserver<SourceResponseDomainModel>() {
@@ -42,4 +42,5 @@ class SourcesPresenter(
                 override fun onComplete() {}
             })
     }
+
 }
