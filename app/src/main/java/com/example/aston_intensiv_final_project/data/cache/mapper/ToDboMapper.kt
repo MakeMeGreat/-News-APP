@@ -1,7 +1,7 @@
 package com.example.aston_intensiv_final_project.data.cache.mapper
 
-import com.example.aston_intensiv_final_project.data.cache.CacheSourceDbo
-import com.example.aston_intensiv_final_project.data.cache.CachedArticleDbo
+import com.example.aston_intensiv_final_project.data.cache.model.CacheSourceDbo
+import com.example.aston_intensiv_final_project.data.cache.model.CachedArticleDbo
 import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
 import com.example.aston_intensiv_final_project.data.model.source.SourceInfoDto
 import javax.inject.Inject

@@ -4,8 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.aston_intensiv_final_project.data.cache.saved.SavedArticleDao
-import com.example.aston_intensiv_final_project.data.cache.saved.model.SavedArticleDbo
+import com.example.aston_intensiv_final_project.data.cache.dao.CacheArticleDao
+import com.example.aston_intensiv_final_project.data.cache.dao.CacheSourceDao
+import com.example.aston_intensiv_final_project.data.cache.model.CacheSourceDbo
+import com.example.aston_intensiv_final_project.data.cache.model.CachedArticleDbo
+import com.example.aston_intensiv_final_project.data.cache.dao.SavedArticleDao
+import com.example.aston_intensiv_final_project.data.cache.model.SavedArticleDbo
 
 @Database(
     entities = [

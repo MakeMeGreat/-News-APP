@@ -1,9 +1,10 @@
 package com.example.aston_intensiv_final_project.data.cache
 
-import android.os.Build
+import com.example.aston_intensiv_final_project.data.cache.dao.CacheArticleDao
+import com.example.aston_intensiv_final_project.data.cache.dao.CacheSourceDao
 import com.example.aston_intensiv_final_project.data.cache.mapper.ToDtoMapper
-import com.example.aston_intensiv_final_project.data.cache.saved.SavedArticleDao
-import com.example.aston_intensiv_final_project.data.cache.saved.model.SavedArticleDbo
+import com.example.aston_intensiv_final_project.data.cache.dao.SavedArticleDao
+import com.example.aston_intensiv_final_project.data.cache.model.SavedArticleDbo
 import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
 import com.example.aston_intensiv_final_project.data.model.news.NewsResponse
 import com.example.aston_intensiv_final_project.data.model.news.SourceDto
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.Locale
 import javax.inject.Inject
 
@@ -111,20 +111,23 @@ class CacheDataSource @Inject constructor(
     ): Observable<NewsResponse> {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val fromDateInMillis =
-            if (from == null) 0L
-            else formatter.parse(from)?.time ?: 0L
-
-            return cacheArticleDao.getAllSavedNews().map {
-                it.filter {
-                    formatDateToMilliseconds(it.publishedAt!!) > fromDateInMillis
-                }
-            }.map { articles ->
-                NewsResponse(
-                    status = "fromCache",
-                    totalResults = articles.size,
-                    articles = mapper.mapToListOfArticleDto(articles)
-                )
+            if (from == null) {
+                0L
+            } else {
+                formatter.parse(from)?.time ?: 0L
             }
+
+        return cacheArticleDao.getAllSavedNews().map {
+            it.filter {
+                formatDateToMilliseconds(it.publishedAt!!) > fromDateInMillis
+            }
+        }.map { articles ->
+            NewsResponse(
+                status = "fromCache",
+                totalResults = articles.size,
+                articles = mapper.mapToListOfArticleDto(articles)
+            )
+        }
     }
 
     fun getSearchNews(query: String): Observable<NewsResponse> {

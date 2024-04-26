@@ -1,7 +1,7 @@
 package com.example.aston_intensiv_final_project.data.network
 
-import com.example.aston_intensiv_final_project.data.cache.CacheArticleDao
-import com.example.aston_intensiv_final_project.data.cache.CacheSourceDao
+import com.example.aston_intensiv_final_project.data.cache.dao.CacheArticleDao
+import com.example.aston_intensiv_final_project.data.cache.dao.CacheSourceDao
 import com.example.aston_intensiv_final_project.data.cache.mapper.ToDboMapper
 import com.example.aston_intensiv_final_project.data.model.news.NewsResponse
 import io.reactivex.rxjava3.core.Observable

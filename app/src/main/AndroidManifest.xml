@@ -11,12 +11,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name=".presentation.di.App"
+        android:name=".di.App"
         android:supportsRtl="true"
         android:theme="@style/Theme.Starting"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.LottieAnimationActivity"
+            android:name=".presentation.ui.LottieAnimationActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:windowSoftInputMode="adjustPan"
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.ui.MainActivity"
             android:theme="@style/Base.Theme.Aston_intensiv_final_project"
             android:exported="true">
         </activity>
