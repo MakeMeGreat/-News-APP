@@ -19,4 +19,7 @@ interface CacheSourceDao {
     )
     fun getSources(category: String, language: String): Observable<List<CacheSourceDbo>>
 
+    @Query("DELETE FROM cached_sources")
+    fun clearTable()
+
 }

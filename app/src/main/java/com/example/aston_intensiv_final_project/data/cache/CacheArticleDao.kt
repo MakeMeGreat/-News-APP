@@ -26,4 +26,7 @@ interface CacheArticleDao {
 
     @Query("SELECT * FROM cached_articles where sourceId = :sourceId")
     fun getOneSourceNews(sourceId: String): Observable<List<CachedArticleDbo>>
+
+    @Query("DELETE FROM cached_articles")
+    fun clearTable()
 }
