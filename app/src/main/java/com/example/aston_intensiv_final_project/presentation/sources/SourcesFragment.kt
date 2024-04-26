@@ -18,6 +18,7 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetSourcesUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
+import com.example.aston_intensiv_final_project.presentation.error.NoInternetFragment
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
 import com.example.aston_intensiv_final_project.presentation.sources.filter.SourcesFiltersFragment
@@ -33,7 +34,7 @@ private const val LANGUAGE_KEY = "LANGUAGE_KEY"
 
 class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @Inject
     lateinit var getSourcesUseCase: GetSourcesUseCase
@@ -74,10 +75,10 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sourcesAdapter = SourcesAdapter {
-            val sourceId = it.id ?: ""
+        sourcesAdapter = SourcesAdapter {source ->
+//            val sourceId = it.id ?: ""
             parentFragmentManager.beginTransaction()
-                .replace(R.id.activity_fragment_container, OneSourceFragment.newInstance(sourceId))
+                .replace(R.id.activity_fragment_container, OneSourceFragment.newInstance(source.id ?: ""))
                 .addToBackStack(null)
                 .commit()
         }
@@ -97,7 +98,11 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
         }
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
-
+        activity?.supportFragmentManager?.setFragmentResultListener("update_request_key", viewLifecycleOwner) { key, bundle ->
+            val result = bundle.getString("update_bundle_key")
+//            Toast.makeText(requireContext(), "$result", Toast.LENGTH_SHORT).show()
+            sourcesPresenter.getSources()
+        }
     }
 
     private fun getEnabledFiltersCount(language: String?, category: String?): Int {
@@ -105,12 +110,6 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
         if (language != null && language != "") count++
         if (category != null && category != "") count++
         return count
-    }
-
-    override fun onRefresh() {
-        sourcesPresenter.getSources()
-        enabledFiltersCount = 0
-        requireActivity().invalidateOptionsMenu()
     }
 
     override fun onDestroyView() {
@@ -138,14 +137,11 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
         val textView = actionView?.findViewById<TextView>(R.id.filter_badge_text_view)
         textView?.text = enabledFiltersCount.toString()
         textView?.visibility = if (enabledFiltersCount == 0) View.GONE else View.VISIBLE
-
         actionView?.setOnClickListener {
-
             parentFragmentManager.beginTransaction()
                 .replace(R.id.activity_fragment_container, SourcesFiltersFragment())
                 .addToBackStack(null)
                 .commit()
-
         }
     }
 
@@ -161,8 +157,14 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
         return true
     }
 
+    override fun onRefresh() {
+        sourcesPresenter.refreshSource()
+        enabledFiltersCount = 0
+        requireActivity().invalidateOptionsMenu()
+    }
+
     override fun startLoading() {
-//        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
 //        binding.recyclerView.visibility = View.INVISIBLE
     }
 
@@ -178,5 +180,12 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
 
     override fun showError(message: String) {
         Log.e("Sources", "error in getting response: $message")
+    }
+
+    override fun showNoInternet() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.activity_fragment_container, NoInternetFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }

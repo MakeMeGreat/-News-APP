@@ -22,15 +22,20 @@ class HeadlinesTravelingPresenter(
     private var pageNumber = 1
 
     init {
+        getFirstNews()
+    }
+
+    fun getFirstNews() {
+        viewState.startFirstLoading()
         getNews()
     }
 
-    fun getNewsWithPaginate() {
-        viewState.startLoading()
+    fun getNewsWithPagination() {
+        viewState.startPaginateLoading()
         getNews()
     }
 
-    fun getNews() {
+    private fun getNews() {
         getCategorizedNewsUseCase(category = "science", pageNumber = pageNumber)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -40,9 +45,15 @@ class HeadlinesTravelingPresenter(
                     if (pageNumber == 1) {
                         newsResponse = mappedResponse
                     } else {
-                        newsResponse.articles.addAll(mappedResponse.articles)
+                        mappedResponse.articles.forEach {
+                            if (!newsResponse.articles.contains(it)) newsResponse.articles.add(it)
+                        }
                     }
                     viewState.endLoading()
+                    if (mappedResponse.status == "fromCache" && mappedResponse.articles.isEmpty()) {
+                        viewState.showNoInternet()
+                        pageNumber--
+                    }
                     viewState.showSuccess(newsResponse)
                     pageNumber++
                 }

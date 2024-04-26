@@ -22,8 +22,17 @@ class SourcesPresenter(
         getSources()
     }
 
+    fun refreshSource(language: String = "", category: String = "") {
+        provideSources(language, category)
+    }
+
     fun getSources(language: String = "", category: String = "") {
         viewState.startLoading()
+        provideSources(language, category)
+    }
+
+    private fun provideSources(language: String , category: String) {
+        //viewState.startLoading()
         getSourcesUseCase(language, category)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -31,6 +40,8 @@ class SourcesPresenter(
                 override fun onNext(response: SourceResponseDomainModel) {
                     sources = mapper.mapSourcesToPresentationModel(response)
                     viewState.endLoading()
+                    if (language == "" && category == "" && sources.status == "fromCache" && sources.sources.isEmpty())
+                        viewState.showNoInternet()
                     viewState.showSuccess(sources)
                 }
 

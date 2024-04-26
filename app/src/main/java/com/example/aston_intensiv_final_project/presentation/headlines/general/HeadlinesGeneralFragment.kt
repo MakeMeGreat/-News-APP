@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.Toast
+import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -13,6 +15,8 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGeneralBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
+import com.example.aston_intensiv_final_project.presentation.error.NoInternetFragment
+import com.example.aston_intensiv_final_project.presentation.error.SomethingWrongFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -76,14 +80,32 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRef
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
+        activity?.supportFragmentManager?.setFragmentResultListener("update_request_key", viewLifecycleOwner) { key, bundle ->
+            val result = bundle.getString("update_bundle_key")
+//            Toast.makeText(requireContext(), "$result", Toast.LENGTH_SHORT).show()
+            generalPresenter.getFirstNews()
+        }
+//        Log.i("my navigation", "onViewCreated state")
+//        generalPresenter.getFirstNews()
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        Log.i("my navigation", "onResume state")
+//        generalPresenter.getNews()
+//    }
 
     override fun onRefresh() {
         generalPresenter.refresh()
-        generalPresenter.getNews()
+        generalPresenter.getFirstNews()
     }
 
-    override fun startLoading() {
+    override fun startFirstLoading() {
+        binding.firstLoadProgressBar.visibility = View.VISIBLE
+        isLoading = true
+    }
+
+    override fun startPaginateLoading() {
         binding.paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
@@ -103,6 +125,21 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRef
 
     override fun showError(message: String) {
         Log.e("Headlines", "error in getting response: $message")
+//        activity?.supportFragmentManager?.beginTransaction()
+//            ?.replace(R.id.activity_fragment_container, SomethingWrongFragment())
+//            ?.addToBackStack(null)
+//            ?.commit()
+    }
+
+    override fun showNoInternet() {
+//        parentFragmentManager.beginTransaction()
+//            .replace(R.id.activity_fragment_container, NoInternetFragment())
+//            .addToBackStack(null)
+//            .commit()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.activity_fragment_container, NoInternetFragment())
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
     var isLoading = true

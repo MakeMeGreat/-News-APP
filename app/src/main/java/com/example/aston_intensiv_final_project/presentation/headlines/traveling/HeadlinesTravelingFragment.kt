@@ -13,6 +13,8 @@ import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesTravelingBinding
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
+import com.example.aston_intensiv_final_project.presentation.error.NoInternetFragment
+import com.example.aston_intensiv_final_project.presentation.error.SomethingWrongFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -76,14 +78,24 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView, SwipeR
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
+        activity?.supportFragmentManager?.setFragmentResultListener("update_request_key", viewLifecycleOwner) { key, bundle ->
+            val result = bundle.getString("update_bundle_key")
+//            Toast.makeText(requireContext(), "$result", Toast.LENGTH_SHORT).show()
+            travelingPresenter.getFirstNews()
+        }
     }
 
     override fun onRefresh() {
         travelingPresenter.refresh()
-        travelingPresenter.getNews()
+        travelingPresenter.getFirstNews()
     }
 
-    override fun startLoading() {
+    override fun startFirstLoading() {
+        binding.firstLoadProgressBar.visibility = View.VISIBLE
+        isLoading = true
+    }
+
+    override fun startPaginateLoading() {
         binding.paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
@@ -103,6 +115,13 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView, SwipeR
 
     override fun showError(message: String) {
         Log.e("Headlines", "error in getting response: $message")
+    }
+
+    override fun showNoInternet() {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.activity_fragment_container, NoInternetFragment())
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
     var isLoading = true
@@ -125,7 +144,7 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView, SwipeR
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                travelingPresenter.getNewsWithPaginate()
+                travelingPresenter.getNewsWithPagination()
                 isScrolling = false
             }
         }
