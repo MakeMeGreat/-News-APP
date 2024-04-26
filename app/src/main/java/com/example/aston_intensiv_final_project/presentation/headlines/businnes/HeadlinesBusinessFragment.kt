@@ -14,7 +14,6 @@ import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesBus
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.error.NoInternetFragment
-import com.example.aston_intensiv_final_project.presentation.error.SomethingWrongFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -26,7 +25,11 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRefreshLayout.OnRefreshListener {
+private const val UPDATE_REQUEST_KEY = "UPDATE_REQUEST_KEY"
+private const val UPDATE_BUNDLE_KEY = "UPDATE_BUNDLE_KEY"
+
+class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -77,9 +80,11 @@ class HeadlinesBusinessFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRe
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
-        activity?.supportFragmentManager?.setFragmentResultListener("update_request_key", viewLifecycleOwner) { key, bundle ->
-            val result = bundle.getString("update_bundle_key")
-//            Toast.makeText(requireContext(), "$result", Toast.LENGTH_SHORT).show()
+        activity?.supportFragmentManager?.setFragmentResultListener(
+            UPDATE_REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val result = bundle.getString(UPDATE_BUNDLE_KEY)
             businessPresenter.getFirstNews()
         }
     }

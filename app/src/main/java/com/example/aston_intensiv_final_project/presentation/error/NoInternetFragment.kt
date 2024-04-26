@@ -1,15 +1,15 @@
 package com.example.aston_intensiv_final_project.presentation.error
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
-import com.example.aston_intensiv_final_project.R
+import androidx.fragment.app.Fragment
 import com.example.aston_intensiv_final_project.databinding.FragmentNoInternetBinding
+
+private const val UPDATE_REQUEST_KEY = "UPDATE_REQUEST_KEY"
+private const val UPDATE_BUNDLE_KEY = "UPDATE_BUNDLE_KEY"
 
 class NoInternetFragment : Fragment() {
 
@@ -27,9 +27,10 @@ class NoInternetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.refreshButton.setOnClickListener {
-           activity?.supportFragmentManager?.setFragmentResult(
-                "update_request_key",
-                bundleOf("update_bundle_key" to "update"))
+            activity?.supportFragmentManager?.setFragmentResult(
+                UPDATE_REQUEST_KEY,
+                bundleOf(UPDATE_BUNDLE_KEY to "update")
+            )
             activity?.supportFragmentManager?.popBackStack()
         }
     }

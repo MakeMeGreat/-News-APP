@@ -8,8 +8,6 @@ data class FilteredNewsState(
     val error: String? = null
 )
 
-
-//Todo: is this necessary here at all?
 sealed class FilteredNewsSideEffect {
     data class WrapperSideEffect(val text: String) : FilteredNewsSideEffect()
 }

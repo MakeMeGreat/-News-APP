@@ -41,7 +41,7 @@ class SourcesFiltersFragment : Fragment(), MenuProvider {
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.setDisplayHomeAsUpEnabled(true)
-        toolbar?.title = "Filters"
+        toolbar?.title = getString(R.string.filters_title)
         viewModel.observe(viewLifecycleOwner, state = ::render, sideEffect = ::handleSideEffect)
         binding.categoryChipGroup.setOnCheckedStateChangeListener { group, _ ->
             viewModel.sendEvent(SourceFilterEvent.UpdateCategoryEvent(group.checkedChipId))

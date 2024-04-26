@@ -27,4 +27,21 @@
     <string name="refresh_text">Refresh</string>
     <string name="no_internet_text">No internet connection</string>
     <string name="something_wrong_text">Something went wrong\n Try later</string>
+    <string name="date_text">Date</string>
+    <string name="choose_data_text">Choose data</string>
+    <string name="language_text">Language</string>
+    <string name="general_tab">General</string>
+    <string name="business_tab">Business</string>
+    <string name="traveling_tab">Traveling</string>
+    <string name="category_fitler_text">Category</string>
+    <string name="language_filter_text">Language</string>
+    <string name="save_button">Save</string>
+    <string name="filter_button">Filter</string>
+    <string name="done_button">Done</string>
+    <string name="search_button">Search</string>
+    <string name="category_query_hint">category</string>
+    <string name="sources_title">Sources</string>
+    <string name="filters_title">Filters</string>
+    <string name="saved_title">Saved</string>
+    <string name="select_date_text">Select date</string>
 </resources>

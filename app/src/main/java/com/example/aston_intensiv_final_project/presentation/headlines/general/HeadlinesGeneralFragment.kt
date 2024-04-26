@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.Toast
-import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,7 +14,6 @@ import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesGen
 import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.error.NoInternetFragment
-import com.example.aston_intensiv_final_project.presentation.error.SomethingWrongFragment
 import com.example.aston_intensiv_final_project.presentation.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
@@ -28,7 +25,11 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRefreshLayout.OnRefreshListener {
+private const val UPDATE_REQUEST_KEY = "UPDATE_REQUEST_KEY"
+private const val UPDATE_BUNDLE_KEY = "UPDATE_BUNDLE_KEY"
+
+class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -80,20 +81,14 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRef
         binding.recyclerView.addOnScrollListener(headlinesScrollListener)
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
-        activity?.supportFragmentManager?.setFragmentResultListener("update_request_key", viewLifecycleOwner) { key, bundle ->
-            val result = bundle.getString("update_bundle_key")
-//            Toast.makeText(requireContext(), "$result", Toast.LENGTH_SHORT).show()
+        activity?.supportFragmentManager?.setFragmentResultListener(
+            UPDATE_REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val result = bundle.getString(UPDATE_BUNDLE_KEY)
             generalPresenter.getFirstNews()
         }
-//        Log.i("my navigation", "onViewCreated state")
-//        generalPresenter.getFirstNews()
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        Log.i("my navigation", "onResume state")
-//        generalPresenter.getNews()
-//    }
 
     override fun onRefresh() {
         generalPresenter.refresh()
@@ -125,17 +120,9 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView, SwipeRef
 
     override fun showError(message: String) {
         Log.e("Headlines", "error in getting response: $message")
-//        activity?.supportFragmentManager?.beginTransaction()
-//            ?.replace(R.id.activity_fragment_container, SomethingWrongFragment())
-//            ?.addToBackStack(null)
-//            ?.commit()
     }
 
     override fun showNoInternet() {
-//        parentFragmentManager.beginTransaction()
-//            .replace(R.id.activity_fragment_container, NoInternetFragment())
-//            .addToBackStack(null)
-//            .commit()
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.activity_fragment_container, NoInternetFragment())
             ?.addToBackStack(null)

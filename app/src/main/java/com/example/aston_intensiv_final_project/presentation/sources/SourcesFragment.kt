@@ -32,7 +32,11 @@ private const val REQUEST_KEY = "REQUEST_KEY"
 private const val CATEGORY_KEY = "CATEGORY_KEY"
 private const val LANGUAGE_KEY = "LANGUAGE_KEY"
 
-class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, SwipeRefreshLayout.OnRefreshListener {
+private const val UPDATE_REQUEST_KEY = "UPDATE_REQUEST_KEY"
+private const val UPDATE_BUNDLE_KEY = "UPDATE_BUNDLE_KEY"
+
+class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -75,17 +79,19 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sourcesAdapter = SourcesAdapter {source ->
-//            val sourceId = it.id ?: ""
+        sourcesAdapter = SourcesAdapter { source ->
             parentFragmentManager.beginTransaction()
-                .replace(R.id.activity_fragment_container, OneSourceFragment.newInstance(source.id ?: ""))
+                .replace(
+                    R.id.activity_fragment_container,
+                    OneSourceFragment.newInstance(source.id ?: "")
+                )
                 .addToBackStack(null)
                 .commit()
         }
         binding.recyclerView.adapter = sourcesAdapter
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
-        toolbar?.title = "Sources"
+        toolbar?.title = getString(R.string.sources_title)
         setFragmentResultListener(REQUEST_KEY) { _, bundle ->
             val languageFilter = bundle.getString(LANGUAGE_KEY)
             val categoryFilter = bundle.getString(CATEGORY_KEY)
@@ -98,9 +104,11 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
         }
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
-        activity?.supportFragmentManager?.setFragmentResultListener("update_request_key", viewLifecycleOwner) { key, bundle ->
-            val result = bundle.getString("update_bundle_key")
-//            Toast.makeText(requireContext(), "$result", Toast.LENGTH_SHORT).show()
+        activity?.supportFragmentManager?.setFragmentResultListener(
+            UPDATE_REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val result = bundle.getString(UPDATE_BUNDLE_KEY)
             sourcesPresenter.getSources()
         }
     }
@@ -121,7 +129,7 @@ class SourcesFragment : MvpAppCompatFragment(), MenuProvider, SourcesView, Swipe
         menuInflater.inflate(R.menu.sources_actions, menu)
         val menuSearchItem = menu.findItem(R.id.search_button)
         val searchView = menuSearchItem.actionView as SearchView?
-        searchView?.queryHint = "category"
+        searchView?.queryHint = getString(R.string.category_query_hint)
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 sourcesPresenter.getSources(category = query?.replace(" ", "") ?: "")

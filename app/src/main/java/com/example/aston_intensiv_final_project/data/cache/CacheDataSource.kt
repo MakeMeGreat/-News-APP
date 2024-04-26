@@ -112,21 +112,8 @@ class CacheDataSource @Inject constructor(
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val fromDateInMillis =
             if (from == null) 0L
-            else formatter.parse(from)?.time ?: 0L// throws exception
+            else formatter.parse(from)?.time ?: 0L
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return cacheArticleDao.getAllSavedNews().map {
-                it.filter {
-                    Instant.parse(it.publishedAt).toEpochMilli() > fromDateInMillis
-                }
-            }.map { articles ->
-                NewsResponse(
-                    status = "fromCache",
-                    totalResults = articles.size,
-                    articles = mapper.mapToListOfArticleDto(articles)
-                )
-            }
-        } else {
             return cacheArticleDao.getAllSavedNews().map {
                 it.filter {
                     formatDateToMilliseconds(it.publishedAt!!) > fromDateInMillis
@@ -138,7 +125,6 @@ class CacheDataSource @Inject constructor(
                     articles = mapper.mapToListOfArticleDto(articles)
                 )
             }
-        }
     }
 
     fun getSearchNews(query: String): Observable<NewsResponse> {

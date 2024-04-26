@@ -45,8 +45,8 @@ class HeadlinesTravelingPresenter(
                     if (pageNumber == 1) {
                         newsResponse = mappedResponse
                     } else {
-                        mappedResponse.articles.forEach {
-                            if (!newsResponse.articles.contains(it)) newsResponse.articles.add(it)
+                        if (mappedResponse.status != "fromCache") {
+                            newsResponse.articles.addAll(mappedResponse.articles)
                         }
                     }
                     viewState.endLoading()
@@ -60,7 +60,7 @@ class HeadlinesTravelingPresenter(
 
                 override fun onError(e: Throwable) {
                     viewState.endLoading()
-                    viewState.showError("something went wrong in articles getting throw presenter and repository")
+                    viewState.showError("something wrong in articles getting: $e")
                 }
 
                 override fun onComplete() {}

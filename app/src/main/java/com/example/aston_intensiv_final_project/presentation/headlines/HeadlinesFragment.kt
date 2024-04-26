@@ -35,12 +35,9 @@ class HeadlinesFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
-//        (requireActivity() as MainActivity).setSupportActionBar(binding.headlinesToolbar)
-//        requireActivity().actionBar?.title = "News APP"
         val toolbar = (activity as AppCompatActivity).supportActionBar
-        toolbar?.title = "News APP"
+        toolbar?.title = getString(R.string.app_name)
         toolbar?.setDisplayHomeAsUpEnabled(false)
 
         val tabLayout = binding.tabLayout

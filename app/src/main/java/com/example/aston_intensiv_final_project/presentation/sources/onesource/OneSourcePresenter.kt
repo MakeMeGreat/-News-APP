@@ -16,8 +16,6 @@ class OneSourcePresenter(
     private val mapper: DomainToPresentationMapper
 ) : MvpPresenter<OneSourceView>() {
 
-//    private var oneSourceNews: NewsResponseModel? = null
-
     lateinit var oneSourceNews: NewsResponseModel
 
     fun getOneSourceNews(sourceId: String) {

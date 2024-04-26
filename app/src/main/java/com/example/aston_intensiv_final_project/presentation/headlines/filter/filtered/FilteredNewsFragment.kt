@@ -35,7 +35,6 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
     private val binding get() = _binding!!
 
     private lateinit var adapter: ArticleAdapter
-//    private val viewModel: FilteredNewsOrbitViewModel by activityViewModels()
 
     private var enabledFiltersCount = 0
 
@@ -70,7 +69,6 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
             sortFilter
         )
         enabledFiltersCount = getSelectedFilterCount(date, language, sortFilter)
-//        viewModel.getFilteredNews(getFormattedDateToQuery(date), language ?: "en", sortFilter)
         binding.progressBar.visibility = View.VISIBLE
 
         viewModel.observe(viewLifecycleOwner, state = ::render, sideEffect = ::handleSideEffect)
@@ -88,7 +86,6 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
         binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.INVISIBLE
         if (state.filteredNewsResponse != null && !state.isLoading) adapter.submitList(state.filteredNewsResponse.articles)
         if (state.error != null) Log.e("filtered news", "${state.error}")
-        // Todo: change toast to navigation on error fragment
     }
 
     private fun handleSideEffect(sideEffect: FilteredNewsSideEffect) {

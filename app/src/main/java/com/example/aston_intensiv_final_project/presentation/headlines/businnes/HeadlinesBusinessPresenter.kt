@@ -45,8 +45,8 @@ class HeadlinesBusinessPresenter(
                     if (pageNumber == 1) {
                         newsResponse = mappedResponse
                     } else {
-                        mappedResponse.articles.forEach {
-                            if (!newsResponse.articles.contains(it)) newsResponse.articles.add(it)
+                        if (mappedResponse.status != "fromCache") {
+                            newsResponse.articles.addAll(mappedResponse.articles)
                         }
                     }
                     viewState.endLoading()

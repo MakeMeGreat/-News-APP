@@ -31,8 +31,7 @@ class SourcesPresenter(
         provideSources(language, category)
     }
 
-    private fun provideSources(language: String , category: String) {
-        //viewState.startLoading()
+    private fun provideSources(language: String, category: String) {
         getSourcesUseCase(language, category)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

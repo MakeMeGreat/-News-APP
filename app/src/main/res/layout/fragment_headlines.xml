@@ -20,19 +20,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/general_icon"
-            android:text="General" />
+            android:text="@string/general_tab" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/businnes_icon"
-            android:text="Business" />
+            android:text="@string/business_tab" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/traveling_icon"
-            android:text="Traveling" />
+            android:text="@string/traveling_tab" />
 
     </com.google.android.material.tabs.TabLayout>
     

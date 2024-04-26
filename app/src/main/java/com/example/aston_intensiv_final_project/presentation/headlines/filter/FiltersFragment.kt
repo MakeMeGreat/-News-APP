@@ -39,11 +39,11 @@ class FiltersFragment : Fragment(), MenuProvider {
 
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.setDisplayHomeAsUpEnabled(true)
-        toolbar?.title = "Filters"
+        toolbar?.title = getString(R.string.filters_title)
         binding.calendarButton.setOnClickListener {
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
-                    .setTitleText("Select date")
+                    .setTitleText(getString(R.string.select_date_text))
                     .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                     .build()
             datePicker.addOnPositiveButtonClickListener {

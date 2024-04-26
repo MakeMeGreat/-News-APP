@@ -12,7 +12,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -21,7 +20,6 @@ import com.example.aston_intensiv_final_project.databinding.FragmentSavedNewsBin
 import com.example.aston_intensiv_final_project.presentation.di.App
 import com.example.aston_intensiv_final_project.presentation.headlines.adapter.ArticleAdapter
 import com.example.aston_intensiv_final_project.presentation.newsprofile.NewsProfileFragment
-import com.example.aston_intensiv_final_project.presentation.search.SearchViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,9 +59,9 @@ class SavedNewsFragment : Fragment(), MenuProvider, SwipeRefreshLayout.OnRefresh
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isLoadingStateFlow.collect{
+                viewModel.isLoadingStateFlow.collect {
                     if (!it) swipeRefreshLayout.isRefreshing = false
                 }
             }
@@ -71,7 +69,7 @@ class SavedNewsFragment : Fragment(), MenuProvider, SwipeRefreshLayout.OnRefresh
 
         activity?.addMenuProvider(this, viewLifecycleOwner)
         val toolbar = (activity as AppCompatActivity).supportActionBar
-        toolbar?.title = "Saved"
+        toolbar?.title = getString(R.string.saved_title)
         swipeRefreshLayout = binding.swipeContainer
         swipeRefreshLayout.setOnRefreshListener(this)
     }
@@ -86,6 +84,10 @@ class SavedNewsFragment : Fragment(), MenuProvider, SwipeRefreshLayout.OnRefresh
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        TODO("Not yet implemented")
+        when(menuItem.itemId) {
+            R.id.search_button -> {}
+            R.id.filter_button -> {}
+        }
+        return true
     }
 }

@@ -13,19 +13,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-//todo change dao to useCase
-
 class NewsProfileViewModel @AssistedInject constructor(
     @Assisted("article") private val article: ArticleDtoModel,
-    //   private val articleDao: SavedArticleDao
     private val saveOrDeleteArticleUseCase: SaveOrDeleteArticleUseCase,
     private val presentationToDomainMapper: PresentationToDomainMapper
 ) : ViewModel() {
     private val _articleFlow = MutableStateFlow<ArticleDtoModel>(article)
     val articleFlow: StateFlow<ArticleDtoModel> = _articleFlow
-
-    //private val _isItSaved = MutableStateFlow<Boolean>(false)
-    //val isItSaved: StateFlow<Boolean> = _isItSaved
 
     fun insertOrDelete() {
         viewModelScope.launch(Dispatchers.IO) {

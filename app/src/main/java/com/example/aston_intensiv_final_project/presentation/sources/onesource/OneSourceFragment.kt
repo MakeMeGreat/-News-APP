@@ -79,25 +79,9 @@ class OneSourceFragment : MvpAppCompatFragment(), MenuProvider, OneSourceView {
 
     }
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        // menuInflater.inflate(R.menu.toolbar_actions, menu)
-    }
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {}
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        /*when (menuItem.itemId) {
-            R.id.filter_button -> {
-                //Todo
-            }
-
-            R.id.search_button -> {
-                //Todo
-            }
-
-            else -> {
-                parentFragmentManager.popBackStack()
-            }
-        }
-        return true*/
         parentFragmentManager.popBackStack()
         return true
     }

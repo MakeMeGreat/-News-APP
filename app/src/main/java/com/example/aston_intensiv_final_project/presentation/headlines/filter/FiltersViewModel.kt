@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 
 class FiltersViewModel : ViewModel() {
 
-    // Todo: it should be created by DI
-
     private val _state = MutableLiveData<FilterState>(FilterState("", 0L, "en"))
     val state: LiveData<FilterState> = _state
 

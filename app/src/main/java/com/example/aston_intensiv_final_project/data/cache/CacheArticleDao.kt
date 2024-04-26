@@ -12,9 +12,6 @@ interface CacheArticleDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun cacheArticle(article: CachedArticleDbo)
 
-//    @Query("SELECT * FROM cached_articles WHERE category = :category AND pageNumber = :pageNumber")
-//    fun getCategorizedNewsPage(category: String, pageNumber: Int): Observable<List<CachedArticleDbo>>
-
     @Query("SELECT * FROM cached_articles WHERE category = :category")
     fun getCategorizedNews(category: String): Observable<List<CachedArticleDbo>>
 

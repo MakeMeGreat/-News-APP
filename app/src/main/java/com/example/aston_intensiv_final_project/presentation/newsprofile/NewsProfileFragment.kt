@@ -55,7 +55,6 @@ class NewsProfileFragment : Fragment() {
             requireArguments().getSerializable(ARTICLE_KEY, ArticleDtoModel::class.java)
         } else requireArguments().getSerializable(ARTICLE_KEY) as ArticleDtoModel
         viewModel = newsProfileViewModelFactory.create(article!!)
-//        viewModel.setArticle(article!!)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.articleFlow.collect {
@@ -113,16 +112,10 @@ class NewsProfileFragment : Fragment() {
         }
         toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.bookmark_button) {
-                //Todo: add it to saved articles database
-                //Toast.makeText(context, "it will saved", LENGTH_SHORT).show()
                 viewModel.insertOrDelete()
-                //val article = viewModel.getArticle()
-                //Toast.makeText(context, "article : $size", LENGTH_SHORT).show()
                 true
             } else false
         }
-
-        // toolbar.menu.findItem(R.id.bookmark_button).icon = ContextCompat.getDrawable(requireContext(), R.drawable.bookmark_filled_icon)
     }
 
     private fun determineFirstCharOfLastSentence(str: String): Int {

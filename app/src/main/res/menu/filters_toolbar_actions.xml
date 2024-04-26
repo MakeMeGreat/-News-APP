@@ -6,7 +6,7 @@
     <item
         android:id="@+id/done_button"
         android:icon="@drawable/done_icon"
-        android:title="Done"
+        android:title="@string/done_button"
         app:showAsAction="ifRoom" />
 
 </menu>

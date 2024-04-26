@@ -1,11 +1,10 @@
 package com.example.aston_intensiv_final_project.presentation.error
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.aston_intensiv_final_project.R
+import androidx.fragment.app.Fragment
 import com.example.aston_intensiv_final_project.databinding.FragmentSomethingWrongBinding
 
 class SomethingWrongFragment : Fragment() {
@@ -23,7 +22,7 @@ class SomethingWrongFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.refreshButton.setOnClickListener{
+        binding.refreshButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
     }

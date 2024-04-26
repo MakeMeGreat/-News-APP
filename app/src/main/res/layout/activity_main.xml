@@ -19,8 +19,6 @@
         app:titleCentered="true"
         app:titleTextColor="@color/white" />
 
-<!--    Todo: change colors and set unvisible filter icon-->
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/activity_fragment_container"
         android:layout_width="match_parent"

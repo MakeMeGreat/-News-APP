@@ -26,7 +26,6 @@ class SearchFragment : Fragment(), MenuProvider {
     lateinit var viewModelFactory: SearchViewModel.SearchViewModeLFactory
     lateinit var viewModel: SearchViewModel
 
-    //    private val viewModel: SearchViewModel by activityViewModels()
     private lateinit var adapter: ArticleAdapter
 
     override fun onCreateView(
@@ -85,7 +84,6 @@ class SearchFragment : Fragment(), MenuProvider {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        //parentFragmentManager.popBackStack()
         return true
     }
 
