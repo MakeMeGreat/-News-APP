@@ -2,13 +2,13 @@ package com.example.aston_intensiv_final_project.presentation.mapper
 
 import com.example.aston_intensiv_final_project.domain.model.news.ArticleDtoDomainModel
 import com.example.aston_intensiv_final_project.domain.model.news.SourceDtoDomainModel
-import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
-import com.example.aston_intensiv_final_project.presentation.model.news.SourceDtoModel
+import com.example.aston_intensiv_final_project.presentation.model.news.ArticleModel
+import com.example.aston_intensiv_final_project.presentation.model.news.SourceModel
 import javax.inject.Inject
 
 class PresentationToDomainMapper @Inject constructor() {
 
-    fun mapArticle(article: ArticleDtoModel): ArticleDtoDomainModel {
+    fun mapArticle(article: ArticleModel): ArticleDtoDomainModel {
         return ArticleDtoDomainModel(
             mapSource(article.source!!),
             author = article.author,
@@ -21,7 +21,7 @@ class PresentationToDomainMapper @Inject constructor() {
         )
     }
 
-    private fun mapSource(source: SourceDtoModel): SourceDtoDomainModel {
+    private fun mapSource(source: SourceModel): SourceDtoDomainModel {
         return SourceDtoDomainModel(
             id = source.id,
             name = source.name,

@@ -9,13 +9,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class NetworkDataSource @Inject constructor(
+    private val retrofitService: NewsAPI,
     private val cacheArticleDao: CacheArticleDao,
     private val cacheSourceDao: CacheSourceDao,
     private val mapper: ToDboMapper
 ) {
 
     fun getCategorizedNews(category: String, pageNumber: Int): Observable<NewsResponse> {
-        return RetrofitObject.retrofitService.getCategorizedNews(
+        return retrofitService.getCategorizedNews(
             category = category,
             pageNumber = pageNumber
         )
@@ -29,7 +30,7 @@ class NetworkDataSource @Inject constructor(
 
 
     fun getSources(language: String, category: String) =
-        RetrofitObject.retrofitService.getSources(
+        retrofitService.getSources(
             language = language,
             category = category,
         )
@@ -40,7 +41,7 @@ class NetworkDataSource @Inject constructor(
             }
 
     fun getOneSourceNews(sourceId: String) =
-        RetrofitObject.retrofitService.getOneSourceNews(sourceId = sourceId)
+        retrofitService.getOneSourceNews(sourceId = sourceId)
             .doOnNext { newsResponse ->
                 newsResponse.articles.forEach {
                     cacheArticleDao.cacheArticle(mapper.mapArticle(it))
@@ -52,7 +53,7 @@ class NetworkDataSource @Inject constructor(
         language: String?,
         sortBy: String?
     ) =
-        RetrofitObject.retrofitService.getFilteredNews(
+        retrofitService.getFilteredNews(
             from = from,
             language = language,
             sortBy = sortBy
@@ -65,7 +66,7 @@ class NetworkDataSource @Inject constructor(
 
     fun getSearchNews(
         searchQuery: String
-    ) = RetrofitObject.retrofitService.getSearchNews(q = searchQuery).doOnNext { newsResponse ->
+    ) = retrofitService.getSearchNews(q = searchQuery).doOnNext { newsResponse ->
         newsResponse.articles.forEach {
             cacheArticleDao.cacheArticle(mapper.mapArticle(it))
         }

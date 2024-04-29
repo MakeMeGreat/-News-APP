@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.aston_intensiv_final_project.domain.usecase.GetSavedArticlesUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
-import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
+import com.example.aston_intensiv_final_project.presentation.model.news.ArticleModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -19,8 +19,8 @@ class SavedViewModel @Inject constructor(
     private val mapper: DomainToPresentationMapper
 ) : ViewModel() {
 
-    private var _savedArticlesStateFlow = MutableStateFlow<List<ArticleDtoModel>>(emptyList())
-    val savedArticlesStateFlow: StateFlow<List<ArticleDtoModel>> = _savedArticlesStateFlow
+    private var _savedArticlesStateFlow = MutableStateFlow<List<ArticleModel>>(emptyList())
+    val savedArticlesStateFlow: StateFlow<List<ArticleModel>> = _savedArticlesStateFlow
 
     private var _isLoadingStateFlow = MutableStateFlow<Boolean>(true)
     val isLoadingStateFlow: StateFlow<Boolean> = _isLoadingStateFlow

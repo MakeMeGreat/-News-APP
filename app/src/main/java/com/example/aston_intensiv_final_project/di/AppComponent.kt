@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [RepositoryModule::class, RoomModule::class]
+    modules = [RepositoryModule::class, RoomModule::class, RetrofitModule::class]
 )
 interface AppComponent {
 

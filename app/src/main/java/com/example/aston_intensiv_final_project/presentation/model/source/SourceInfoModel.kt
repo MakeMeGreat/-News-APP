@@ -2,7 +2,7 @@ package com.example.aston_intensiv_final_project.presentation.model.source
 
 import java.io.Serializable
 
-data class SourceInfoDtoModel(
+data class SourceInfoModel(
     val id: String?,
     val name: String?,
     val description: String?,

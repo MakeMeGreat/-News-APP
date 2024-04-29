@@ -20,7 +20,7 @@ import coil.load
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentNewsProfileBinding
 import com.example.aston_intensiv_final_project.di.App
-import com.example.aston_intensiv_final_project.presentation.model.news.ArticleDtoModel
+import com.example.aston_intensiv_final_project.presentation.model.news.ArticleModel
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -52,8 +52,8 @@ class NewsProfileFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         val article = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(ARTICLE_KEY, ArticleDtoModel::class.java)
-        } else requireArguments().getSerializable(ARTICLE_KEY) as ArticleDtoModel
+            requireArguments().getSerializable(ARTICLE_KEY, ArticleModel::class.java)
+        } else requireArguments().getSerializable(ARTICLE_KEY) as ArticleModel
         viewModel = newsProfileViewModelFactory.create(article!!)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -67,7 +67,7 @@ class NewsProfileFragment : Fragment() {
 
     }
 
-    private fun bindArticle(article: ArticleDtoModel) {
+    private fun bindArticle(article: ArticleModel) {
         binding.apply {
             image.load(article.urlToImage) {
                 crossfade(true)
@@ -85,7 +85,7 @@ class NewsProfileFragment : Fragment() {
         }
     }
 
-    private fun makeLastSentenceOfTextSpannable(article: ArticleDtoModel) {
+    private fun makeLastSentenceOfTextSpannable(article: ArticleModel) {
         val spannableString = SpannableString(article.content)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
@@ -151,7 +151,7 @@ class NewsProfileFragment : Fragment() {
     companion object {
         private const val ARTICLE_KEY = "ARTICLE_KEY"
 
-        fun newInstance(article: ArticleDtoModel): NewsProfileFragment {
+        fun newInstance(article: ArticleModel): NewsProfileFragment {
             return NewsProfileFragment().apply {
                 arguments = Bundle().also { it.putSerializable(ARTICLE_KEY, article) }
             }

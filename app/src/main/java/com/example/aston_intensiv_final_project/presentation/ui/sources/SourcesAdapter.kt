@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentSourcesItemBinding
-import com.example.aston_intensiv_final_project.presentation.model.source.SourceInfoDtoModel
+import com.example.aston_intensiv_final_project.presentation.model.source.SourceInfoModel
 import java.util.Locale
 
 class SourcesAdapter(
-    private val onSourceClicked: (SourceInfoDtoModel) -> Unit,
-) : ListAdapter<SourceInfoDtoModel, SourcesAdapter.SourcesViewHolder>(DiffCallback) {
+    private val onSourceClicked: (SourceInfoModel) -> Unit,
+) : ListAdapter<SourceInfoModel, SourcesAdapter.SourcesViewHolder>(DiffCallback) {
 
     inner class SourcesViewHolder(val binding: FragmentSourcesItemBinding) :
         ViewHolder(binding.root) {
-        fun bind(source: SourceInfoDtoModel) {
+        fun bind(source: SourceInfoModel) {
             binding.apply {
                 sourceName.text = source.name
                 sourceImage.setImageResource(determineSourceImage(source))
@@ -49,23 +49,23 @@ class SourcesAdapter(
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<SourceInfoDtoModel>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<SourceInfoModel>() {
         override fun areItemsTheSame(
-            oldItem: SourceInfoDtoModel,
-            newItem: SourceInfoDtoModel
+            oldItem: SourceInfoModel,
+            newItem: SourceInfoModel
         ): Boolean {
             return oldItem.url == newItem.url
         }
 
         override fun areContentsTheSame(
-            oldItem: SourceInfoDtoModel,
-            newItem: SourceInfoDtoModel
+            oldItem: SourceInfoModel,
+            newItem: SourceInfoModel
         ): Boolean {
             return oldItem == newItem
         }
     }
 
-    fun determineSourceImage(source: SourceInfoDtoModel): Int {
+    fun determineSourceImage(source: SourceInfoModel): Int {
         return if (source.name == null) {
             R.drawable.cnn_source_image
         } else if (source.name.contains("nbc", true)) {

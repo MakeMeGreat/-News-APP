@@ -2,8 +2,8 @@ package com.example.aston_intensiv_final_project.presentation.model.news
 
 import java.io.Serializable
 
-data class ArticleDtoModel(
-    val source: SourceDtoModel?,
+data class ArticleModel(
+    val source: SourceModel?,
     val author: String?,
     val title: String?,
     val description: String?,
