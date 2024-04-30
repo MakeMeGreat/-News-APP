@@ -1,12 +1,10 @@
 package com.example.aston_intensiv_final_project.presentation.ui.sources
 
-import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
 import com.example.aston_intensiv_final_project.domain.usecase.GetSourcesUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.source.SourceResponseModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.observers.DisposableObserver
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.InjectViewState
 import moxy.MvpPresenter
 
@@ -18,39 +16,46 @@ class SourcesPresenter(
 
     lateinit var sources: SourceResponseModel
 
+    val disposables = CompositeDisposable()
+
     init {
         getSources()
     }
 
     fun refreshSource(language: String = "", category: String = "") {
-        provideSources(language, category)
+        provideSourcesRightWay(language, category)
     }
 
     fun getSources(language: String = "", category: String = "") {
         viewState.startLoading()
-        provideSources(language, category)
+        provideSourcesRightWay(language, category)
     }
 
-    private fun provideSources(language: String, category: String) {
-        getSourcesUseCase(language, category)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : DisposableObserver<SourceResponseDomainModel>() {
-                override fun onNext(response: SourceResponseDomainModel) {
-                    sources = mapper.mapSourcesToPresentationModel(response)
-                    viewState.endLoading()
-                    if (language == "" && category == "" && sources.status == "fromCache" && sources.sources.isEmpty())
-                        viewState.showNoInternet()
-                    viewState.showSuccess(sources)
-                }
+    private fun provideSourcesRightWay(language: String, category: String) {
+        disposables.add(
+            getSourcesUseCase(language, category)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { mapper.mapSourcesToPresentationModel(it) }
+                .subscribe(
+                    { response -> handleResponse(response, language, category) },
+                    { error -> handleError(error) }
+                )
+        )
+    }
 
-                override fun onError(e: Throwable) {
-                    viewState.endLoading()
-                    viewState.showError("problem in getSources: $e")
-                }
+    private fun handleResponse(response: SourceResponseModel, language: String, category: String) {
+        viewState.endLoading()
+        sources = response
+        if (language == "" && category == "" && sources.status == "fromCache" && sources.sources.isEmpty()) {
+            viewState.showNoInternet()
+        } else {
+            viewState.showSuccess(sources)
+        }
+    }
 
-                override fun onComplete() {}
-            })
+    private fun handleError(e: Throwable) {
+        viewState.endLoading()
+        viewState.showError("problem in getSources: $e")
     }
 
 }

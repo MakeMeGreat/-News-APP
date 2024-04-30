@@ -14,7 +14,7 @@ class ArticleAdapter(
     private val onArticleClicked: (ArticleModel) -> Unit,
 ) : ListAdapter<ArticleModel, ArticleAdapter.ArticleViewHolder>(DiffCallback) {
 
-    inner class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
+    class ArticleViewHolder(val binding: FragmentArticlesItemBinding) :
         ViewHolder(binding.root) {
         fun bind(article: ArticleModel) {
             binding.apply {
@@ -26,7 +26,21 @@ class ArticleAdapter(
                 sourceName.text = article.source?.name ?: ""
                 articleTitle.text = article.title ?: ""
                 sourceImage.setImageResource(determineSourceImage(article.source?.name))
+
             }
+        }
+        private fun determineSourceImage(sourceName: String?): Int {
+            return if (sourceName == null) {
+                R.drawable.cnn_source_image
+            } else if (sourceName.contains("nbc", true)) {
+                R.drawable.nbc_source_image
+            } else if (sourceName.contains("bbc", true)) {
+                R.drawable.bbc_source_image
+            } else if (sourceName.contains("bloomberg", true)) {
+                R.drawable.bloomberg_source_image
+            } else if (sourceName.contains("fox", true)) {
+                R.drawable.fox_news_source_image
+            } else R.drawable.cnn_source_image
         }
     }
 
@@ -45,19 +59,7 @@ class ArticleAdapter(
         holder.bind(article)
     }
 
-    fun determineSourceImage(sourceName: String?): Int {
-        return if (sourceName == null) {
-            R.drawable.cnn_source_image
-        } else if (sourceName.contains("nbc", true)) {
-            R.drawable.nbc_source_image
-        } else if (sourceName.contains("bbc", true)) {
-            R.drawable.bbc_source_image
-        } else if (sourceName.contains("bloomberg", true)) {
-            R.drawable.bloomberg_source_image
-        } else if (sourceName.contains("fox", true)) {
-            R.drawable.fox_news_source_image
-        } else R.drawable.cnn_source_image
-    }
+
 
     companion object DiffCallback : DiffUtil.ItemCallback<ArticleModel>() {
         override fun areItemsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {

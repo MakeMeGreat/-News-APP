@@ -73,12 +73,12 @@ class CacheDataSource @Inject constructor(
     }
 
     fun getCategorizedNews(category: String, pageNumber: Int): Observable<NewsResponse> {
-        return cacheArticleDao.getCategorizedNews(category = category)
+        return cacheArticleDao.getCategorizedNews(category = category, pageNumber = pageNumber)
             .map { articles ->
                 NewsResponse(
                     status = "fromCache",
                     totalResults = 0,
-                    articles = mapper.mapToListOfArticleDto(articles)
+                    articles = mapper.mapToListOfArticleDto(articles),
                 )
             }
     }

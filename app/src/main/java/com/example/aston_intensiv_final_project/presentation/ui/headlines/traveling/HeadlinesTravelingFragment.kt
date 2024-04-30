@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.aston_intensiv_final_project.R
 import com.example.aston_intensiv_final_project.databinding.FragmentHeadlinesTravelingBinding
-import com.example.aston_intensiv_final_project.domain.usecase.GetCategorizedNewsUseCase
 import com.example.aston_intensiv_final_project.di.App
+import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import com.example.aston_intensiv_final_project.presentation.ui.error.NoInternetFragment
 import com.example.aston_intensiv_final_project.presentation.ui.headlines.HeadlinesView
 import com.example.aston_intensiv_final_project.presentation.ui.headlines.adapter.ArticleAdapter
-import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
-import com.example.aston_intensiv_final_project.presentation.model.news.NewsResponseModel
 import com.example.aston_intensiv_final_project.presentation.ui.newsprofile.NewsProfileFragment
 import com.example.aston_intensiv_final_project.util.Constants
 import moxy.MvpAppCompatFragment
@@ -34,20 +32,12 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView,
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @Inject
-    lateinit var getCategorizedNewsUseCase: GetCategorizedNewsUseCase
-
-    @Inject
-    lateinit var mapper: DomainToPresentationMapper
-
     @InjectPresenter
     lateinit var travelingPresenter: HeadlinesTravelingPresenter
 
     @ProvidePresenter
-    fun provideTravelingPresenter(): HeadlinesTravelingPresenter {
-        return HeadlinesTravelingPresenter(
-            getCategorizedNewsUseCase = getCategorizedNewsUseCase,
-            mapper = mapper
-        )
+    fun providePresenter(): HeadlinesTravelingPresenter {
+        return travelingPresenter
     }
 
     private var _binding: FragmentHeadlinesTravelingBinding? = null
@@ -122,10 +112,10 @@ class HeadlinesTravelingFragment : MvpAppCompatFragment(), HeadlinesView,
     }
 
     override fun showNoInternet() {
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.activity_fragment_container, NoInternetFragment())
-            ?.addToBackStack(null)
-            ?.commit()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.activity_fragment_container, NoInternetFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
     var isLoading = true

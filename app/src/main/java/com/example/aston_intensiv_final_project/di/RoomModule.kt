@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @Module
 class RoomModule(private val application: Application) {
 
+
     @Singleton
     @Provides
     fun getSavedArticleDao(savedDataBase: DataBase): SavedArticleDao {
@@ -34,8 +35,8 @@ class RoomModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideSavedArticleDataBase(): DataBase {
-        return DataBase.getDatabase(provideContext())
+    fun provideSavedArticleDataBase(context: Context): DataBase {
+        return DataBase.getDatabase(context)
     }
 
     @Singleton

@@ -34,7 +34,6 @@ class FilteredNewsOrbitViewModel @AssistedInject constructor(
         getFilteredNews(date = date, language = language, sortFilter = sortFilter)
     }
 
-
     private fun getFilteredNews(date: String?, language: String, sortFilter: String?) = intent {
         reduce {
             state.copy(isLoading = true)
@@ -71,7 +70,6 @@ class FilteredNewsOrbitViewModel @AssistedInject constructor(
                         }
                     }
                 }
-
                 override fun onComplete() {}
             })
     }

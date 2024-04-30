@@ -13,8 +13,8 @@ interface CacheArticleDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun cacheArticle(article: CachedArticleDbo)
 
-    @Query("SELECT * FROM cached_articles WHERE category = :category")
-    fun getCategorizedNews(category: String): Observable<List<CachedArticleDbo>>
+    @Query("SELECT * FROM cached_articles WHERE category = :category AND pageNumber = :pageNumber")
+    fun getCategorizedNews(category: String, pageNumber: Int): Observable<List<CachedArticleDbo>>
 
     @Query("select * from cached_articles where title like '%' || :query || '%' or description like '%' || :query || '%' or content like '%' || :query || '%'")
     fun getSearchNews(query: String): Observable<List<CachedArticleDbo>>

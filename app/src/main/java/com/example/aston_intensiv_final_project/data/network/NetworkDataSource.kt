@@ -25,7 +25,6 @@ class NetworkDataSource @Inject constructor(
                     cacheArticleDao.cacheArticle(mapper.mapArticle(it, category))
                 }
             }
-            .subscribeOn(Schedulers.io())
     }
 
 

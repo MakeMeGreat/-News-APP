@@ -68,6 +68,7 @@ class FilteredNewsFragment : Fragment(), MenuProvider {
             language ?: "en",
             sortFilter
         )
+
         enabledFiltersCount = getSelectedFilterCount(date, language, sortFilter)
         binding.progressBar.visibility = View.VISIBLE
 

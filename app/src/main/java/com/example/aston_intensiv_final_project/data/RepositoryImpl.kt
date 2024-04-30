@@ -12,6 +12,7 @@ import com.example.aston_intensiv_final_project.domain.model.news.ArticleDtoDoma
 import com.example.aston_intensiv_final_project.domain.model.news.NewsResponseDomainModel
 import com.example.aston_intensiv_final_project.domain.model.source.SourceResponseDomainModel
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -34,6 +35,7 @@ class RepositoryImpl @Inject constructor(
                 category = category,
                 pageNumber = pageNumber
             )
+                .subscribeOn(Schedulers.io())
                 .map {
                     toDomainMapper.mapNewsToDomainModel(it)
                 }
