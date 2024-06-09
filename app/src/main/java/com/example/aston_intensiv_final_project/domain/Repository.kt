@@ -25,5 +25,7 @@ interface Repository {
     suspend fun saveOrDeleteArticle(articleDtoDomainModel: ArticleDtoDomainModel)
 
     fun getSavedArticles(): Flow<List<ArticleDtoDomainModel>>
+
+    fun getSearchArticlesFromSaved(query: String): Flow<List<ArticleDtoDomainModel>>
 }
 

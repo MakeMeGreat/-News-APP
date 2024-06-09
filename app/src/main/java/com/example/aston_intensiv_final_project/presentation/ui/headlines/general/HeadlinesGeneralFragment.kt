@@ -35,6 +35,8 @@ class HeadlinesGeneralFragment : MvpAppCompatFragment(), HeadlinesView,
     @InjectPresenter
     lateinit var generalPresenter: HeadlinesGeneralPresenter
 
+
+
     @ProvidePresenter
     fun providePresenter(): HeadlinesGeneralPresenter {
         return generalPresenter

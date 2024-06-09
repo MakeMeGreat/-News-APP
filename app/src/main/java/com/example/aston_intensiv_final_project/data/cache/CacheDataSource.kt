@@ -68,6 +68,11 @@ class CacheDataSource @Inject constructor(
         return result
     }
 
+    fun getSearchArticlesFromSaved(query: String): Flow<List<ArticleDto>> {
+        return savedArticleDao.getSearchArticlesFromSaved(query)
+            .map { mapper.mapSavedToListOfArticleDto(it) }
+    }
+
     private fun deleteOldArticles() {
         savedArticleDao.deleteOldArticles(System.currentTimeMillis() - 14 * 24 * 60 * 60 * 1000)
     }
@@ -78,7 +83,7 @@ class CacheDataSource @Inject constructor(
                 NewsResponse(
                     status = "fromCache",
                     totalResults = 0,
-                    articles = mapper.mapToListOfArticleDto(articles),
+                    articles = mapper.mapCachedToListOfArticleDto(articles),
                 )
             }
     }
@@ -99,7 +104,7 @@ class CacheDataSource @Inject constructor(
                 NewsResponse(
                     status = "fromCache",
                     totalResults = articles.size,
-                    articles = mapper.mapToListOfArticleDto(articles)
+                    articles = mapper.mapCachedToListOfArticleDto(articles)
                 )
             }
     }
@@ -125,7 +130,7 @@ class CacheDataSource @Inject constructor(
             NewsResponse(
                 status = "fromCache",
                 totalResults = articles.size,
-                articles = mapper.mapToListOfArticleDto(articles)
+                articles = mapper.mapCachedToListOfArticleDto(articles)
             )
         }
     }
@@ -136,7 +141,7 @@ class CacheDataSource @Inject constructor(
                 NewsResponse(
                     status = "fromCache",
                     totalResults = articles.size,
-                    articles = mapper.mapToListOfArticleDto(articles)
+                    articles = mapper.mapCachedToListOfArticleDto(articles)
                 )
             }
     }

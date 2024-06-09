@@ -25,7 +25,6 @@ class RepositoryImpl @Inject constructor(
     private val context: Context,
 ) : Repository {
 
-
     override fun getCategorizedNews(
         category: String,
         pageNumber: Int
@@ -126,6 +125,11 @@ class RepositoryImpl @Inject constructor(
     override fun getSavedArticles(): Flow<List<ArticleDtoDomainModel>> {
         return cacheDataSource.getSavedArticles()
             .map { toDomainMapper.mapArticles(it.toMutableList()).toList() }
+    }
+
+    override fun getSearchArticlesFromSaved(query: String): Flow<List<ArticleDtoDomainModel>> {
+        return cacheDataSource.getSearchArticlesFromSaved(query)
+            .map { toDomainMapper.mapArticles(it.toMutableList()) }
     }
 
 

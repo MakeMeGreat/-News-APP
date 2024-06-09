@@ -25,7 +25,7 @@ class LottieAnimationActivity : AppCompatActivity() {
             }
         }
 
-        Timer().schedule(100) {
+        Timer().schedule(3700) {
             val intent = Intent(this@LottieAnimationActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

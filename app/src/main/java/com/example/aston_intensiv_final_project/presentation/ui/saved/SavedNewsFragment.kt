@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -80,7 +81,21 @@ class SavedNewsFragment : Fragment(), MenuProvider, SwipeRefreshLayout.OnRefresh
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.toolbar_actions, menu)
+        menuInflater.inflate(R.menu.search_actions, menu)
+        val menuSearchItem = menu.findItem(R.id.search_button)
+        val searchView = menuSearchItem.actionView as SearchView?
+        searchView?.queryHint = "your query"
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.getSearchArticlesFromSaved(query?.replace(" ", "") ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

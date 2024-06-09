@@ -2,17 +2,18 @@ package com.example.aston_intensiv_final_project.data.cache.mapper
 
 import com.example.aston_intensiv_final_project.data.cache.model.CacheSourceDbo
 import com.example.aston_intensiv_final_project.data.cache.model.CachedArticleDbo
+import com.example.aston_intensiv_final_project.data.cache.model.SavedArticleDbo
 import com.example.aston_intensiv_final_project.data.model.news.ArticleDto
 import com.example.aston_intensiv_final_project.data.model.news.SourceDto
 import com.example.aston_intensiv_final_project.data.model.source.SourceInfoDto
 import javax.inject.Inject
 
 class ToDtoMapper @Inject constructor() {
-    fun mapToListOfArticleDto(articlesDbo: List<CachedArticleDbo>): MutableList<ArticleDto> {
-        return articlesDbo.map { mapToArticleDto(it) }.toMutableList()
+    fun mapCachedToListOfArticleDto(articlesDbo: List<CachedArticleDbo>): MutableList<ArticleDto> {
+        return articlesDbo.map { mapCachedToArticleDto(it) }.toMutableList()
     }
 
-    private fun mapToArticleDto(cachedArticleDbo: CachedArticleDbo) =
+    private fun mapCachedToArticleDto(cachedArticleDbo: CachedArticleDbo) =
         ArticleDto(
             source = SourceDto(cachedArticleDbo.sourceId, cachedArticleDbo.sourceName),
             author = cachedArticleDbo.author,
@@ -22,6 +23,22 @@ class ToDtoMapper @Inject constructor() {
             urlToImage = cachedArticleDbo.urlToImage,
             publishedAt = cachedArticleDbo.publishedAt,
             content = cachedArticleDbo.content,
+        )
+
+    fun mapSavedToListOfArticleDto(articlesDbo: List<SavedArticleDbo>): MutableList<ArticleDto> {
+        return articlesDbo.map { mapSavedToArticleDto(it) }.toMutableList()
+    }
+
+    private fun mapSavedToArticleDto(savedArticleDbo: SavedArticleDbo) =
+        ArticleDto(
+            source = SourceDto(savedArticleDbo.sourceId, savedArticleDbo.sourceName),
+            author = savedArticleDbo.author,
+            title = savedArticleDbo.title,
+            description = savedArticleDbo.description,
+            url = savedArticleDbo.url,
+            urlToImage = savedArticleDbo.urlToImage,
+            publishedAt = savedArticleDbo.publishedAt,
+            content = savedArticleDbo.content,
         )
 
 

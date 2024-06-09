@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.aston_intensiv_final_project.domain.usecase.GetSavedArticlesUseCase
+import com.example.aston_intensiv_final_project.domain.usecase.GetSearchArticlesFromSavedUseCase
 import com.example.aston_intensiv_final_project.presentation.mapper.DomainToPresentationMapper
 import com.example.aston_intensiv_final_project.presentation.model.news.ArticleModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class SavedViewModel @Inject constructor(
     private val getSavedArticlesUseCase: GetSavedArticlesUseCase,
+    private val getSearchArticlesFromSavedUseCase: GetSearchArticlesFromSavedUseCase,
     private val mapper: DomainToPresentationMapper
 ) : ViewModel() {
 
@@ -41,17 +43,31 @@ class SavedViewModel @Inject constructor(
         }
     }
 
+    fun getSearchArticlesFromSaved(query: String) {
+        _isLoadingStateFlow.value = true
+        viewModelScope.launch {
+            getSearchArticlesFromSavedUseCase(query).map {
+                mapper.mapArticles(it.toMutableList())
+            }.onEach {
+                _savedArticlesStateFlow.value = it
+                _isLoadingStateFlow.value = false
+            }.launchIn(viewModelScope)
+        }
+    }
+
     fun refresh() {
         _savedArticlesStateFlow.value = emptyList()
     }
 
     class SavedViewModelFactory @Inject constructor(
         private val getSavedArticlesUseCase: GetSavedArticlesUseCase,
+        private val getSearchArticlesFromSavedUseCase: GetSearchArticlesFromSavedUseCase,
         private val mapper: DomainToPresentationMapper
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return SavedViewModel(
                 getSavedArticlesUseCase = getSavedArticlesUseCase,
+                getSearchArticlesFromSavedUseCase = getSearchArticlesFromSavedUseCase,
                 mapper = mapper,
             ) as T
         }
