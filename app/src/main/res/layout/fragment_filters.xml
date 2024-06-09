@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/filter_buttons_group"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/popular_button"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:text="@string/filter_popular"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/new_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:backgroundTint="@color/chip_background_color"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:text="@string/filter_new"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/relevant_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:backgroundTint="@color/chip_background_color"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:text="@string/filter_relevant"
+            android:textSize="16sp" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <TextView
+        android:id="@+id/textholder_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/date_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/filter_buttons_group"
+        app:layout_constraintTop_toBottomOf="@id/filter_buttons_group" />
+
+    <Button
+        android:id="@+id/calendar_button"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/calendar_button_icon"
+        app:layout_constraintBottom_toBottomOf="@id/textholder_date"
+        app:layout_constraintEnd_toEndOf="@id/filter_buttons_group"
+        app:layout_constraintTop_toTopOf="@id/textholder_date" />
+
+    <TextView
+        android:id="@+id/calendar_picked_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="@string/choose_data_text"
+        android:textColor="@color/blue60"
+        app:layout_constraintBottom_toBottomOf="@id/calendar_button"
+        app:layout_constraintEnd_toStartOf="@id/calendar_button"
+        app:layout_constraintTop_toTopOf="@id/calendar_button" />
+
+    <TextView
+        android:id="@+id/textholder_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/language_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/textholder_date"
+        app:layout_constraintTop_toBottomOf="@id/textholder_date" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:checkedChip="@+id/chip_english"
+        app:layout_constraintStart_toStartOf="@+id/textholder_language"
+        app:layout_constraintTop_toBottomOf="@id/textholder_language"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_english"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_english"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_russian"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_russian"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_german"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_german"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_arabic"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_arabic"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_spanish"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_spanish"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_french"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_french"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_italian"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_italian"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_сhinese"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_chinese"
+            app:chipBackgroundColor="@color/chip_background_color" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

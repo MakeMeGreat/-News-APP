@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search_button"
+        android:icon="@drawable/search_icon"
+        android:title="@string/search_button"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
+
+    <item
+        android:id="@+id/filtered_sources_button"
+        android:icon="@drawable/filter_icon"
+        android:title="@string/filter_button"
+        app:showAsAction="ifRoom"
+        app:actionLayout="@layout/filter_action_item"/>
+
+</menu>

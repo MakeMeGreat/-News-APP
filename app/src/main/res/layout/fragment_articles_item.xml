@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="102dp"
+    >
+
+    <ImageView
+        android:id="@+id/article_image"
+        android:layout_width="130dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/blue50"
+        tools:src="@drawable/sources_icon" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_for_source_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:cardCornerRadius="11dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/article_image"
+        app:layout_constraintTop_toTopOf="@id/article_image">
+
+        <ImageView
+            android:id="@+id/source_image"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            tools:background="@color/blue60"
+            tools:src="@drawable/filter_icon" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/source_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:maxLines="1"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/cardview_for_source_image"
+        app:layout_constraintStart_toEndOf="@id/cardview_for_source_image"
+        app:layout_constraintTop_toTopOf="@id/cardview_for_source_image"
+        tools:text="The New Yourk Times" />
+
+    <TextView
+        android:id="@+id/article_title"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/article_image"
+        app:layout_constraintStart_toEndOf="@id/article_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        tools:text="2023 layoff tracker: The latets on which companies have blablablablablalba" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
